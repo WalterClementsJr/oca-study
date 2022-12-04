@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path')
 
 @Injectable()
-export class QuestionService {
+export class TrainingContentService {
   private trainingContents: TrainingContent[] = [];
 
   constructor() {
