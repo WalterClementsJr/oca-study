@@ -7,5 +7,6 @@ export class TrainingContent {
 
   constructor(name: string, type: string) {
     this.name = name;
+    this.type = type;
   }
 }
