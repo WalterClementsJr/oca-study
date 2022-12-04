@@ -1,0 +1,1402 @@
+[
+  {
+    "id": "1",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \nimport java.util.function.Predicate;\n \npublic class Test {\n     public static void main(String[] args) {\n         String [] arr = {\"A\", \"ab\", \"bab\", \"Aa\", \"bb\", \"baba\", \"aba\", \"Abab\"};\n \n         Predicate<String> p = s -> s.toUpperCase().substring(0,1).equals(\"A\");\n \n         processStringArray(arr, p);\n     }\n \n     private static void processStringArray(String [] arr, \n                                                Predicate<String> predicate) {\n         for(String str : arr) {\n             if(predicate.test(str)) {\n                 System.out.println(str);\n             }\n         }\n     }\n}",
+    "type": "Single Choice",
+    "answer": "A",
+    "answers": {
+      "A": "A\nab\nAa\naba\nAbab\n",
+      "B": "ab\naba\n",
+      "C": "A\nAa\nAbab\n",
+      "D": "Runtime exception\n",
+      "E": "Compilation error\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "Let us suppose test string is \"aba\".\n\nLambda expression s.toUpperCase().substring(0,1).equals(\"A\"); means: \"aba\".toUpperCase().substring(0,1).equals(\"A\"); => \"ABA\".substring(0,1).equals(\"A\"); => \"A\".equals(\"A\"); => true.\n\n\n\nThis lambda expression returns true for any string starting with a (in lower or upper case).  Based on the lambda expression, 5 array elements passes the Predicate's test and are printed on to the console."
+  },
+  {
+    "id": "2",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider code below:\n\npackage com.udayan.oca;\n \nclass PenDrive {\n    int capacity;\n    PenDrive(int capacity) {\n        this.capacity = capacity;\n    }\n}\n \nclass OTG extends PenDrive {\n    String type;\n    String make; \n    OTG(int capacity, String type) {\n        /*INSERT-1*/\n    }\n    OTG(String make) {\n        /*INSERT-2*/\n        this.make = make;\n    }\n}\n \npublic class Test {\n    public static void main(String[] args) {\n        OTG obj = new OTG(128, \"TYPE-C\");\n        System.out.println(obj.capacity + \":\" + obj.type);\n    }\n}\nCurrently above code causes compilation error.\n\nWhich of the options can successfully print 128:TYPE-C on to the console?",
+    "type": "Single Choice",
+    "answer": "A",
+    "answers": {
+      "A": "Replace /*INSERT-1*/ with:\nsuper(capacity);\nthis.type = type;\nReplace /*INSERT-2*/ with:\nsuper(0);\n",
+      "B": "None of the other options\n",
+      "C": "Replace /*INSERT-1*/ with:\nsuper.capacity = capacity;\nthis.type = type;\nReplace /*INSERT-2*/ with:\nsuper(128);\n",
+      "D": "Replace /*INSERT-1*/ with:\nthis.type = type;\nsuper(capacity);\nReplace /*INSERT-2*/ with:\nsuper(128);\n",
+      "E": "Replace /*INSERT-1*/ with:\nsuper(capacity);\nReplace /*INSERT-2*/ with:\nsuper(128);\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "Java compiler adds super(); as the first statement inside constructor, if call to another constructor using this(...) or super(...) is not available. \n\nCompiler adds super(); as the first line in OTG's constructor: OTG(int capacity, String type) { super(); } but PenDrive class doesn't have a no-arg constructor and that is why OTG's constructor causes compilation error.\n\nFor the same reason, OTG(String make) constructor also causes compilation error.\n\nTo correct these compilation errors, parent class constructor should be invoked by using super(int); This would resolve compilation error.\n\nRemember: Constructor call using this(...) or super(...) must be the first statement inside the constructor.\n\n\n\nIn the main(String[]) method, OTG(int, String) constructor is invoked, which means, we OTG(String) constructor will not be executed. So, to solve the complilation error in OTG(String) constructor, super(0); or super(128); both will work and these will not affect the expected output.\n\n\n\nWe have to make changes in OTG(int, String) constructor such that on execution, output is 128:TYPE-C.\n\nsuper(capacity); will only assign value to capacity property, to assign value to type another statement is needed.\n\nthis.type = type; must be the 2nd statement.\n\nSo, /*INSERT-1*/ must be replaced with:\n\nsuper(capacity);\n\nthis.type = type;"
+  },
+  {
+    "id": "3",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider below code: \n\n//Test.java\npackage com.udayan.oca;\n \nimport java.util.ArrayList;\n \nclass Counter {\n     int count;\n     Counter(int count) {\n         this.count = count;\n     }\n \n     public String toString() {\n         return \"Counter-\" + count;\n     }\n}\n \npublic class Test {\n     public static void main(String[] args) {\n         ArrayList<Counter> original = new ArrayList<>();\n         original.add(new Counter(10));\n \n         ArrayList<Counter> cloned = (ArrayList<Counter>) original.clone();\n         cloned.get(0).count = 5;\n \n         System.out.println(original);\n     }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "A",
+    "answers": {
+      "A": "[Counter-5]\n",
+      "B": "Compilation error\n",
+      "C": "[Counter-10]\n",
+      "D": "An exception is thrown at runtime\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "Let's see what is happening during execution:\n\nmain(String [] args) method goes on to the top of the STACK.\n\n1. ArrayList<Counter> original = new ArrayList<>(); => It creates an ArrayList object [suppose at memory location 15EE00] and variable 'original' refers to it.\n\n2. original.add(new Counter(10)); => It creates a Counter object [suppose at memory location 25AF06] and adds it as a first element of the ArrayList. This means element at 0th index of the ArrayList instance refers to Counter object at the memory location 25AF06.\n\n3. ArrayList<Counter> cloned = (ArrayList<Counter>) original.clone(); => original.clone() creates a new array list object, [suppose at memory location 45BA12] and then it will copy the contents of the ArrayList object stored at [15EE00]. So, cloned contains memory address of the same Counter object.\n\nIn this case, original != cloned, but original.get(0) == cloned.get(0). This means both the array lists are created at different memory location but refer to same Counter object. \n\n4. cloned.get(0).count = 5; => cloned.get(0) returns the Counter object stored at the memory location 25AF06 and .count = 5 means change the value of count variable of the Counter object (stored at memory location 25AF06) to 5. \n\n5. System.out.println(original); Prints the element of ArrayList original, which is: {25AF06} and toString() method prints: [Counter-5] as Counter object referred by [25AF06] is [Counter object (5)]."
+  },
+  {
+    "id": "4",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "____________ uses access modifiers to protect variables and hide them within a class.\n\nWhich of the following options accurately fill in the blanks above?",
+    "type": "Single Choice",
+    "answer": "C",
+    "answers": {
+      "A": "Polymorphism\n",
+      "B": "Abstraction\n",
+      "C": "Encapsulation\n",
+      "D": "Inheritance\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "Encapsulation is all about having private instance variable and providing public getter and setter methods."
+  },
+  {
+    "id": "5",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "____________ uses access modifiers to protect variables and hide them within a class.\n\nWhich of the following options accurately fill in the blanks above?",
+    "type": "Single Choice",
+    "answer": "B",
+    "answers": {
+      "A": "MANGO\n",
+      "B": "ANY FRUIT WILL DO\nAPPLE\nMANGO\nBANANA\n",
+      "C": "ANY FRUIT WILL DO\n",
+      "D": "MANGO\nBANANA\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "\"mango\" is different from \"Mango\", so there is no matching case available. default block is executed, \"ANY FRUIT WILL DO\" is printed on to the screen.\n\nNo break statement inside default, hence control enters in fall-through and executes remaining blocks until the break; is found or switch block ends.\n\nSo in this case, it prints APPLE, MANGO, BANANA one after another and break; statement takes control out of switch block. main method ends and program terminates successfully."
+  },
+  {
+    "id": "6",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Which of the following statement is correct about below code?\n\npackage com.udayan.oca;\n \npublic class Test {\n     public static void main(String[] args) {\n         do {\n             System.out.println(100);\n         } while (false);\n         System.out.println(\"Bye\");\n     }\n}",
+    "type": "Single Choice",
+    "answer": "D",
+    "answers": {
+      "A": "Unreachable code compilation error\n",
+      "B": "Compiles successfully and prints 100 in infinite loop\n",
+      "C": "Compiles successfully and prints \"Bye\"\n",
+      "D": "100\nBye\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "As do-while loop executes at least once, hence none of the code is unreachable in this case. \n\nJava runtime prints 100 to the console, then it checks boolean expression, which is false. \n\nHence control goes out of do-while block. Java runtime executes 2nd System.out.println statement to print \"Bye\" on to the console."
+  },
+  {
+    "id": "7",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider below code: \n\n//Test.java\npackage com.udayan.oca;\n \nimport java.time.LocalDate;\n \npublic class Test {\n    public static void main(String [] args) {\n        LocalDate newYear = LocalDate.of(2018, 1, 1);\n        LocalDate christmas = LocalDate.of(2018, 12, 25);\n        boolean flag1 = newYear.isAfter(christmas);\n        boolean flag2 = newYear.isBefore(christmas);\n        System.out.println(flag1 + \":\" + flag2);\n    }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "C",
+    "answers": {
+      "A": "Compilation error\n",
+      "B": "true:false\n",
+      "C": "false:true\n",
+      "D": "An exception is thrown at runtime\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "isAfter and isBefore method can be interpreted as:\n\nDoes 1st Jan 2018 come after 25th Dec 2018? No, false. \n\nDoes 1st Jan 2018 come before 25th Dec 2018? Yes, true."
+  },
+  {
+    "id": "8",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \npublic class Test {\n     public static void main(String[] args) {\n         short [] args = new short[]{50, 50};\n         args[0] = 5;\n         args[1] = 10;\n         System.out.println(\"[\" + args[0] + \", \" + args[1] + \"]\");\n     }\n}",
+    "type": "Single Choice",
+    "answer": "C",
+    "answers": {
+      "A": "[50, 50]\n",
+      "B": "An exception is thrown at runtime\n",
+      "C": "Compilation error\n",
+      "D": "[5, 10]\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "main method's parameter variable name is \"args\" and it is a local to main method.\n\nSo, same name \"args\" can't be used directly within the curly brackets of main method.\n\nshort [] args = new short[]{50, 50}; gives compilation error for using same name for local variable."
+  },
+  {
+    "id": "9",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider the code of Test.java file:\n\npackage com.udayan.oca;\n \nclass Student {\n     String name;\n     int age;\n \n     void Student() {\n         Student(\"James\", 25);\n     }\n \n     void Student(String name, int age) {\n         this.name = name;\n         this.age = age;\n     }\n}\n \npublic class Test {\n     public static void main(String[] args) {\n         Student s = new Student();\n         System.out.println(s.name + \":\" + s.age);\n     }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "D",
+    "answers": {
+      "A": "James:25\n",
+      "B": "Compilation error\n",
+      "C": "An exception is thrown at runtime\n",
+      "D": "null:0\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "Methods can have same name as the class. Student() and Student(String, int) are methods and not constructors of the class, note the void return type of these methods.\n\nAs no constructors are provided in the Student class, java compiler adds default no-arg constructor. That is why the statement Student s = new Student(); doesn't give any compilation error.\n\n\n\nDefault values are assigned to instance variables, hence null is assigned to name and 0 is assigned to age. \n\n\n\nIn the output, null:0 is displayed."
+  },
+  {
+    "id": "10",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Given code:\n\npackage com.udayan.oca;\n \npublic class Test {\n    public static void main(String[] args) {\n        /*INSERT*/\n        arr[1] = 5;\n        arr[2] = 10;\n        System.out.println(\"[\" + arr[1] + \", \" + arr[2] + \"]\"); //Line n1\n    }\n}\n\n\nAnd below statements:\n\n1. short arr [] = new short[2];\n\n2. byte [] arr = new byte[10];\n\n3. short [] arr; arr = new short[3];\n\n4. short [2] arr;\n\n5. short [3] arr;\n\n6. int [] arr = new int[]{100, 100};\n\n7. int [] arr = new int[]{0, 0, 0, 0};\n\n8. short [] arr = {};\n\n9. short [] arr = new short[2]{5, 10};\n\n\n\nHow many above statements can be used to replace /*INSERT*/, such that on execution, code will print [5, 10] on to the console?",
+    "type": "Single Choice",
+    "answer": "B",
+    "answers": {
+      "A": "More than four options\n",
+      "B": "Only three options\n",
+      "C": "Only four options\n",
+      "D": "Only two options\n",
+      "E": "None of the given options\n",
+      "F": "Only one option\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "Let's check all the statements one by one:\n\n1. short arr [] = new short[2]; => ✗\n\nYou can declare one-dimensional array by using either \"short arr []\" or \"short [] arr\". 'arr' refers to a short array object of 2 elements. arr[2] will throw ArrayIndexOutOfBoundsException at runtime.\n\n\n\n2. byte [] arr = new byte[10]; => ✓\n\n'arr' refers to a byte array object of 10 elements, where 0 is assigned to each array element. But later on element at 1st and 2nd indexes have been re-initialized. Line n1 successfully prints [5, 10] on to the console.\n\n\n\n3. short [] arr; arr = new short[3]; => ✓\n\nYou can create an array object in the same statement or next statement. 'arr' refers to a short array object of 3 elements, where 0 is assigned to each array element. Later on element at 1st and 2nd indexes have been re-initialized. Line n1 successfully prints [5, 10] on to the console.\n\n\n\n4. short [2] arr; ✗\n\nArray size cannot be specified at the time of declaration, so short [2] arr; causes compilation error. \n\n\n\n5. short [3] arr; ✗\n\nArray size cannot be specified at the time of declaration, so short [3] arr; causes compilation error.\n\n\n\n6. int [] arr = new int[]{100, 100}; => ✗\n\n'arr' refers to an int array object of size 2 and both array elements have value 100. arr[2] will throw ArrayIndexOutOfBoundsException at runtime.\n\n\n\n7. int [] arr = new int[]{0, 0, 0, 0}; => ✓\n\n'arr' refers to an int array object of size 4 and all array elements have value 0. Later on element at 1st and 2nd indexes have been re-initialized. Line n1 successfully prints [5, 10] on to the console.\n\n\n\n8. short [] arr = {}; => ✗\n\n'arr' refers to a short array object of 0 size. so arr[1] will throw ArrayIndexOutOfBoundsException at runtime.\n\n\n\n9. short [] arr = new short[2]{5, 10}; => ✗\n\nArray's size can't be specified, if you use {} to assign values to array elements.\n\n\n\nHence, out of the given 9 statements, only 3 will print [5, 10] on to the console."
+  },
+  {
+    "id": "11",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider below code: \n\n//Test.java\npackage com.udayan.oca;\n \nimport java.util.ArrayList;\nimport java.util.Iterator;\nimport java.util.List;\n \npublic class Test {\n     public static void main(String[] args) {\n         List<String> dryFruits = new ArrayList<>();\n         dryFruits.add(\"Walnut\");\n         dryFruits.add(\"Apricot\");\n         dryFruits.add(\"Almond\");\n         dryFruits.add(\"Date\");\n \n         Iterator<String> iterator = dryFruits.iterator();\n         while(iterator.hasNext()) {\n             String dryFruit = iterator.next();\n             if(dryFruit.startsWith(\"A\")) {\n                 dryFruits.remove(dryFruit);\n             }\n         }\n        \n         System.out.println(dryFruits);\n    }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "D",
+    "answers": {
+      "A": "[Walnut, Date]\n",
+      "B": "[Walnut, Apricot, Almond, Date]\n",
+      "C": "Compilation error\n",
+      "D": "An exception is thrown at runtime\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "ConcurrentModificationException exception may be thrown for following condition:\n\n1. Collection is being iterated using Iterator/ListIterator or by using for-each loop.\n\nAnd\n\n2. Execution of Iterator.next(), Iterator.remove(), ListIterator.previous(), ListIterator.set(E) & ListIterator.add(E) methods. These methods may throw java.util.ConcurrentModificationException in case Collection had been modified by means other than the iterator itself, such as Collection.add(E) or Collection.remove(Object) or List.remove(int) etc.\n\n\n\nFor the given code, 'dryFruits' list is being iterated using the Iterator<String>.\n\nhasNext() method of Iterator has following implementation:\n\npublic boolean hasNext() {\n    return cursor != size;\n}\nWhere cursor is the index of next element to return and initially it is 0.\n\n\n\n1st Iteration: cursor = 0, size = 4, hasNext() returns true. iterator.next() increments the cursor by 1 and returns \"Walnut\".\n\n2nd Iteration: cursor = 1, size = 4, hasNext() returns true. iterator.next() increments the cursor by 1 and returns \"Apricot\". As \"Apricot\" starts with \"A\", hence dryFruits.remove(dryFruit) removes \"Apricot\" from the list and hence reducing the list's size by 1, size becomes 3.\n\n3rd Iteration: cursor = 2, size = 3, hasNext() returns true. iterator.next() method throws java.util.ConcurrentModificationException.\n\n\n\nIf you want to remove the items from ArrayList, while using Iterator or ListIterator, then use Iterator.remove() or ListIterator.remove() method and NOT List.remove(...) method. Using List.remove(...) method while iterating the list (using the Iterator/ListIterator or for-each) may throw java.util.ConcurrentModificationException."
+  },
+  {
+    "id": "12",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \nimport java.time.LocalDate;\nimport java.time.Month;\nimport java.util.ArrayList;\nimport java.util.List;\n \npublic class Test {\n     public static void main(String[] args) {\n         List<LocalDate> dates = new ArrayList<>();\n         dates.add(LocalDate.parse(\"2018-07-11\"));\n         dates.add(LocalDate.parse(\"1919-02-25\"));\n         dates.add(LocalDate.of(2020, 4, 8));\n         dates.add(LocalDate.of(1980, Month.DECEMBER, 31));\n \n         dates.removeIf(x -> x.getYear() < 2000);\n \n         System.out.println(dates);\n     }\n}",
+    "type": "Single Choice",
+    "answer": "C",
+    "answers": {
+      "A": "[2018-07-11, 1919-02-25, 2020-04-08, 1980-12-31]\n",
+      "B": "Runtime exception\n",
+      "C": "[2018-07-11, 2020-04-08]\n",
+      "D": "[1919-02-25, 1980-12-31]\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "LocalDate objects can be created by using static method parse and of.\n\nremoveIf(Predicate) method was added as a default method in Collection interface in JDK 8 and it removes all the elements of this collection that satisfy the given predicate. \n\n\n\nPredicate's test method returns true for all the LocalDate objects with year less than 2000. So all the LocalDate objects with year value less than 2000 are removed from the list. Remaining LocalDate objects are printed in their insertion order."
+  },
+  {
+    "id": "13",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider below code: \n\n//Test.java\npackage com.udayan.oca;\n \nimport java.time.LocalDateTime;\n \npublic class Test {\n     public static void main(String [] args) {\n         LocalDateTime obj = LocalDateTime.now();\n         System.out.println(obj.getSecond());\n     }\n}\nWhich of the following statement is correct?",
+    "type": "Single Choice",
+    "answer": "D",
+    "answers": {
+      "A": "Code fails to compile\n",
+      "B": "It will print any int value between 1 and 60\n",
+      "C": "Code compiles successfully but throws Runtime exception\n",
+      "D": "It will print any int value between 0 and 59\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "LocalDateTime stores both date and time parts. LocalDateTime.now(); retrieves the current date and time from the system clock. obj.getSecond() can return any value between 0 and 59."
+  },
+  {
+    "id": "14",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider below code: \n\n//Test.java\npackage com.udayan.oca;\n \nimport java.time.LocalDate;\nimport java.time.LocalTime;\n \npublic class Test {\n     public static void main(String [] args) {\n         LocalDate date = LocalDate.parse(\"1947-08-14\");\n         LocalTime time = LocalTime.MAX;\n         System.out.println(date.atTime(time));\n     }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "A",
+    "answers": {
+      "A": "1947-08-14T23:59:59.999999999\n",
+      "B": "1947-08-14T23:59:59.0\n",
+      "C": "1947-08-14T23:59:59.999\n",
+      "D": "1947-08-14T23:59:59\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "LocalTime.MIN --> {00:00}, LocalTime.MAX --> {23:59:59.999999999}, LocalTime.MIDNIGHT --> {00:00}, LocalTime.NOON --> {12:00}. \n\n\n\ndate.atTime(LocalTime) method creates a LocalDateTime instance by combining date and time parts.\n\n\n\ntoString() method of LocalDateTime class prints the date and time parts separated by T in upper case."
+  },
+  {
+    "id": "15",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \npublic class Test {\n    public static void main(String[] args) {\n        StringBuilder sb = new StringBuilder();\n        System.out.println(sb.append(null).length());\n    }\n}",
+    "type": "Single Choice",
+    "answer": "B",
+    "answers": {
+      "A": "4\n",
+      "B": "Compilation error\n",
+      "C": "NullPointerException is thrown at runtime\n",
+      "D": "1\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "append' method is overloaded in StringBuilder class: append(String), append(StringBuffer) and append(char[]) etc.\n\nIn this case compiler gets confused as to which method `append(null)` can be tagged because String, StringBuffer and char[] are not related to each other in multilevel inheritance. Hence `sb.append(null)` causes compilation error."
+  },
+  {
+    "id": "16",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\n//Test.java\npackage com.udayan.oca;\n \nclass Student {\n     String name;\n     int marks;\n \n     Student(String name, int marks) {\n         this.name = name;\n         this.marks = marks;\n     }\n}\n \npublic class Test {\n     public static void main(String[] args) {\n         Student student = new Student(\"James\", 25);\n         int marks = 25;\n         review(student, marks);\n         System.out.println(marks + \"-\" + student.marks);\n     }\n \n     private static void review(Student stud, int marks) {\n         marks = marks + 10;\n         stud.marks+=marks;\n     }\n}",
+    "type": "Single Choice",
+    "answer": "D",
+    "answers": {
+      "A": "25-25\n",
+      "B": "35-60\n",
+      "C": "35-25\n",
+      "D": "25-60\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "In below statements: student<main> means student inside main method.\n\nOn execution of main method: student<main> --> {\"James\", 25}, marks<main> = 25.\n\nOn execution of review method: stud<review> --> {\"James\", 25} (same object referred by student<main>), marks<review> = 25 (this marks is different from the marks defined in main method). marks<review> = 35 and stud.marks = 60. So at the end of review method: stud<review> --> {\"James\", 60}, marks<review> = 35.\n\nControl goes back to main method: student<main> --> {\"James\", 60}, marks<main> = 25. Changes done to reference variable are visible in main method but changes done to primitive variable are not reflected in main method."
+  },
+  {
+    "id": "17",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider below code: \n\n//Test.java\npackage com.udayan.oca;\n \nimport java.time.LocalDate;\nimport java.time.Period;\nimport java.time.format.DateTimeFormatter;\n \npublic class Test {\n     public static void main(String [] args) {\n         LocalDate date = LocalDate.of(2012, 1, 11);\n         Period period = Period.ofMonths(2);\n         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(\"MM-dd-yy\");\n         System.out.print(formatter.format(date.minus(period)));\n     }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "A",
+    "answers": {
+      "A": "11-11-11\n",
+      "B": "01-11-11\n",
+      "C": "Runtime exception\n",
+      "D": "11-11-12\n",
+      "E": "01-11-12\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "date --> {2012-01-11}, period --> {P2M}, date.minus(period) --> {2011-11-11} [subtract 2 months period from {2012-01-11}, month is changed to 11 and year is changed to 2011].\n\n\n\nformatter -> {MM-dd-yy}, when date {2011-11-11} is formatter in this format 11-11-11 is printed on to the console."
+  },
+  {
+    "id": "18",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\n//Test.java\npackage com.udayan.oca.test;\n \nabstract class Animal {\n     private String name;\n \n     Animal(String name) {\n        this.name = name;\n     }\n \n     public String getName() {\n         return name;\n     }\n}\n \nclass Dog extends Animal {\n     private String breed;\n     Dog(String breed) {\n         this.breed = breed;\n     }\n \n     Dog(String name, String breed) {\n         super(name);\n         this.breed = breed;\n     }\n \n     public String getBreed() {\n         return breed;\n     }\n}\n \npublic class Test {\n     public static void main(String[] args) {\n         Dog dog1 = new Dog(\"Beagle\");\n         Dog dog2 = new Dog(\"Bubbly\", \"Poodle\");\n         System.out.println(dog1.getName() + \":\" + dog1.getBreed() + \":\" + \n                             dog2.getName() + \":\" + dog2.getBreed());\n     }\n}",
+    "type": "Single Choice",
+    "answer": "C",
+    "answers": {
+      "A": "Compilation error for Dog(String, String) constructor\n",
+      "B": "Compilation error for Animal(String) constructor\n",
+      "C": "Compilation error for Dog(String) constructor\n",
+      "D": "Compilation error for Animal Class\n",
+      "E": ":Beagle:Bubbly:Poodle\n",
+      "F": "null:Beagle:Bubbly:Poodle\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "abstract class can have constructors and it also possible to have abstract class without any abstract method. So, there is no issue with Animal class.\n\n\n\nJava compiler adds super(); as the first statement inside constructor, if call to another constructor using this(...) or super(...) is not available. \n\n\n\nInside Animal class Constructor, compiler adds super(); => Animal(String name) { super(); this.name = name; }, super() in this case invokes the no-arg constructor of Object class and hence no compilation error here. \n\n\n\nCompiler changes Dog(String) constructor to: Dog(String breed) { super(); this.breed = breed; }. No-arg constructor is not available in Animal class and as another constructor is provided, java compiler doesn't add default constructor. Hence Dog(String) constructor gives compilation error.\n\n\n\nThere is no issue with Dog(String, String) constructor."
+  },
+  {
+    "id": "19",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider below code:\n\n//Guest.java\nclass Message {\n    static void main(String [] args) {\n        System.out.println(\"Welcome \" + args[2] + \"!\");\n    }\n}\n \npublic class Guest {\n    public static void main(String [] args) {\n        Message.main(args);\n    }\n}\nAnd the commands:\njavac Guest.java\n\njava Guest Clare Waight Keller\n\n\n\nWhat is the result?",
+    "type": "Single Choice",
+    "answer": "E",
+    "answers": {
+      "A": "Welcome Waight!\n",
+      "B": "ArrayIndexOutOfBoundsException is thrown at runtime\n",
+      "C": "Welcome Clare!\n",
+      "D": "Some other error as main method can't be invoked manually\n",
+      "E": "Welcome Keller!\n",
+      "F": "Compilation error as main method is not public in Message class\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "Class Guest has special main method but main method defined in Message class is not public and hence it can't be called by JVM. But there is no issue with the syntax hence no compilation error.\n\njava Guest Clare Waight Keller passes new String [] {\"Clare\", \"Waight\", \"Keller\"} to args of Guest.main method.\n\nGuest.main method invokes Message.main method with the same argument: new String [] {\"Clare\", \"Waight\", \"Keller\"}. args[2] is \"Keller\" hence \"Welcome Keller!\" gets printed on to the console."
+  },
+  {
+    "id": "20",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \nimport java.util.ArrayList;\nimport java.util.List;\n \npublic class Test {\n    public static void main(String[] args) {\n        String[] names = { \"Smith\", \"Brown\", \"Thomas\", \"Taylor\", \"Jones\" };\n        List<String> list = new ArrayList<>();\n        for (int x = 0; x < names.length; x++) {\n            list.add(names[x]);\n            switch (x) {\n                case 2:\n                    continue;\n            }\n            break;\n        }\n        System.out.println(list.size());\n    }\n}",
+    "type": "Single Choice",
+    "answer": "F",
+    "answers": {
+      "A": "None of the other options\n",
+      "B": "3\n",
+      "C": "2\n",
+      "D": "5\n",
+      "E": "0\n",
+      "F": "1\n",
+      "G": "4\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "break; and continue; are used inside for-loop, hence no compilation error.\n\nIn 1st iteration, x = 0. \"Smith\" is added to the list. There is no matching case found, hence control just goes after the switch-case block and executes break; statement, which takes the control out of the for loop. `System.out.println(list.size());` is executed and this prints 1 on to the console."
+  },
+  {
+    "id": "21",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \npublic class Test {\n     public static void main(String[] args) {\n         Double [] arr = new Double[2];\n         System.out.println(arr[0] + arr[1]);\n     }\n}",
+    "type": "Single Choice",
+    "answer": "B",
+    "answers": {
+      "A": "0.0\n",
+      "B": "NullPointerException is thrown at runtime\n",
+      "C": "Compilation error\n",
+      "D": "ClassCastException is thrown at runtime\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "Array elements are initialized to their default values. arr is referring to an array of Double type, which is reference type and hence both the array elements are initialized to null.\n\n\n\nTo calculate arr[0] + arr[1], java runtime converts the expression to arr[0].doubleValue() + arr[1].doubleValue(). As arr[0] and arr[1] are null hence calling doubleValue() method throws NullPointerException."
+  },
+  {
+    "id": "22",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \npublic class Test {\n     public static void main(String[] args) {\n         try {\n             main(args);\n         } catch (Exception ex) {\n             System.out.println(\"CATCH-\");\n         }\n             System.out.println(\"OUT\");\n     }\n}",
+    "type": "Single Choice",
+    "answer": "B",
+    "answers": {
+      "A": "CATCH-OUT\n",
+      "B": "None of the System.out.println statements are executed\n",
+      "C": "OUT\n",
+      "D": "Compilation error\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "main(args) method is invoked recursively without specifying any exit condition, so this code ultimately throws java.lang.StackOverflowError. StackOverflowError is a subclass of Error type and not Exception type, hence it is not handled. Stack trace is printed to the console and program ends abruptly.\n\n\n\nJava doesn't allow to catch specific checked exceptions if these are not thrown by the statements inside try block.\n\ncatch(java.io.FileNotFoundException ex) {} will cause compilation error in this case as main(args); will never throw FileNotFoundException. But Java allows to catch Exception type, hence catch (Exception ex) {} doesn't cause any compilation error."
+  },
+  {
+    "id": "23",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Fill in the blanks for the definition of java.lang.Error class:\n\npublic class java.lang.Error extends ________________ {...}",
+    "type": "Single Choice",
+    "answer": "C",
+    "answers": {
+      "A": "Exception\n",
+      "B": "RuntimeException\n",
+      "C": "Throwable\n",
+      "D": "\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "An Error is a subclass of Throwable class."
+  },
+  {
+    "id": "24",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \nclass Message {\n    String msg = \"Happy New Year!\";\n    \n    public void print() {\n        System.out.println(msg);\n    }\n}\n \npublic class Test {\n    public static void change(Message m) { //Line n5\n        m = new Message(); //Line n6\n        m.msg = \"Happy Holidays!\"; //Line n7\n    }\n    \n    public static void main(String[] args) {\n        Message obj = new Message(); //Line n1\n        obj.print(); //Line n2\n        change(obj); //Line n3\n        obj.print(); //Line n4\n    }\n}",
+    "type": "Single Choice",
+    "answer": "D",
+    "answers": {
+      "A": "Happy Holidays!\nHappy Holidays!\n",
+      "B": "null\nHappy New Year!\n",
+      "C": "Happy New Year!\nHappy Holidays!\n",
+      "D": "Happy New Year!\nHappy New Year!\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "It is pass-by-reference scheme.\n\nInitially, msg = \"Happy New Year!\"\n\nCall to method change(Message) doesn't modify the msg property of passed object rather it creates another Message object and modifies the msg property of new object to \"Happy Holidays!\"\n\nSo, the instance of Message referred by obj remains unchanged.\n\nHence in the output, you get:\n\nHappy New Year!\n\nHappy New Year!"
+  },
+  {
+    "id": "25",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \npublic class Test {\n     public static void main(String[] args) {\n         int x = 1;\n         while(checkAndIncrement(x)) {\n             System.out.println(x);\n         }\n     }\n \n     private static boolean checkAndIncrement(int x) {\n         if(x < 5) {\n             x++;\n             return true;\n         } else {\n             return false;\n         }\n     }\n}",
+    "type": "Single Choice",
+    "answer": "D",
+    "answers": {
+      "A": "1\n2\n3\n4\n",
+      "B": "1\n2\n3\n4\n5\n",
+      "C": "2\n3\n4\n5\n",
+      "D": "Infinite loop\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "x of checkAndIncrement method contains the copy of variable x defined in main method. So, changes done to x in checkAndIncrement method are not reflected in the variable x of main. x of main remains 1 as code inside main is not changing its value.\n\n\n\nEvery time checkAndIncrement method is invoked with argument value 1, so true is returned always and hence while loop executes indefinitely."
+  },
+  {
+    "id": "26",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Which of the following is not a valid array declaration?",
+    "type": "Single Choice",
+    "answer": "D",
+    "answers": {
+      "A": "int [] arr3 [] = new int[8][]; \n",
+      "B": "int [] arr1 = new int[8]; \n",
+      "C": "int [][] arr2 = new int[8][8]; \n",
+      "D": "int arr4[][] = new int[][8]; \n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "1st array dimension must be specified at the time of declaration. new int[][8]; gives compilation error as 1st dimension is not specified."
+  },
+  {
+    "id": "27",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "For the class Test, which options, if used to replace /*INSERT*/, will print \"Lucky no. 7\" on to the console? Select 3 options.\n\npackage com.udayan.oca;\n \npublic class Test {\n     public static void main(String[] args) {\n         /*INSERT*/\n         switch(var) {\n             case 7:\n                 System.out.println(\"Lucky no. 7\");\n                 break;\n             default:\n                 System.out.println(\"DEFAULT\");\n         }\n     }\n}",
+    "type": "Multiple Choice",
+    "answer": "C,D,E",
+    "answers": {
+      "A": "Character var = '7'; \n",
+      "B": "char var = '7'; \n",
+      "C": "Integer var = 7; \n",
+      "D": "Character var = 7; \n",
+      "E": "char var = 7; \n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "switch can accept primitive types: byte, short, int, char; wrapper types: Byte, Short, Integer, Character; String and enums.\n\nIn this case, all are valid values but only 3 executes \"case 7:\". case is comparing integer value 7.\n\nNOTE: character seven, '7' is different from integer value seven, 7. So \"char var = '7';\" and \"Character var = '7';\" will print DEFAULT on to the console."
+  },
+  {
+    "id": "28",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \npublic class Test {\n     public static void main(String [] args) {\n         int a = 100;\n         System.out.println(-a++);\n     }\n}",
+    "type": "Single Choice",
+    "answer": "C",
+    "answers": {
+      "A": "99\n",
+      "B": "Compilation error\n",
+      "C": "-100\n",
+      "D": "-101\n",
+      "E": "-99\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "First add parenthesis (round brackets) to the given expression: -a++.\n\nThere are 2 operators involved. unary minus and Postfix operator. Let's start with expression and value of a.\n\n\n\n-a++; [a = 100]. \n\n-(a++); [a = 100] Postfix operator has got higher precedence than unary operator.   \n\n-(100); [a = 101] Use the value of a (100) in the expression and after that increase the value of a to 101. \n\n-100; [a = 101] -100 is printed on to the console."
+  },
+  {
+    "id": "29",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "How many objects of Pen class are eligible for Garbage Collection at Line 4?\n\npackage com.udayan.oca;\n \nclass Pen {\n     \n}\n \npublic class TestPen {\n     public static void main(String[] args) {\n         new Pen(); //Line 1\n         Pen p = new Pen(); // Line 2\n         change(p); //Line 3\n         System.out.println(\"About to end.\"); //Line 4\n     }\n \n     public static void change(Pen pen) { //Line 5\n         pen = new Pen(); //Line 6\n     }\n}",
+    "type": "Single Choice",
+    "answer": "C",
+    "answers": {
+      "A": "3\n",
+      "B": "0\n",
+      "C": "2\n",
+      "D": "1\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "Object created at Line 1 becomes eligible for Garbage collection after Line 1 only, as there are no references to it. So We have one object marked for GC. \n\nObject created at Line 6 becomes unreachable after change(Pen) method pops out of the STACK, and this happens after Line 3.\n\nSo at Line 4, we have two Pen objects eligible for Garbage collection: Created at Line 1 and Created at Line 6."
+  },
+  {
+    "id": "30",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "For the given code snippet:\n\nList<String> list = new /*INSERT*/(); \n\nWhich of the following options, if used to replace /*INSERT*/, compiles successfully?\n\nSelect 2 options.",
+    "type": "Multiple Choice",
+    "answer": "A,D",
+    "answers": {
+      "A": "ArrayList<String>\n",
+      "B": "List<String>\n",
+      "C": "List<>\n",
+      "D": "ArrayList<>\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "List is an interface so its instance can't be created using new keyword. List<String> and List<> will cause compilation failure.\n\nArrayList implements List interface, so it can be it can be used to replace /*INSERT*/. List<String> list = new ArrayList<String>(); compiles successfully.\n\n\n\nStarting with JDK 7, Java allows to not specify type while initializing the ArrayList. Type is inferred from the left side of the statement.\n\n\n\nSo List<String> list = new ArrayList<>(); is a valid syntax starting with JDK 7."
+  },
+  {
+    "id": "31",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider below code:\n\n//Test.java\npackage com.udayan.oca;\n \nimport java.time.LocalDate;\n \npublic class Test {\n     public static void main(String [] args) {\n          LocalDate date = LocalDate.of(2020, 9, 31);\n          System.out.println(date);\n     }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "C",
+    "answers": {
+      "A": "2020-10-01\n",
+      "B": "2020-09-30\n",
+      "C": "An exception is thrown at runtime\n",
+      "D": "Compilation error\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "LocalDate.of(...) method first validates year, then month and finally day of the month. \n\nSeptember can't have 31 days so LocalDate.of(...) method throws an instance of java.time.DateTimeException class."
+  },
+  {
+    "id": "32",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \npublic class Test {\n     public static void main(String[] args) {\n         int [] arr = {2, 1, 0};\n         for(int i : arr) {\n             System.out.println(arr[i]);\n         }\n     }\n}",
+    "type": "Single Choice",
+    "answer": "B",
+    "answers": {
+      "A": "Compilation error\n",
+      "B": "0\n1\n2\n",
+      "C": "2\n1\n0\n",
+      "D": "ArrayIndexOutOfBoundsException is thrown at runtime\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "Inside enhanced for loop, System.out.println(arr[i]); is used instead of System.out.println(i); \n\nWhen loop executes 1st time, i stores the first array element, which is 2 but System.out.println statement prints arr[2] which is 0. Loop executes in this manner and prints 0 1 2 on to the console."
+  },
+  {
+    "id": "33",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider below code: \n\n//Test.java\npackage com.udayan.oca;\n \nimport java.util.ArrayList;\nimport java.util.List;\n \nclass Student {\n     private String name;\n     private int age;\n \n     Student(String name, int age) {\n         this.name = name;\n         this.age = age;\n     }\n \n     public String toString() {\n         return \"Student[\" + name + \", \" + age + \"]\";\n     }\n}\n \npublic class Test {\n     public static void main(String[] args) {\n         List<Student> students = new ArrayList<>();\n         students.add(new Student(\"James\", 25));\n         students.add(new Student(\"James\", 27));\n         students.add(new Student(\"James\", 25));\n         students.add(new Student(\"James\", 25));\n \n         students.remove(new Student(\"James\", 25));\n \n         for(Student stud : students) {\n             System.out.println(stud);\n         }\n     }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "A",
+    "answers": {
+      "A": "Student[James, 25]\nStudent[James, 27]\nStudent[James, 25]\nStudent[James, 25]\n",
+      "B": "Student[James, 27]\nStudent[James, 25]\nStudent[James, 25] \n",
+      "C": "Student[James, 25]\nStudent[James, 27]\nStudent[James, 25]\n",
+      "D": "Student[James, 27]\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "Before you answer this, you must know that there are 5 different Student object created in the memory (4 at the time of adding to the list and 1 at the time of removing from the list). This means these 5 Student objects will be stored at different memory addresses.\n\n\n\nremove(Object) method removes the first occurrence of matching object and equals(Object) method decides whether 2 objects are equal or not. equals(Object) method defined in Object class uses == operator to check the equality and in this case as 5 Student objects are stored at different memory location, hence not equal.\n\n\n\nNothing is removed from the students list, all the 4 Student objects are printed in the insertion order."
+  },
+  {
+    "id": "34",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \npublic class Test {\n    char var1;\n    double var2;\n    float var3;\n \n    public static void main(String[] args) {\n        Test obj = new Test();\n        System.out.println(\">\" + obj.var1);\n        System.out.println(\">\" + obj.var2);\n        System.out.println(\">\" + obj.var3);\n    }\n}",
+    "type": "Single Choice",
+    "answer": "A",
+    "answers": {
+      "A": " > \n >0.0\n>0.0\n",
+      "B": " >null\n >0.0\n >0.0\n",
+      "C": " >null\n >0.0\n >0.0f\n",
+      "D": "> \n >0.0\n >0.0f\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "Primitive type instance variables are initialized to respective zeros (byte: 0, short: 0, int: 0, long: 0L, float: 0.0f, double: 0.0, boolean: false, char: \\u0000).\n\nWhen printed on the console; byte, short, int & long prints 0, float & double print 0.0, boolean prints false and char prints nothing or non-printable character (whitespace). \n\nReference type instance variables are initialized to null."
+  },
+  {
+    "id": "35",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Below is the code of Test.java file:\n\npackage com.udayan.oca;\n \nimport java.util.ArrayList;\nimport java.util.List;\n \npublic class Test {\n     public static void main(String [] args) {\n         List<Integer> list = new ArrayList<Integer>();\n         list.add(new Integer(2));\n         list.add(new Integer(1));\n         list.add(new Integer(0));\n \n         list.remove(list.indexOf(0));\n \n         System.out.println(list);\n     }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "A",
+    "answers": {
+      "A": "[2,1]\n",
+      "B": "Compilation error\n",
+      "C": "[1,0]\n",
+      "D": "An exception is thrown at runtime\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "remove method of List interface is overloaded: remove(int) and remove(Object).\n\nindexOf method accepts argument of Object type, in this case list.indexOf(0) => 0 is auto-boxed to Integer object so no issues with indexOf code. list.indexOf(0) returns 2 (index at which 0 is stored in the list). So list.remove(list.indexOf(0)); is converted to list.remove(2);\n\n\n\nremove(int) version is matched, it's a direct match so compiler doesn't do auto-boxing in this case. list.remove(2) removes the element at index 2, which is 0. \n\n\n\nHence in the output, you get [2, 1]."
+  },
+  {
+    "id": "36",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \npublic class Test {\n     public static void main(String[] args) {\n         double [] arr = new int[2]; //Line 3\n         System.out.println(arr[0]); //Line 4\n     }\n}",
+    "type": "Single Choice",
+    "answer": "D",
+    "answers": {
+      "A": "Line 4 causes runtime exception\n",
+      "B": "0.0\n",
+      "C": "0\n",
+      "D": "Line 3 causes compilation error\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "int variable can easily be assigned to double type but double [] and int [] are not compatible. In fact, both are siblings and can't be assigned to each other, so Line 3 causes compilation failure."
+  },
+  {
+    "id": "37",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "For the class Test, which options, if used to replace /*INSERT*/, will print \"Hurrah! I passed...\" on to the console? Select 2 options.\n\npublic class Test {\n     /*INSERT*/ {\n         System.out.println(\"Hurrah! I passed...\");\n     }\n}",
+    "type": "Multiple Choice",
+    "answer": "B,D",
+    "answers": {
+      "A": "static public void Main(String [] args) \n",
+      "B": "static public void Main(String [] args) \n",
+      "C": "protected static void main(String [] args) \n",
+      "D": "static public void main(String [] args) \n",
+      "E": "public void static main(String [] args) \n",
+      "F": "public void main(String [] args) \n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "As System.out.println needs to be executed on executing the Test class, this means special main method should replace /*INSERT*/.\n\nSpecial main method's name should be \"main\" (all characters in lower case), should be static, should have public access specifier and it accepts argument of String [] type. String [] argument can use any identifier name, even though in most of the cases you will see \"args\" is used.\n\nPosition of static and public can be changed but return type must come just before the method name."
+  },
+  {
+    "id": "38",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \npublic class Test {\n     public static void main(String[] args) {\n         String str = \"java\";\n         StringBuilder sb = new StringBuilder(\"java\");\n \n         System.out.println(str.equals(sb) + \":\" + sb.equals(str));\n     }\n}",
+    "type": "Single Choice",
+    "answer": "E",
+    "answers": {
+      "A": "true:false\n",
+      "B": "true:true\n",
+      "C": "Compilation error\n",
+      "D": "false:true\n",
+      "E": "false:false\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "equals method declared in Object class has the declaration: public boolean equals(Object). Generally, equals method is used to compare different instances of same class but if you pass any other object, there is no compilation error. Parameter type is Object so it can accept any Java object.\n\n\n\nstr.equals(sb) => String class overrides equals(Object) method but as \"sb\" is of StringBuilder type so this returns false.\n\n\n\nStringBuilder class doesn't override equals(Object) method. So Object version is invoked which uses == operator, hence sb.equals(str) returns false as well.\n\n\n\nfalse:false is printed on to the console."
+  },
+  {
+    "id": "39",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Which of these access modifiers can be used for a top level interface?",
+    "type": "Single Choice",
+    "answer": "C",
+    "answers": {
+      "A": "protected\n",
+      "B": "private\n",
+      "C": "public\n",
+      "D": "all of the other options\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "A top level interface can be declared with either public or default modifiers.\n\npublic interface is accessible across all packages but interface declared with default modifier and be accessed in the defining package only."
+  },
+  {
+    "id": "40",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider codes below:\n\n//A.java\npackage com.udayan.oca;\n \npublic class A {\n     public void print() {\n         System.out.println(\"A\");\n     }\n}\n\n\n//B.java\npackage com.udayan.oca;\n \npublic class B extends A {\n     public void print() {\n         System.out.println(\"B\");\n     }\n}\n\n\n//Test.java\npackage com.udayan.oca.test;\n \nimport com.udayan.oca.*;\n \npublic class Test {\n     public static void main(String[] args) {\n         A obj1 = new A();\n         B obj2 = (B)obj1;\n         obj2.print();\n     }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "C",
+    "answers": {
+      "A": "A\n",
+      "B": "Compilation error\n",
+      "C": "ClassCastException is thrown at runtime\n",
+      "D": "B\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "Class A and B are declared public and inside same package com.udayan.oca. Method print() of class A has correctly been overridden by B.\n\nprint() method is public so no issues in accessing it anywhere.\n\n\n\nLet's check the code inside main method.\n\nA obj1 = new A(); => obj1 refers to an instance of class A.\n\nB obj2 = (B)obj1; => obj1 is of type A and it is assigned to obj2 (B type), hence explicit casting is necessary. obj1 refers to an instance of class A, so at runtime obj2 will also refer to an instance of class A. sub type can't refer to an object of super type so at runtime B obj2 = (B)obj1; will throw ClassCastException."
+  },
+  {
+    "id": "41",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider the following class:\n\npackage com.udayan.oca;\n \npublic class Employee {\n     public int passportNo; //line 2\n}\nWhich of the following is the correct way to make the variable 'passportNo' read only for any other class?",
+    "type": "Single Choice",
+    "answer": "C",
+    "answers": {
+      "A": "Make 'passportNo' static and provide a public static method getPassportNo() which will return its value.\n",
+      "B": "Remove 'public' from the 'passportNo' declaration. i.e., change line 2 to int passportNo;\n",
+      "C": "Make 'passportNo' private and provide a public method getPassportNo() which will return its value.\n",
+      "D": "Make 'passportNo' private.\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "passportNo' should be read-only for any other class.\n\nThis means make 'passportNo' private and provide public getter method. Don't provide public setter as then 'passportNo' will be read-write property.\n\nIf passportNo is declared with default scope, then other classes in the same package will be able to access passportNo for read-write operation."
+  },
+  {
+    "id": "42",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \npublic class Test {\n     public static void main(String[] args) {\n         byte var = 100;\n         switch(var) {\n             case 100:\n                 System.out.println(\"var is 100\");\n                 break;\n             case 200:\n                 System.out.println(\"var is 200\");\n                 break;\n             default:\n                 System.out.println(\"In default\");\n         }\n     }\n}",
+    "type": "Single Choice",
+    "answer": "A",
+    "answers": {
+      "A": "Compilation error\n",
+      "B": "var is 200\n",
+      "C": "In default\n",
+      "D": "var is 100\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "case values must evaluate to the same type / compatible type as the switch expression can use. \n\nswitch expression can accept following: \n\nchar or Character \n\nbyte or Byte \n\nshort or Short \n\nint or Integer \n\nAn enum only from Java 6 \n\nA String expression only from Java 7 \n\n\n\nIn this case, switch expression [switch (var)] is of byte type.\n\nbyte range is from -128 to 127. But in case expression [case 200], 200 is outside byte range and hence compilation error."
+  },
+  {
+    "id": "43",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider below code:\n\n//Test.java\npackage com.udayan.oca;\n \nimport java.util.ArrayList;\nimport java.util.Iterator;\nimport java.util.List;\nimport java.util.function.Predicate;\n \nclass Employee {\n     private String name;\n     private int age;\n     private double salary;\n \n     public Employee(String name, int age, double salary) {\n         this.name = name;\n         this.age = age;\n         this.salary = salary;\n     }\n \n     public String getName() {\n         return name;\n     }\n \n    public int getAge() {\n         return age;\n     }\n \n    public double getSalary() {\n         return salary;\n     }\n \n    public String toString() {\n         return name;\n     }\n}\n \npublic class Test {\n     public static void main(String [] args) {\n         List<Employee> list = new ArrayList<>();\n         list.add(new Employee(\"James\", 25, 15000));\n         list.add(new Employee(\"Lucy\", 23, 12000));\n         list.add(new Employee(\"Bill\", 27, 10000));\n         list.add(new Employee(\"Jack\", 19, 5000));\n         list.add(new Employee(\"Liya\", 20, 8000));\n \n         process(list, /*INSERT*/);\n \n         System.out.println(list);\n     }\n \n     private static void process(List<Employee> list, Predicate<Employee> predicate) {\n         Iterator<Employee> iterator = list.iterator();\n         while(iterator.hasNext()) {\n             if(predicate.test(iterator.next()))\n             iterator.remove();\n         }\n      }\n}\nWhich of the following lambda expressions, if used to replace /*INSERT*/, prints [Jack, Liya] on to the console?\n\nSelect 2 options",
+    "type": "Single Choice",
+    "answer": "C",
+    "answers": {
+      "A": "(e) -> { e.getSalary() >= 10000; } \n",
+      "B": "e -> { e.getSalary() >= 10000 } \n",
+      "C": "e -> e.getSalary() >= 10000 \n",
+      "D": "e - > e.getSalary() >= 10000 \n",
+      "E": "(Employee e) -> { return e.getSalary() >= 10000; } \n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "Jack's salary is 5000 and Liya's salary is 8000. If Employee's salary is >= 10000 then that Employee object is removed from the list.\n\n\n\nAllowed lambda expression is: \n\n(Employee e) -> { return e.getSalary() >= 10000; }, \n\nCan be simplified to:  (e) -> { return e.getSalary() >= 10000; } => type can be removed from left side of the expression. \n\nFurther simplified to: e -> { return e.getSalary() >= 10000; } => if there is only one parameter in left part, then round brackets (parenthesis) can be removed. \n\nFurther simplified to: e -> e.getSalary() >= 10000 => if there is only one statement in the right side then semicolon inside the body, curly brackets and return statement can be removed. But all 3 [return, {}, ;] must be removed together.\n\n\n\nNOTE: there should not be any space between - and > of arrow operator."
+  },
+  {
+    "id": "44",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Given code:\n\npackage com.udayan.oca;\n \npublic class Test {\n    public static void main(String[] args) {\n        String [] arr = {\"I\", \"N\", \"S\", \"E\", \"R\", \"T\"};\n        for(/*INSERT*/) {\n            if (n % 2 == 0) {\n                continue;\n            }\n            System.out.print(arr[n]); //Line n1\n        }\n    }\n}\n\n\nAnd below options:\n\n1. int n = 0; n < arr.length; n += 1\n\n2. int n = 0; n <= arr.length; n += 1\n\n3. int n = 1; n < arr.length; n += 2\n\n4. int n = 1; n <= arr.length; n += 2\n\n\n\nHow many above options can be used to replace /*INSERT*/, such that on execution, code will print NET on to the console?",
+    "type": "Single Choice",
+    "answer": "C",
+    "answers": {
+      "A": "None of the other options\n\n\n",
+      "B": "Only three options\n",
+      "C": "All four options\n\n",
+      "D": "Only one option\n\n",
+      "E": "Only two options\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "From the given array, if you print the elements at 1st, 3rd and 5th indexes, then you will get expected output.\n\nAlso note that, for values of n = 0, 2, 4, 6; Line n1 would not be executed, which means even if the value of n is 6, above code will not throw ArrayIndexOutOfBoundsException.\n\nFor 1st option [int n = 0; n < arr.length; n += 1], values of n used: 0, 1, 2, 3, 4, 5 and because of continue; statement, Line n1 will not execute for 0, 2 & 4 and it will execute only for 1, 3 & 5 and therefore NET will be printed.\n\nFor 2nd option [int n = 0; n <= arr.length; n += 1], values of n used: 0, 1, 2, 3, 4, 5, 6 and because of continue; statement, Line n1 will not execute for 0, 2, 4 & 6 and it will execute only for 1, 3 & 5 and therefore NET will be printed.\n\nFor 3rd option [int n = 1; n < arr.length; n += 2], values of n used: 1, 3, 5 and therefore NET will be printed.\n\nFor 4th option [int n = 1; n <= arr.length; n += 2], values of n used: 1, 3, 5 and therefore NET will be printed.\n\n\n\nHence, all the 4 options are valid."
+  },
+  {
+    "id": "45",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider below code: \n\n//Test.java\npackage com.udayan.oca;\n \nimport java.time.Period;\n \npublic class Test {\n     public static void main(String [] args) {\n         Period period = Period.of(0, 0, 0);\n         System.out.println(period);\n     }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "B",
+    "answers": {
+      "A": "P0Y0M0D\n",
+      "B": "P0D\n",
+      "C": "p0y0m0d\n",
+      "D": "p0d\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "Period.of(0, 0, 0); is equivalent to Period.ZERO. ZERO period is displayed as P0D, other than that, Period components (year, month, day) with 0 values are ignored. \n\n\n\ntoString()'s result starts with P, and for non-zero year, Y is appended; for non-zero month, M is appended; and for non-zero day, D is appended. P,Y,M and D are in upper case. \n\n\n\nNOTE: Period.parse(CharSequence) method accepts the String parameter in \"PnYnMnD\" format, over here P,Y,M and D can be in any case."
+  },
+  {
+    "id": "46",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider below code:\n\n//Test.java\npackage com.udayan.oca;\n \npublic class Test {\n    public static void main(String[] args) {\n        String s1 = \"OCAJP\";\n        String s2 = \"OCAJP\" + \"\";\n        System.out.println(s1 == s2);\n    }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "B",
+    "answers": {
+      "A": "Compilation error\n",
+      "B": "TRUE\n",
+      "C": "OCAJP\n",
+      "D": "FALSE\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "Please note that Strings computed by concatenation at compile time, will be referred by String Pool during execution. Compile time String concatenation happens when both of the operands are compile time constants, such as literal, final variable etc.\n\n\n\nFor the statement, String s2 = \"OCAJP\" + \"\";, `\"OCAJP\" + \"\"` is a constant expression as both the operands \"OCAJP\" and \"\" are String literals, which means the expression `\"OCAJP\" + \"\"` is computed at compile-time and results in String literal \"OCAJP\".\n\nSo, during compilation, Java compiler translates the statement\n\nString s2 = \"OCAJP\" + \"\";\n\nto\n\nString s2 = \"OCAJP\";\n\nAs \"OCAJP\" is a String literal, hence at runtime it will be referred by String Pool.\n\n\n\nWhen Test class is executed,\n\ns1 refers to \"OCAJP\" (String Pool object).\n\ns2 also refers to same String pool object \"OCAJP\".\n\ns1 and s2 both refer to the same String object and that is why s1 == s2 returns true.\n\n\n\nPlease note that Strings computed by concatenation at run time (if the resultant expression is not constant expression) are newly created and therefore distinct.\n\nFor below code snippet:\n\nString s1 = \"OCAJP\";\nString s2 = s1 + \"\";\nSystem.out.println(s1 == s2);\nOutput is false, as s1 is a variable and `s1 + \"\"` is not a constant expression, therefore this expression is computed only at runtime and a new non-pool String object is created."
+  },
+  {
+    "id": "47",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \npublic class Test {\n     private static void m(int x) {\n         System.out.println(\"int version\");\n     }\n \n     private static void m(char x) {\n         System.out.println(\"char version\");\n     }\n \n     public static void main(String [] args) {\n         int i = '5';\n         m(i);\n         m('5');\n     }\n}",
+    "type": "Single Choice",
+    "answer": "D",
+    "answers": {
+      "A": "Compilation error\n",
+      "B": "int version\nint version\n\n",
+      "C": "char version\nint version\n",
+      "D": "char version\nchar version\n",
+      "E": "int version\nchar version\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "Method m is overloaded. Which overloaded method to invoke is decided at compile time. m(i) is tagged to m(int) as i is of int type and m('5') is tagged to m(char) as '5' is char literal."
+  },
+  {
+    "id": "48",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider 3 files:\n\n//Order.java\npackage orders;\n \npublic class Order {\n    \n}\n\n\n//Item.java\npackage orders.items;\n \npublic class Item {\n    \n}\n\n\n//Shop.java\npackage shopping;\n \n/*INSERT*/\n \npublic class Shop {\n     Order order = null;\n     Item item = null;\n}\nFor the class Shop, which options, if used to replace /*INSERT*/, will resolve all the compilation errors?\n\nSelect 2 options.",
+    "type": "Multiple Choice",
+    "answer": "D,E",
+    "answers": {
+      "A": "import orders.*; \n",
+      "B": " import orders.*;\nimport items.*;\n",
+      "C": "import orders.items.*; \n",
+      "D": " import orders.Order;\n import orders.items.Item;\n",
+      "E": " import orders.*;\n import orders.items.*;\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "If you check the directory structure, you will find that directory \"orders\" contains \"items\", but orders and orders.items are different packages.import orders.*; will only import all the classes in orders package but not in orders.items package.\n\nYou need to import Order and Item classes. To import Order class, use either import orders.Order; OR import orders.*; and to import Item class, use either import orders.items.Item; OR import orders.items.*;"
+  },
+  {
+    "id": "49",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \npublic class Test {\n     public static void main(String[] args) {\n         StringBuilder sb = new StringBuilder(\"Java\");\n         String s1 = sb.toString();\n         String s2 = sb.toString();\n \n         System.out.println(s1 == s2);\n     }\n}",
+    "type": "Single Choice",
+    "answer": "C",
+    "answers": {
+      "A": "Compilation error\n",
+      "B": "TRUE\n",
+      "C": "FALSE\n",
+      "D": "An exception is thrown at runtime\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "toString() method defined in StringBuilder class doesn't use String literal rather uses the constructor of String class to create the instance of String class.\n\n\n\nSo both s1 and s2 refer to different String instances even though their contents are same. s1 == s2 returns false."
+  },
+  {
+    "id": "50",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \npublic class Test {\n     public static void main(String[] args) {\n         String str1 = new String(\"Core\");\n         String str2 = new String(\"CoRe\");\n         System.out.println(str1 = str2);\n     }\n}",
+    "type": "Single Choice",
+    "answer": "A",
+    "answers": {
+      "A": "CoRe\n",
+      "B": "TRUE\n",
+      "C": "FALSE\n",
+      "D": "Core\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "System.out.println(str1 = str2) has assignment(=) operator and not equality(==) operator.\n\nAfter the assignment, str1 refers to \"CoRe\" and System.out.println prints \"CoRe\" to the console."
+  },
+  {
+    "id": "51",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider below code:\n\n//Test.java\npackage com.udayan.oca;\n \nclass SpecialString {\n    String str;\n    SpecialString(String str) {\n        this.str = str;\n    }\n}\n \npublic class Test {\n    public static void main(String[] args) {\n        Object [] arr = new Object[4];\n        for(int i = 1; i <=3; i++) {\n            switch(i) {\n                case 1: \n                    arr[i] = new String(\"Java\");\n                    break;\n                case 2: \n                    arr[i] = new StringBuilder(\"Java\");\n                    break;\n                case 3: \n                    arr[i] = new SpecialString(\"Java\");\n                    break;\n            }\n        }\n        for(Object obj : arr) {\n            System.out.println(obj);\n        }\n    }\n}\n\n\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "A",
+    "answers": {
+      "A": "null\nJava\nJava\n<Some text containing @ symbol>\n",
+      "B": "null\nJava\nJava\nJava\n",
+      "C": "null\nJava\n<Some text containing @ symbol>\n<Some text containing @ symbol>\n",
+      "D": "Java\nJava\n<Some text containing @ symbol>\nnull\n",
+      "E": "Java\nJava\nJava\nnull\n",
+      "F": "Java\nJava\n<Some text containing @ symbol>\n",
+      "G": "Java\n<Some text containing @ symbol>\n<Some text containing @ symbol>\nnull\n",
+      "H": "Java\n<Some text containing @ symbol>\n<Some text containing @ symbol>\n\n",
+      "I": "Java\nJava\nJava\n"
+    },
+    "explanation": "Variable 'arr' refers to an Object array of size 4 and null is assigned to all 4 elements of this array.\n\nfor-loop starts with i = 1, which means at 1st index String instance is stored, at 2nd index StringBuiler instance is stored and at 3rd index SpecialString instance is stored. null is stored at 0th index.\n\nSo, first null will be printed on to the console.\n\nString and StringBuilder classes override toString() method, which prints the text stored in these classes. SpecialString class doesn't override toString() method and hence when instance of SpecialString is printed on to the console, you get: <fully qualified name of SpecialString class>@<hexadecimal representation of hashcode>.\n\nTherefore output will be:\n\nnull\n\nJava\n\nJava\n\n<Some text containing @ symbol>"
+  },
+  {
+    "id": "52",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Which of the following correctly defines class Printer?",
+    "type": "Single Choice",
+    "answer": "B",
+    "answers": {
+      "A": " import java.util.*;\n package com.udayan.oca;\n public class Printer {\n     \n }\n",
+      "B": " /* Java Developer Comments. */\n package com.udayan.oca;\n public class Printer {\n     \n }\n",
+      "C": "public class Printer {\n     \n }\n package com.udayan.oca;\n",
+      "D": " public class Printer { \n     package com.udayan.oca;\n }\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "If package is used then it should be the first statement, but javadoc and developer comments are not considered as java statements so a class can have developer and javadoc comments before the package statement.\n\nIf import and package both are available, then correct order is package, import, class declaration."
+  },
+  {
+    "id": "53",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Which of the following is a checked Exception?",
+    "type": "Single Choice",
+    "answer": "C",
+    "answers": {
+      "A": "ClassCastException\n\n",
+      "B": "ExceptionInInitializerError\n\n",
+      "C": "FileNotFoundException\n\n",
+      "D": "RuntimeException\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "ClassCastException extends RuntimeException (unchecked exception),\n\nFileNotFoundException extends IOException, IOException extends Exception (checked exception),\n\nExceptionInInitializerError is from Error family and is thrown by an static initializer block,\n\nRuntimeException and all its sub classes are unchecked exceptions."
+  },
+  {
+    "id": "54",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Given the code of Test.java file:\n\npackage com.udayan.oca;\n \nclass Point {\n     int x;\n     int y;\n     void assign(int x, int y) {\n         x = this.x;\n         this.y = y;\n     }\n \n     public String toString() {\n         return \"Point(\" + x + \", \" + y + \")\";\n     }\n}\n \npublic class Test {\n     public static void main(String[] args) {\n         Point p1 = new Point();\n         p1.x = 10;\n         p1.y = 20;\n         Point p2 = new Point();\n         p2.assign(p1.x, p1.y);\n         System.out.println(p1.toString() + \";\" + p2.toString());\n     }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "A",
+    "answers": {
+      "A": "Point(10, 20);Point(0, 20)\n\n",
+      "B": "Point(0, 20);Point(10, 20)\n",
+      "C": "Point(10, 20);Point(10, 20)\n\n",
+      "D": "Point(0, 20);Point(0, 20)\n",
+      "E": "None of the other options\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "HINT: First check if members are accessible or not. All the codes are in same file Test.java, and Point class & variable x, y are declared with default modifier hence these can be accessed within the same package. Class Test belongs to same package so no issues in accessing Point class and instance variables of Point class. Make use of pen and paper to draw the memory diagrams (heap and stack). It will be pretty quick to reach the result.\n\n\n\nPoint p1 = new Point(); means p1.x = 0 and p1.y = 0 as instance variable are initialized to respective zeros. \n\np1.x = 10; means replace 0 with 10 in p1.x, \n\np1.y = 20; means replace 0 with 20 in p1.y, \n\n\n\nPoint p2 = new Point(); means p2.x = 0 and p2.y = 0 as instance variable are initialized to respective zeros. \n\np2.assign(p1.x, p1.y); invokes the assign method, parameter variable x = 10 and y = 20.\n\nAs assign is invoked on p2 reference variable hence this and p2 refers to same Point object.\n\nx = this.x; means assign 0 to parameter variable x, no changes in this.y, which means p2.x is unchanged. \n\nthis.y = y; means assign 20 to this.y, which means p2.y is now 20\n\nSo after assign method is invoked and control goes back to main method: p1.x = 10, p1.y = 20, p2.x = 0 and p2.y = 20. \n\nOutput is: Point(10, 20);Point(0, 20)"
+  },
+  {
+    "id": "55",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \nimport java.util.ArrayList;\nimport java.util.List;\n \npublic class Test {\n     public static void main(String[] args) {\n         List<Integer> list = new ArrayList<>();\n         list.add(100);\n         list.add(200);\n         list.add(100);\n         list.add(200);\n         list.remove(100);\n \n         System.out.println(list);\n     }\n}",
+    "type": "Single Choice",
+    "answer": "C",
+    "answers": {
+      "A": "Compilation error\n\n",
+      "B": "[200]\n\n",
+      "C": "Exception is thrown at runtime\n\n",
+      "D": "[200, 200]\n",
+      "E": "[200, 100, 200]\n",
+      "F": "[100, 200, 200]\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "List cannot accept primitives, it can accept objects only. So, when 100 and 200 are added to the list, then auto-boxing feature converts these to wrapper objects of Integer type.\n\nSo, 4 items gets added to the list. One can expect the same behavior with remove method as well that 100 will be auto-boxed to Integer object.\n\nBut remove method is overloaded in List interface: remove(int) => Removes the element from the specified position in this list\n\nand remove(Object)  => Removes the first occurrence of the specified element from the list.\n\nAs remove(int) version is available, which perfectly matches with the call remove(100); hence compiler does not do auto-boxing in this case.\n\nBut at runtime remove(100) tries to remove the element at 100th index and this throws IndexOutOfBoundsException."
+  },
+  {
+    "id": "56",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \nimport java.time.LocalTime;\n \npublic class Test {\n     public static void main(String[] args) {\n         LocalTime time = LocalTime.of(16, 40);\n         String amPm = time.getHour() >= 12 ? (time.getHour() == 12) ? \"PM\" : \"AM\";\n         System.out.println(amPm);\n     }\n}",
+    "type": "Single Choice",
+    "answer": "D",
+    "answers": {
+      "A": "An exception is thrown at runtime\n\n",
+      "B": "PM\n\n",
+      "C": "AM\n\n",
+      "D": "Compilation error\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "This question is on ternary operator (?:). If an expression has multiple ternary operators then number of ? and : should match.\n\nGiven expression contains 2 ? and 1 : and hence Compilation Error."
+  },
+  {
+    "id": "57",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider below code: \n\n//Test.java\npackage com.udayan.oca;\n \nimport java.util.ArrayList;\nimport java.util.List;\n \npublic class Test {\n     public static void main(String[] args) {\n         List<String> list1 = new ArrayList<>();\n         list1.add(\"A\");\n         list1.add(\"D\");\n \n         List<String> list2 = new ArrayList<>();\n         list2.add(\"B\");\n         list2.add(\"C\");\n \n         list1.addAll(1, list2);\n \n         System.out.println(list1);\n     }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "D",
+    "answers": {
+      "A": "[A,D]\n",
+      "B": "[A,B,C]\n",
+      "C": "[A,D,B,C]\n",
+      "D": "[A,B,C,D]\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "list1 --> [A, D], \n\nlist2 --> [B, C], \n\nlist1.addAll(1, list2); is almost equal to list1.add(1, [B, C]); => Inserts B at index 1, C takes index 2 and D is moved to index 3. list1 --> [A, B, C, D]"
+  },
+  {
+    "id": "58",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider code of Test.java file:\n\npackage com.udayan.oca;\n \nimport java.util.ArrayList;\nimport java.util.List;\n \npublic class Test {\n     public static void main(String[] args) {\n         List<Character> list = new ArrayList<>();\n         list.add(0, 'V');\n         list.add('T');\n         list.add(1, 'E');\n         list.add(3, 'O');\n \n         if(list.contains('O')) {\n             list.remove('O');\n         }\n \n         for(char ch : list) {\n             System.out.print(ch);\n         }\n     }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "B",
+    "answers": {
+      "A": "VTE\n",
+      "B": "Runtime exception\n",
+      "C": "VETO\n",
+      "D": "VET\n",
+      "E": "VTEO\n",
+      "F": "Compilation error \n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "list.add(0, 'V'); => char 'V' is converted to Character object and stored as the first element in the list. list --> [V]. \n\nlist.add('T'); => char 'T' is auto-boxed to Character object and stored at the end of the list. list --> [V,T]. \n\nlist.add(1, 'E'); => char 'E' is auto-boxed to Character object and inserted at index 1 of the list, this shifts T to the right. list --> [V,E,T]. \n\nlist.add(3, 'O'); => char 'O' is auto-boxed to Character object and added at index 3 of the list. list --> [V,E,T,O].\n\nlist.contains('O') => char 'O' is auto-boxed to Character object and as Character class overrides equals(String) method this expression returns true. Control goes inside if-block and executes: list.remove('O');.\n\n\n\nremove method is overloaded: remove(int) and remove(Object). char can be easily assigned to int so compiler tags remove(int) method. list.remove(<ASCCI value of 'O'>); ASCCI value of 'A' is 65 (this everybody knows) so ASCII value of 'O' will be more than 65.\n\n\n\nlist.remove('O') throws runtime exception, as it tries to remove an item from the index greater than 65 but allowed index is 0 to 3 only."
+  },
+  {
+    "id": "59",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider below code: \n\npublic class Test {\n     static {\n         System.out.println(1/0);\n     }\n \n     public static void main(String[] args) {\n         System.out.println(\"HELLO\");\n     }\n}\nOn execution, does Test class print \"HELLO\" on to the console?",
+    "type": "Single Choice",
+    "answer": "A",
+    "answers": {
+      "A": "No, HELLO is not printed on the console\n",
+      "B": "Yes, HELLO is printed on to the console\n",
+      "C": "\n",
+      "D": "\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "To invoke the special main method, JVM loads the class in the memory. At that time, static initializer block is invoked. 1/0 throws a RuntimeException and as a result static initializer block throws an instance of java.lang.ExceptionInInitializerError."
+  },
+  {
+    "id": "60",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \npublic class Test {\n     public static void main(String[] args) {\n         m1(); //Line 3\n     }\n \n     private static void m1() throws Exception { //Line 6\n         System.out.println(\"NOT THROWING ANY EXCEPTION\"); //Line 7\n     }\n}",
+    "type": "Single Choice",
+    "answer": "B",
+    "answers": {
+      "A": "NOT THROWING ANY EXCEPTION\n",
+      "B": "Compilation error at Line 3\n",
+      "C": "Compilation error at Line 7\n",
+      "D": "Compilation error at Line 6\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "If a method declares to throw Exception or its sub-type other than RuntimeException types, then calling method should follow handle or declare rule. In this case, as method m1() declares to throw Exception, so main method should either declare the same exception or its super type in its throws clause OR m1(); should be surrounded by try-catch block.\n\n\n\nLine 3 in this case causes compilation error."
+  },
+  {
+    "id": "61",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "A bank's swift code is generally of 11 characters and used in international money transfers. \nAn example of swift code: ICICINBBRT4\nICIC: First 4 letters for bank code\nIN: Next 2 letters for Country code\nBB: Next 2 letters for Location code\nRT4: Next 3 letters for Branch code\n\nWhich of the following code correctly extracts country code from the swift code referred by String reference variable swiftCode?",
+    "type": "Single Choice",
+    "answer": "B",
+    "answers": {
+      "A": "swiftCode.substring(5, 6); \n\n",
+      "B": "swiftCode.substring(4, 6); \n",
+      "C": "swiftCode.substring(4, 5); \n",
+      "D": "swiftCode.substring(5, 7); \n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "substring(int beginIndex, int endIndex) is used to extract the substring. The substring begins at \"beginIndex\" and extends till \"endIndex - 1\". \n\nCountry code information is stored at index 4 and 5, so the correct substring method to extract country code is: swiftCode.substring(4, 6);"
+  },
+  {
+    "id": "62",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \npublic class Test {\n     public static void main(String[] args) {\n         System.out.println(\"Output is: \" + 10 != 5);\n     }\n}",
+    "type": "Single Choice",
+    "answer": "B",
+    "answers": {
+      "A": "Output is: true\n\n",
+      "B": "Compilation error\n",
+      "C": "Output is: 10 != 5\n",
+      "D": "Output is: false\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "Binary plus (+) has got higher precedence than != operator. Let us group the expression. \n\n\"Output is: \" + 10 != 5 \n\n= (\"Output is: \" + 10) != 5 \n\n[!= is binary operator, so we have to evaluate the left side first. + operator behaves as concatenation operator.] \n\n= \"Output is: 10\" != 5 \n\nLeft side of above expression is String, and right side is int. But String can't be compared to int, hence compilation error."
+  },
+  {
+    "id": "63",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider below code:\n\n//Test.java\npackage com.udayan.oca;\n \npublic class Test {\n    public static void main(String[] args) {\n        StringBuilder sb = new StringBuilder(100);\n        System.out.println(sb.length() + \":\" + sb.toString().length());\n    }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "B",
+    "answers": {
+      "A": "100:100\n",
+      "B": "0:0\n",
+      "C": "100:0\n",
+      "D": "16:0\n",
+      "E": "16:16\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "`new StringBuilder(100);` creates a StringBuilder instance, whose internal char array's length is 100 but length() method of StringBuilder object returns the number of characters stored in the internal array and in this case it is 0. So, `sb.length()` returns 0.\n\nsb.toString() is the String representation of StringBuilder instance and in this case as there are no characters inside the StringBuilder object, hence sb.toString() returns an empty String \"\", so `sb.toString().length()` also returns 0.\n\nOutput is 0:0."
+  },
+  {
+    "id": "64",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \npublic class Test {\n     public static void main(String[] args) {\n         double price = 90000;\n         String model;\n         if(price > 100000) {\n             model = \"Tesla Model X\";\n         } else if(price <= 100000) {\n             model = \"Tesla Model S\";\n         }\n           System.out.println(model);\n     }\n}",
+    "type": "Single Choice",
+    "answer": "D",
+    "answers": {
+      "A": "Tesla Model S\n\n",
+      "B": "null\n",
+      "C": "Tesla Model X\n",
+      "D": "Compilation Error\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "In this case \"if - else if\" block is used and not \"if - else\" block.\n\n\n\n90000 is assigned to variable 'price' but you can assign parameter value or call some method returning double value, such as:\n\n'double price = currentTemp();'.\n\n\n\nIn these cases compiler will not know the exact value until runtime, hence Java Compiler is not sure which boolean expression will be evaluated to true and so variable model may not be initialized.\n\n\n\nUsage of LOCAL variable, 'model' without initialization gives compilation error. Hence, System.out.println(model); gives compilation error."
+  },
+  {
+    "id": "65",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing Test class?\n\npackage com.udayan.oca;\n \nimport java.io.FileNotFoundException;\nimport java.io.IOException;\n \nabstract class Super {\n     public abstract void m1() throws IOException;\n}\n \nclass Sub extends Super {\n     @Override\n     public void m1() throws IOException {\n         throw new FileNotFoundException();\n     }\n}\n \npublic class Test {\n     public static void main(String[] args) {\n         Super s = new Sub();\n         try {\n             s.m1();\n         } catch (FileNotFoundException e) {\n             System.out.print(\"M\");\n         } finally {\n             System.out.print(\"N\");\n         }\n     }\n}",
+    "type": "Single Choice",
+    "answer": "D",
+    "answers": {
+      "A": "Program ends abruptly\n",
+      "B": "N\n",
+      "C": "MN\n",
+      "D": "Compilation error\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "Even though an instance of FileNotFoundException is thrown by method m1() at runtime, but method m1() declares to throw IOException.\n\nReference variable s is of Super type and hence for compiler, call to s.m1(); is to method m1() of Super, which throws IOException.\n\nAnd as IOException is checked exception hence calling code should handle it.\n\n\n\nAs calling code doesn't handle IOException or its super type, so s.m1(); gives compilation error."
+  },
+  {
+    "id": "66",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider codes below:\n\n//A.java\npackage com.udayan.oca;\n \npublic class A {\n     public int i1 = 1;\n     protected int i2 = 2;\n}\n\n\n//B.java\npackage com.udayan.oca.test;\n \nimport com.udayan.oca.A;\n \npublic class B extends A {\n     public void print() {\n         A obj = new A();\n         System.out.println(obj.i1); //Line 8\n         System.out.println(obj.i2); //Line 9\n         System.out.println(this.i2); //Line 10\n         System.out.println(super.i2); //Line 11\n     }\n \n     public static void main(String [] args) {\n         new B().print();\n     }\n}\nOne of the statements inside print() method is causing compilation failure. Which of the below solutions will help to resolve compilation error?",
+    "type": "Single Choice",
+    "answer": "B",
+    "answers": {
+      "A": "Comment the statement at Line 8\n",
+      "B": "Comment the statement at Line 9\n",
+      "C": "Comment the statement at Line 11\n",
+      "D": "Comment the statement at Line 10\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "class A is declared public and defined in com.udayan.oca package, there is no problem in accessing class A outside com.udayan.oca package.\n\nclass B is defined in com.udayan.oca.test package, to extend from class A either use import statement \"import com.udayan.oca.A;\" or fully qualified name of the class com.udayan.oca.A. No issues with this class definition as well.\n\n\n\nVariable i1 is declared public in class A, so Line 8 doesn't cause any compilation error. Variable i2 is declared protected so it can only be accessed in subclass using inheritance but not using object reference variable. obj.i2 causes compilation failure.\n\n\n\nclass B inherits variable i2 from class A, so inside class B it can be accessed by using either this or super. Line 10 and Line 11 don't cause any compilation error."
+  },
+  {
+    "id": "67",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider below code fragment:\n\ninterface Printable {\n     public void setMargin();\n     public void setOrientation();\n}\n \nabstract class Paper implements Printable { //Line 7\n     public void setMargin() {}\n     //Line 9\n}\n \nclass NewsPaper extends Paper { //Line 12\n     public void setMargin() {}\n     //Line 14\n}\nAbove code is currently giving compilation error. Which 2 modifications, done independently, enable the code to compile?",
+    "type": "Single Choice",
+    "answer": "A",
+    "answers": {
+      "A": "Insert at Line 14: public void setOrientation() {} \n",
+      "B": "Replace the code at Line 12 with: abstract class NewsPaper extends Paper { \n",
+      "C": "Replace the code at Line 7 with: class Paper implements Printable { \n",
+      "D": "Insert at Line 9: public abstract void setOrientation(); \n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "First you should find out the reason for compilation error. Methods declared in Printable interface are implicitly abstract, no issues with Printable interface.\n\n\n\nclass Paper is declared abstract and it implements Printable interface, it overrides setMargin() method but setOrientation() method is still abstract. No issues with class Paper as it is an abstract class and can have 0 or more abstract methods. \n\n\n\nclass NewsPaper is concrete class and it extends Paper class (which is abstract). So class NewsPaper must override setOrientation() method OR it must be declared abstract.\n\n\n\nReplacing Line 9 with 'public abstract void setOrientation();' is not necessary and it will not resolve the compilation error in NewsPaper class.\n\n\n\nReplacing Line 7 with 'class Paper implements Printable {' will cause compilation failure of Paper class as it inherits abstract method 'setOrientation'."
+  },
+  {
+    "id": "68",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider below code: \n\n//Test.java\npackage com.udayan.oca;\n \nimport java.util.ArrayList;\nimport java.util.List;\n \npublic class Test {\n     public static void main(String[] args) {\n         String s = new String(\"Hello\");\n         List<String> list = new ArrayList<>();\n         list.add(s);\n         list.add(new String(\"Hello\"));\n         list.add(s);\n         s.replace(\"l\", \"L\");\n \n         System.out.println(list);\n     }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "D",
+    "answers": {
+      "A": "[HeLLo, Hello, Hello]\n",
+      "B": "[HeLLo, HeLLo, HeLLo]\n",
+      "C": "[HeLLo, Hello, HeLLo]\n",
+      "D": "[Hello, Hello, Hello]\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "ArrayList's 1st and 3rd items are referring to same String instance referred by s [s --> \"Hello\"] and 2nd item is referring to another instance of String.\n\n\n\nString is immutable, which means s.replace(\"l\", \"L\"); creates another String instance \"HeLLo\" but s still refers to \"Hello\" [s --> \"Hello\"]. \n\n\n\n[Hello, Hello, Hello] is printed in the output."
+  },
+  {
+    "id": "69",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "Consider below code: \n\n//Test.java\npackage com.udayan.oca;\n \nimport java.time.LocalDate;\n \nclass MyLocalDate extends LocalDate {\n     @Override\n     public String toString() {\n         return super.getDayOfMonth() + \"-\" + super.getMonthValue() + \n            \"-\" +  super.getYear();\n     }\n}\n \npublic class Test {\n     public static void main(String [] args) {\n         MyLocalDate date = LocalDate.parse(\"1980-03-16\");\n         System.out.println(date);\n     }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "D",
+    "answers": {
+      "A": "1980-03-16\n",
+      "B": "16-03-1980\n",
+      "C": "16-3-1980\n",
+      "D": "Compilation error\n",
+      "E": "An exception is thrown at runtime\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "LocalDate is a final class so cannot be extended."
+  },
+  {
+    "id": "70",
+    "trainingUnit": "OCA",
+    "trainingContent": "Exam 1",
+    "question": "What will be the result of compiling and executing the Test class?\n\npackage com.udayan.oca;\n \npublic class Test {\n     public static void main(String[] args) {\n         int grade = 60;\n         if(grade = 60)\n             System.out.println(\"You passed...\");\n         else\n             System.out.println(\"You failed...\");\n     }\n}",
+    "type": "Single Choice",
+    "answer": "A",
+    "answers": {
+      "A": "Compilation error\n",
+      "B": "Produces no output\n",
+      "C": "You passed…\n",
+      "D": "You failed…\n",
+      "E": "\n",
+      "F": "\n",
+      "G": "\n",
+      "H": "\n",
+      "I": "\n"
+    },
+    "explanation": "Following are allowed in boolean expression of if statement:\n\n1. Any expression whose result is either true or false. e.g. age > 20 \n\n2. A boolean variable. e.g. flag \n\n3. A boolean literal: true or false \n\n4. A boolean assignment. e.g. flag = true \n\n\n\nboolean expression in this case is: (grade = 60), which is an int assignment and not boolean assignment. Hence Compilation error."
+  }
+]
