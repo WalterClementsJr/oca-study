@@ -10,13 +10,29 @@ const changeName = function (name) {
 let files = [];
 
 fs.readdirSync('./exams/').forEach((file) => {
-  files.push({type: 'exams', name: file});
+  files.push({type: 'exams', name: file.split('.')[0]});
 });
 fs.readdirSync('./lessons/').forEach((file) => {
-  files.push({type: 'lessons', name: file});
+  files.push({type: 'lessons', name: file.split('.')[0]});
 });
 
-console.log(files);
+files.forEach((fileData) => {
+  let fileLocation = `./${fileData.type}/${fileData.name}.json`;
 
-fs.writeFileSync('./trainingContent.json', JSON.stringify(files));
+  fs.readFile(fileLocation, {encoding: 'utf-8'}, function (err, data) {
+    if (!err) {
+      let json = JSON.parse(data);
+      json.forEach(i => {
+        i.id = parseInt(i.id);
+      });
+      fs.writeFileSync(fileLocation, JSON.stringify(json));
+    } else {
+      console.log(err);
+    }
+  });
+
+});
+// console.log(files);
+
+// fs.writeFileSync('./trainingContent.json', JSON.stringify(files));
 

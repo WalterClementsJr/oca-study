@@ -1,1 +1,13 @@
-<p>quiz works!</p>
+<h2>{{trainingContent?.name}}</h2>
+
+<div class="">
+  <div style="white-space: pre-wrap;" *ngFor="let question of trainingContent?.questions" class="col-1-4">
+    <div class="module hero">
+      <h1>{{question?.id}}</h1>
+      <h4>{{question?.question}}</h4>
+    </div>
+  </div>
+</div>
+
+<button [class.btn-close-white] (click)="back()">Back</button>
+

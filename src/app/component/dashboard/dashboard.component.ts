@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TrainingContentService} from "../../service/TrainingContentService";
 import {TrainingContent} from "../../entity/TrainingContent";
 
@@ -7,14 +7,13 @@ import {TrainingContent} from "../../entity/TrainingContent";
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent {
-  trainingContents : TrainingContent[] = [];
+export class DashboardComponent implements OnInit {
+  trainingContents: TrainingContent[] = [];
 
   constructor(private trainingContentService: TrainingContentService) {
   }
 
   ngOnInit(): void {
     this.trainingContents = this.trainingContentService.getAllTrainingContents();
-    console.log(this.trainingContents);
   }
 }
