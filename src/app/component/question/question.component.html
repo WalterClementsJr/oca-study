@@ -1,0 +1,21 @@
+<div class="container">
+  <h2>{{question?.trainingContent}}</h2>
+
+  <div class="mt-4 row">
+    <div class="col-6" style="white-space: pre-wrap;">
+      {{question?.question}}
+    </div>
+    <div class="col-6" style="white-space: pre-wrap;">
+      <ng-container *ngFor="let key of objectKeys(question?.answers) | genericFilter : filterEmptyAnswer">
+        <div class="row">
+          <h2 class="col-1">{{key}}</h2>
+          <div class="col-6">{{question?.answers[key]}}</div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <button class="btn btn-primary" (click)="submit()">Submit</button>
+  <button class="btn btn-primary" (click)="next()">Next</button>
+</div>
+<button class="btn btn-warning" (click)="back()">Back</button>

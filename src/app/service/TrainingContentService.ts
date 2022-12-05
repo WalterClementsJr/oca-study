@@ -24,7 +24,8 @@ export class TrainingContentService {
             data.forEach((item: any) => {
               let quest = new Question();
               quest.id = item.id;
-              quest.type = item.type.toLowerCase().includes("multiple") ? QuestionType.MULTIPLE_CHOICE : QuestionType.SINGLE_CHOICE
+              quest.type = item.type.toLowerCase().includes("multiple") ? QuestionType.MULTIPLE_CHOICE : QuestionType.SINGLE_CHOICE;
+              quest.trainingContent = item.trainingContent;
               quest.question = item.question;
               quest.answer = item.answer;
               quest.answers = {};
@@ -70,5 +71,11 @@ export class TrainingContentService {
     content?.questions.filter((question: Question) => {
 
     });
+  }
+
+  getRandomQuestion() {
+    let lessons = this.trainingContents.filter((content: TrainingContent) => content.type == "lessons");
+    const randomLesson = lessons[Math.floor(Math.random() * lessons.length)];
+    return randomLesson.questions[Math.floor(Math.random() * randomLesson.questions.length)];
   }
 }

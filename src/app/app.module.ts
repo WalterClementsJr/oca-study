@@ -8,6 +8,7 @@ import {QuizComponent} from './component/quiz/quiz.component';
 import {TrainingContentService} from "./service/TrainingContentService";
 import {QuestionService} from "./service/QuestionService";
 import {GenericFilterPipe} from './pipe/generic-filter.pipe';
+import { QuestionComponent } from './component/question/question.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import {GenericFilterPipe} from './pipe/generic-filter.pipe';
     DashboardComponent,
     QuizComponent,
     GenericFilterPipe,
+    QuestionComponent
   ],
   imports: [
     BrowserModule,

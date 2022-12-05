@@ -22,7 +22,6 @@ export class QuizComponent implements OnInit {
     this.route.paramMap
       .subscribe(paramMap => {
         this.trainingContent = this.trainingContentService.findByName(paramMap.get('name'));
-        console.log(this.trainingContent)
       });
   }
 

@@ -18,12 +18,10 @@ export class DashboardComponent implements OnInit {
   }
 
   filterTrainingContentExam(content: TrainingContent) {
-    console.log(content);
     return content.type === "exams";
   }
 
   filterTrainingContentLesson(content: TrainingContent) {
-    console.log(content);
     return content.type === "lessons";
   }
 }
