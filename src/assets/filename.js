@@ -10,11 +10,13 @@ const changeName = function (name) {
 let files = [];
 
 fs.readdirSync('./exams/').forEach((file) => {
-  files.push('exams/' +file);
+  files.push({type: 'exams', name: file});
 });
 fs.readdirSync('./lessons/').forEach((file) => {
-  files.push('lessons/'+file);
+  files.push({type: 'lessons', name: file});
 });
 
 console.log(files);
+
+fs.writeFileSync('./trainingContent.json', JSON.stringify(files));
 

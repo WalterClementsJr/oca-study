@@ -1,14 +1,1 @@
-[
-  "exams/Exam_1.json",
-  "exams/Exam_2.json",
-  "exams/Exam_3.json",
-  "exams/Exam_4.json",
-  "exams/Exam_5_(Bonus_exam).json",
-  "exams/Exam_6_(Bonus_exam).json",
-  "lessons/ArrayList_and_Lambda_expression.json",
-  "lessons/Exception_String_StringBuilder.json",
-  "lessons/Inheritance_and_Polymorphism_2_Date_and_Time.json",
-  "lessons/Java_Basics_and_Data_types.json",
-  "lessons/Methods_Encapsulation_Inheritance_and_Polymorphism_1.json",
-  "lessons/Operators_Decision_Constructs_Arrays_and_Loops.json"
-]
+[{"type":"exams","name":"Exam_1.json"},{"type":"exams","name":"Exam_2.json"},{"type":"exams","name":"Exam_3.json"},{"type":"exams","name":"Exam_4.json"},{"type":"exams","name":"Exam_5_(Bonus_exam).json"},{"type":"exams","name":"Exam_6_(Bonus_exam).json"},{"type":"lessons","name":"ArrayList_and_Lambda_expression.json"},{"type":"lessons","name":"Exception_String_StringBuilder.json"},{"type":"lessons","name":"Inheritance_and_Polymorphism_2_Date_and_Time.json"},{"type":"lessons","name":"Java_Basics_and_Data_types.json"},{"type":"lessons","name":"Methods_Encapsulation_Inheritance_and_Polymorphism_1.json"},{"type":"lessons","name":"Operators_Decision_Constructs_Arrays_and_Loops.json"}]
