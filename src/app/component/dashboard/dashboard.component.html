@@ -1,8 +1,19 @@
 <h3>Oracle</h3>
-<div class="grid grid-pad">
-  <a *ngFor="let content of trainingContents" [routerLink]="['/content', content.name]" class="col-1-4">
-    <div class="module hero">
-      <h4>{{content.name}}</h4>
-    </div>
-  </a>
+<div class="row">
+  <div class="col-4">
+    <a [ngClass]="'btn btn-primary'" *ngFor="let content of trainingContents | genericFilter: filterTrainingContentExam"
+       [routerLink]="['/content', content.name]" class="col-1-4">
+      <div class="">
+        <h4>{{content.name}}</h4>
+      </div>
+    </a>
+  </div>
+  <div class="col-4">
+    <a *ngFor="let content of trainingContents | genericFilter: filterTrainingContentLesson"
+       [routerLink]="['/content', content.name]" class="col-1-4">
+      <div class="">
+        <h4>{{content.name}}</h4>
+      </div>
+    </a>
+  </div>
 </div>

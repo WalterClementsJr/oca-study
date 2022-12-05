@@ -18,19 +18,19 @@ export class TrainingContentService {
           .get(`assets/${fileData.type}/${fileData.name}.json`, {responseType: 'json'})
           .subscribe((data: any) => {
             // training content metadata
-            let content = new TrainingContent(fileData.name, data.type);
+            let content = new TrainingContent(fileData.name, fileData.type);
 
             // training content questions
             data.forEach((item: any) => {
               let quest = new Question();
               quest.id = item.id;
-              quest.type = item.type.toUpperCase().includes("multiple") ? QuestionType.MULTIPLE_CHOICE : QuestionType.SINGLE_CHOICE
+              quest.type = item.type.toLowerCase().includes("multiple") ? QuestionType.MULTIPLE_CHOICE : QuestionType.SINGLE_CHOICE
               quest.question = item.question;
               quest.answer = item.answer;
               quest.answers = {};
 
               for (let key of Object.keys(item.answers)) {
-                quest.answers[key] = item[key];
+                quest.answers[key] = item.answers[key];
               }
               content.questions.push(quest);
             });

@@ -16,4 +16,14 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.trainingContents = this.trainingContentService.getAllTrainingContents();
   }
+
+  filterTrainingContentExam(content: TrainingContent) {
+    console.log(content);
+    return content.type === "exams";
+  }
+
+  filterTrainingContentLesson(content: TrainingContent) {
+    console.log(content);
+    return content.type === "lessons";
+  }
 }
