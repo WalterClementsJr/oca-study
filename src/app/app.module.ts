@@ -1,22 +1,28 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {HttpClientModule} from "@angular/common/http";
 
-import { AppComponent } from './app.component';
-import { DashboardComponent } from './component/dashboard/dashboard.component';
-import { QuizComponentComponent } from './component/quiz/quiz-component.component';
-import { QuizComponent } from './component/quiz/quiz.component';
+// app components
+import {AppRoutingModule} from "./app-routing.module";
+import {AppComponent} from './app.component';
+import {DashboardComponent} from './component/dashboard/dashboard.component';
+import {QuizComponent} from './component/quiz/quiz.component';
+import {TrainingContentService} from "./service/TrainingContentService";
+import {QuestionService} from "./service/QuestionService";
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    QuizComponentComponent,
-    QuizComponent
+    QuizComponent,
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
   ],
-  providers: [],
+  providers: [TrainingContentService, QuestionService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
