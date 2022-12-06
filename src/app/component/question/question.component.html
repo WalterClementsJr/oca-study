@@ -1,4 +1,6 @@
 <div class="p-4">
+  <button class="btn btn-primary" (click)="next()">Next random question</button>
+
   <h2>{{question?.trainingContent}}</h2>
 
   <div class="mt-4 row">
@@ -18,6 +20,5 @@
       <button class="btn btn-primary" type="submit">Submit</button>
     </form>
   </div>
-  <button class="btn btn-primary" (click)="next()">Next</button>
 </div>
 <button class="btn btn-warning" (click)="back()">Back</button>

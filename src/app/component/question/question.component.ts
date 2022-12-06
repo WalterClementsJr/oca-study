@@ -51,20 +51,13 @@ export class QuestionComponent implements OnInit {
     this.location.back();
   }
 
-  filterEmptyAnswer(key: string) {
-    console.log(key);
-    // console.log(this.question);
-    return true;
-    // return !this.question?.answers[key] || this.question?.answers[key].trim().length === 0;
-  }
-
   onSubmit() {
     this.isSubmitted = true;
     if (!this.form?.valid) {
       return false;
     } else {
       let value = this.form.get(this.formKey)?.value;
-      console.log("selecting", JSON.stringify(value));
+      console.log("selecting", value, JSON.stringify(value));
 
       if (this.checkAnswer(JSON.stringify(value))) {
         // glow green
@@ -80,11 +73,11 @@ export class QuestionComponent implements OnInit {
     return true;
   }
 
-  checkAnswer(ans: [] | string) {
+  checkAnswer(ans: string[] | string) {
     if (this.question?.type === QuestionType.SINGLE_CHOICE) {
       return ans === this.question.answer;
     } else if (this.question?.type === QuestionType.MULTIPLE_CHOICE) {
-      return (ans as string[])?.join('') === this.question.answer;
+      return (ans as string[])?.join(',') === this.question.answer;
     } else {
       throw new Error("answer type error");
     }
