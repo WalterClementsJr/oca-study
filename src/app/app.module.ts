@@ -8,7 +8,8 @@ import {QuizComponent} from './component/quiz/quiz.component';
 import {TrainingContentService} from "./service/TrainingContentService";
 import {QuestionService} from "./service/QuestionService";
 import {GenericFilterPipe} from './pipe/generic-filter.pipe';
-import { QuestionComponent } from './component/question/question.component';
+import {QuestionComponent} from './component/question/question.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -21,6 +22,8 @@ import { QuestionComponent } from './component/question/question.component';
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
   ],
   providers: [TrainingContentService, QuestionService],
