@@ -10,6 +10,7 @@ import {QuestionService} from "./service/QuestionService";
 import {GenericFilterPipe} from './pipe/generic-filter.pipe';
 import {QuestionComponent} from './component/question/question.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { QuestionAnswerNotEmptyPipe } from './pipe/question-answer/question-answer-not-empty.pipe';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     DashboardComponent,
     QuizComponent,
     GenericFilterPipe,
-    QuestionComponent
+    QuestionComponent,
+    QuestionAnswerNotEmptyPipe
   ],
   imports: [
     BrowserModule,

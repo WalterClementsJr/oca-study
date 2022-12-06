@@ -7,18 +7,17 @@
     </div>
     <form class="col-6" [formGroup]="form" (ngSubmit)="onSubmit()">
       <div style="white-space: pre-wrap;">
-        <ng-container *ngFor="let key of objectKeys(question?.answers) | genericFilter : filterEmptyAnswer">
-          <div class="row custom-control custom-radio mb-5">
-            <input [id]="'ans'+key" type="radio" class="col-1 custom-control-input" formControlName="answer"
+        <ng-container *ngFor="let key of objectKeys(question?.answers) | questionAnswerNotEmpty : question?.answers">
+          <div class=" custom-control custom-radio mb-5 d-flex flex-row">
+            <input [id]="'ans'+key" type="radio" class=" custom-control-input" formControlName="answer"
                    [value]="key" name="answer">
-            <label class="col-5 custom-control-label" [htmlFor]="'ans'+key">{{question?.answers[key]}}</label>
+            <label class=" form-control" [htmlFor]="'ans'+key">{{question?.answers[key]}}</label>
           </div>
         </ng-container>
       </div>
       <button class="btn btn-primary" type="submit">Submit</button>
     </form>
   </div>
-
   <button class="btn btn-primary" (click)="next()">Next</button>
 </div>
 <button class="btn btn-warning" (click)="back()">Back</button>

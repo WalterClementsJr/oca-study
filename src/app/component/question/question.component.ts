@@ -11,22 +11,20 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
   styleUrls: ['./question.component.css']
 })
 export class QuestionComponent implements OnInit {
-  question: Question | undefined;
-  objectKeys = Object.keys;
-  isSubmitted: boolean | undefined;
-
   readonly formKey = 'answer';
 
+  question: Question | undefined;
+  objectKeys = Object.keys;
   answer: string | undefined;
 
   form!: FormGroup;
+  isSubmitted: boolean | undefined;
 
   constructor(
     public fb: FormBuilder,
     private trainingContentService: TrainingContentService,
     private route: ActivatedRoute,
     private location: Location) {
-
     this.getRandomQuestion();
 
     if (this.question?.type === QuestionType.SINGLE_CHOICE) {
@@ -44,7 +42,8 @@ export class QuestionComponent implements OnInit {
   }
 
   getRandomQuestion() {
-    this.question = this.trainingContentService.getRandomQuestion();
+    // this.question = this.trainingContentService.getRandomQuestion();
+    this.question = this.trainingContentService.getRandomMultipleChoiceQuestion();
     console.log(this.question);
   }
 
@@ -53,7 +52,7 @@ export class QuestionComponent implements OnInit {
   }
 
   filterEmptyAnswer(key: string) {
-    // console.log(key);
+    console.log(key);
     // console.log(this.question);
     return true;
     // return !this.question?.answers[key] || this.question?.answers[key].trim().length === 0;
