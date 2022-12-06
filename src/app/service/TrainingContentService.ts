@@ -28,6 +28,7 @@ export class TrainingContentService {
               quest.trainingContent = item.trainingContent;
               quest.question = item.question;
               quest.answer = item.answer;
+              quest.explanation = item.explanation;
               quest.answers = {};
 
               for (let key of Object.keys(item.answers)) {
@@ -66,16 +67,18 @@ export class TrainingContentService {
     });
   }
 
-  checkAnswer(trainingContentName: string, questionId: number, answer: string) {
-    const content = this.findByName(trainingContentName);
-    content?.questions.filter((question: Question) => {
-
-    });
-  }
-
   getRandomQuestion() {
-    let lessons = this.trainingContents.filter((content: TrainingContent) => content.type == "lessons");
+    const lessons = this.trainingContents.filter((content: TrainingContent) => content.type == "lessons");
     const randomLesson = lessons[Math.floor(Math.random() * lessons.length)];
     return randomLesson.questions[Math.floor(Math.random() * randomLesson.questions.length)];
+  }
+
+  getRandomMultipleChoiceQuestion() {
+    const lessons = this.trainingContents.filter((content: TrainingContent) => content.type == "lessons");
+    const randomLesson = lessons[Math.floor(Math.random() * lessons.length)];
+    const multipleChoiceQuestions = randomLesson.questions.filter((q: Question) => {
+      return q.type === QuestionType.MULTIPLE_CHOICE;
+    });
+    return multipleChoiceQuestions[Math.floor(Math.random() * multipleChoiceQuestions.length)];
   }
 }

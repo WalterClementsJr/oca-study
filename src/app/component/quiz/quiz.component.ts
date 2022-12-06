@@ -11,6 +11,7 @@ import {Location} from '@angular/common';
 })
 export class QuizComponent implements OnInit {
   trainingContent: TrainingContent | undefined;
+  objectKeys = Object.keys;
 
   constructor(
     private trainingContentService: TrainingContentService,
@@ -29,4 +30,7 @@ export class QuizComponent implements OnInit {
     this.location.back();
   }
 
+  print(object : any) {
+    console.log(object);
+  }
 }
