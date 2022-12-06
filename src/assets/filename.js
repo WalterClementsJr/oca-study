@@ -22,9 +22,13 @@ files.forEach((fileData) => {
   fs.readFile(fileLocation, {encoding: 'utf-8'}, function (err, data) {
     if (!err) {
       let json = JSON.parse(data);
-      json.forEach(i => {
-        i.id = parseInt(i.id);
-      });
+      let mul = json.filter((q => {
+        return q.type.includes('Multiple');
+      }));
+      mul.forEach((q) => q.answer = q.answer.replaceAll(/\s/g, ''));
+
+      // console.log(`content ${json[0].trainingContent} has ${mul.length} multiple`);
+
       fs.writeFileSync(fileLocation, JSON.stringify(json));
     } else {
       console.log(err);
