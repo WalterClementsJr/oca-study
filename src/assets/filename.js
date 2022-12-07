@@ -2,10 +2,14 @@ const fs = require('fs');
 
 const changeName = function (name) {
   name = name.replaceAll(/[-&,<>:"\/\\|?*]+/g, "");
-  name = name.replaceAll(/[\s]+/g, "_");
+  name = name.replaceAll(/\s+/g, "_");
 
   return name;
 };
+
+function writeFile(fileName, jsonData) {
+  fs.writeFileSync(fileName, JSON.stringify(jsonData));
+}
 
 let files = [];
 
@@ -22,12 +26,19 @@ files.forEach((fileData) => {
   fs.readFile(fileLocation, {encoding: 'utf-8'}, function (err, data) {
     if (!err) {
       let json = JSON.parse(data);
-      let mul = json.filter((q => {
-        return q.type.includes('Multiple');
-      }));
-      mul.forEach((q) => q.answer = q.answer.replaceAll(/\s/g, ''));
+      json.forEach((q => {
+        let answer = q.answers;
 
-      // console.log(`content ${json[0].trainingContent} has ${mul.length} multiple`);
+        for (let k of Object.keys(q.answers)) {
+          let ans = answer[k];
+          if (ans.length > 0 && ans[0] === "\'") {
+            q.answers[k] = ans.substring(1);
+            console.log(q.trainingContent, q.id, k, q.answers[k]);
+          }
+        }
+      }));
+
+      // data.forEach((q) => q.answer = q.answer.replaceAll(/\s/g, ''));
 
       fs.writeFileSync(fileLocation, JSON.stringify(json));
     } else {
@@ -36,7 +47,5 @@ files.forEach((fileData) => {
   });
 
 });
-// console.log(files);
 
-// fs.writeFileSync('./trainingContent.json', JSON.stringify(files));
 
