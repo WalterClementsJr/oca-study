@@ -1,39 +1,39 @@
 <div class="p-4">
-  <div class="d-flex">
+  <div class="d-flex mb-5">
     <button class="btn btn-warning me-4" (click)="back()">Back</button>
     <button class="btn btn-primary" (click)="next()">Next random question</button>
   </div>
 
   <h2>{{question?.trainingContent}}</h2>
 
-  <div class="mt-4 row">
-    <div class="card fs-5 col-6 code-block">
+  <div class="mt-4 card row d-flex flex-row">
+    <div class="fs-5 col-6 code-block">
       {{question?.question}}
     </div>
 
     <form class="col-6 code-block" [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div class="card p-2">
+      <div class="p-2">
         <ng-container *ngIf="answerIsCorrect == undefined || answerIsCorrect == null; else elseif1">
           Choose answer
         </ng-container>
 
         <ng-template #elseif1>
           <ng-container *ngIf="answerIsCorrect; else elseif2">
-            <div class="card card-text fs-3 text-black bg-success">Correct</div>
+            <div class="card card-text fs-3 text-black bg-success">Correct answer</div>
             <div class="fs-5">{{this.question?.explanation}}</div>
           </ng-container>
         </ng-template>
 
         <ng-template #elseif2>
           <ng-container *ngIf="!answerIsCorrect">
-            <div class="card card-text fs-3 text-black bg-warning">Wrong</div>
+            <div class="card card-text fs-3 text-black bg-warning">Wrong answer</div>
           </ng-container>
         </ng-template>
       </div>
 
-      <div>
+      <div class="list-group list-group-flush ">
         <ng-container *ngFor="let item of listOfAnswers | answerNotBlank : listOfAnswers">
-          <div class=" custom-control custom-radio mb-5 d-flex flex-row">
+          <div class="list-group-item d-flex justify-content-start custom-control custom-radio">
             <div class="col-1 fs-3 me-4">{{item.key}}</div>
 
             <div *ngIf="question?.type === questionType.SINGLE_CHOICE; then radio else checkBox"></div>
@@ -51,6 +51,7 @@
           </div>
         </ng-container>
       </div>
+
       <button class="btn btn-primary" type="submit">Submit</button>
     </form>
   </div>
