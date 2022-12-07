@@ -31,21 +31,15 @@ files.forEach((fileData) => {
 
         for (let k of Object.keys(q.answers)) {
           let ans = answer[k];
-          if (ans.length > 0 && ans[0] === "\'") {
-            q.answers[k] = ans.substring(1);
-            console.log(q.trainingContent, q.id, k, q.answers[k]);
-          }
+          q.answers[k] = ans.trim();
         }
       }));
-
-      // data.forEach((q) => q.answer = q.answer.replaceAll(/\s/g, ''));
 
       fs.writeFileSync(fileLocation, JSON.stringify(json));
     } else {
       console.log(err);
     }
   });
-
 });
 
 
