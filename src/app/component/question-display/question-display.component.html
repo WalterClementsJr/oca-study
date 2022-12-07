@@ -1,16 +1,14 @@
 <div class="row fs-5" style=" white-space: pre-wrap;">
   <div class="col-6">
     <h1>{{question?.id}}</h1>
-    <div class="">{{question?.question}}</div>
+    <div class="fs-5 code-block">{{question?.question}}</div>
   </div>
 
-  <div class="col-6 d-flex flex-column">
+  <div class="col-6 list-group list-group-flush d-flex flex-column">
     <ng-container *ngFor="let key of objectKeys(question?.answers) | questionAnswerNotEmpty : question?.answers">
-      <div class="d-flex flex-row">
-        <div class="fs-2 fw-bold ms-3 me-4">{{key}}</div>
-        <div class="row custom-control custom-radio mb-5">
-          <div class="col-5">{{question?.answers[key]}}</div>
-        </div>
+      <div class="list-group-item list-group-item-action d-flex justify-content-start">
+        <div class="fs-2 fw-bold me-4">{{key}}</div>
+        <div class="fs-6 col-5">{{question?.answers[key]}}</div>
       </div>
     </ng-container>
   </div>
@@ -23,7 +21,7 @@
 
 <div class="collapse" id="ans{{question?.id}}">
   <div>Answer: <h2>{{question?.answer}}</h2></div>
-  <div class="card card-body">
+  <div class="card card-text code-block">
     {{question?.explanation}}
   </div>
 </div>
