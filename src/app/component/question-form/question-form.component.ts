@@ -16,14 +16,13 @@ export class QuestionFormComponent {
   question: Question | undefined;
   listOfAnswers: any[] = [];
 
+  answerIsCorrect: boolean | undefined;
+
   objectKeys = Object.keys;
   readonly questionType = QuestionType;
 
   form!: FormGroup;
   answer: string | undefined;
-
-
-  isSubmitted: boolean | undefined;
 
   constructor(
     public fb: FormBuilder,
@@ -31,12 +30,13 @@ export class QuestionFormComponent {
     private route: ActivatedRoute,
     private location: Location) {
     this.getRandomQuestion();
+    this.setup();
+  }
 
-    // setup for multiple-choice questions
-    if (this.question?.type === QuestionType.MULTIPLE_CHOICE) {
-      for (let key of Object.keys(this.question?.answers)) {
-        this.listOfAnswers.push({key: key, answer: this.question?.answers[key], checked: false})
-      }
+  private setup() {
+    this.answerIsCorrect = undefined;
+    for (let key of Object.keys(this.question?.answers)) {
+      this.listOfAnswers.push({key: key, answer: this.question?.answers[key], checked: false})
     }
 
     this.form = this.fb.group({
@@ -49,7 +49,8 @@ export class QuestionFormComponent {
   }
 
   getRandomQuestion() {
-    this.question = this.trainingContentService.getRandomMultipleChoiceQuestion();
+    this.question = this.trainingContentService.getRandomQuestion();
+    console.log(this.question);
   }
 
   back() {
@@ -57,7 +58,6 @@ export class QuestionFormComponent {
   }
 
   onSubmit() {
-    this.isSubmitted = true;
     if (!this.form?.valid) {
       return false;
     } else {
@@ -68,20 +68,20 @@ export class QuestionFormComponent {
 
   checkAnswer() {
     if (this.question?.type === QuestionType.SINGLE_CHOICE) {
+      // check radio
       let value = this.form.get(this.formKey)?.value;
       if (value.toUpperCase() == this.question.answer?.toUpperCase()) {
-        alert("correct. " + this.question.explanation);
+        this.answerIsCorrect = true;
       } else {
-        alert("wrong answer");
+        this.answerIsCorrect = false;
         console.log("answer", this.question.answer);
       }
     } else if (this.question?.type === QuestionType.MULTIPLE_CHOICE) {
-      console.log("selecting", this.selectedOptions);
+      // checkboxes
       if (this.selectedOptions.join(',').toUpperCase() === this.question.answer?.toUpperCase()) {
-        alert("correct. " + this.question.explanation);
-        console.log("correct", this.question.answer);
+        this.answerIsCorrect = true;
       } else {
-        alert("wrong answer");
+        this.answerIsCorrect = false;
         console.log("answer", this.question.answer);
       }
     }
@@ -89,5 +89,6 @@ export class QuestionFormComponent {
 
   next() {
     this.getRandomQuestion();
+    this.setup();
   }
 }

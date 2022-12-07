@@ -4,18 +4,42 @@
   <h2>{{question?.trainingContent}}</h2>
 
   <div class="mt-4 row">
-    <div class="fs-5 col-6" style="white-space: pre-wrap;">
+    <div class="fs-5 col-6 code-block">
       {{question?.question}}
     </div>
-    <form class="col-6" [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div style="white-space: pre-wrap;">
+
+    <form class="col-6 code-block" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div>
+        <ng-container *ngIf="answerIsCorrect == undefined || answerIsCorrect == null; else elseif1">
+          Choose answer
+        </ng-container>
+
+        <ng-template #elseif1>
+          <ng-container *ngIf="answerIsCorrect; else elseif2">
+            <div class="fs-3 text-black bg-success">Correct</div>
+            <div class="fs-5">{{this.question?.explanation}}</div>
+          </ng-container>
+        </ng-template>
+
+        <ng-template #elseif2>
+          <ng-container *ngIf="!answerIsCorrect">
+            <div class="fs-3 text-black bg-warning">Wrong</div>
+          </ng-container>
+        </ng-template>
+      </div>
+
+      <div>
         <ng-container *ngFor="let item of listOfAnswers | answerNotBlank : listOfAnswers">
           <div class=" custom-control custom-radio mb-5 d-flex flex-row">
             <div class="fs-3 me-4">{{item.key}}</div>
 
-            <input *ngIf="question?.type === questionType.SINGLE_CHOICE; else elseBlock"
-                   [id]="'ans'+item.key" type="radio" class="custom-control-input" formControlName="answer"
-                   [value]="item.key" name="answer">
+            <div *ngIf="question?.type === questionType.SINGLE_CHOICE; then thenBlock else elseBlock"></div>
+
+            <ng-template #thenBlock>
+              <input [id]="'ans'+item.key" type="radio" class="custom-control-input"
+                     formControlName="answer" [value]="item.key" name="answer">
+            </ng-template>
+
             <ng-template #elseBlock>
               <input [id]="'ans'+item.key" type="checkbox" class="custom-control-input" formControlName="answer"
                      [value]="item.key" name="answer" [checked]="false" [(ngModel)]="item.checked">

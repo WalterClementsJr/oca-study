@@ -12,6 +12,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {QuestionAnswerNotEmptyPipe} from './pipe/question-answer/question-answer-not-empty.pipe';
 import {QuestionDisplayComponent} from './component/question-display/question-display.component';
 import {AnswerNotBlankPipe} from './pipe/answer/answer-not-blank.pipe';
+import { MessageModalComponent } from './component/message-modal/message-modal.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {AnswerNotBlankPipe} from './pipe/answer/answer-not-blank.pipe';
     QuestionFormComponent,
     QuestionAnswerNotEmptyPipe,
     QuestionDisplayComponent,
-    AnswerNotBlankPipe
+    AnswerNotBlankPipe,
+    MessageModalComponent
   ],
   imports: [
     BrowserModule,
