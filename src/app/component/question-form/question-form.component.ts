@@ -6,11 +6,11 @@ import {Question, QuestionType} from "../../entity/Question";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
-  selector: 'app-question',
-  templateUrl: './question.component.html',
-  styleUrls: ['./question.component.css']
+  selector: 'app-question-form',
+  templateUrl: './question-form.component.html',
+  styleUrls: ['./question-form.component.css']
 })
-export class QuestionComponent implements OnInit {
+export class QuestionFormComponent implements OnInit {
   readonly formKey = 'answer';
 
   question: Question | undefined;

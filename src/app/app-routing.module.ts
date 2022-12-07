@@ -1,15 +1,15 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {DashboardComponent} from "./component/dashboard/dashboard.component";
-import {QuizComponent} from "./component/quiz/quiz.component";
-import {QuestionComponent} from "./component/question/question.component";
+import {TrainingContentComponent} from "./component/training-content/training-content.component";
+import {QuestionFormComponent} from "./component/question-form/question-form.component";
 
 
 const routes: Routes = [
   {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
   {path: 'dashboard', component: DashboardComponent},
-  {path: 'content/:name', component: QuizComponent},
-  {path: 'study', component: QuestionComponent},
+  {path: 'content/:name', component: TrainingContentComponent},
+  {path: 'study', component: QuestionFormComponent},
 ];
 
 @NgModule({
