@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {TrainingContentService} from "../../service/TrainingContentService";
 import {ActivatedRoute} from "@angular/router";
 import {Location} from "@angular/common";
@@ -10,14 +10,19 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
   templateUrl: './question-form.component.html',
   styleUrls: ['./question-form.component.css']
 })
-export class QuestionFormComponent implements OnInit {
+export class QuestionFormComponent {
   readonly formKey = 'answer';
 
   question: Question | undefined;
+  listOfAnswers: any[] = [];
+
   objectKeys = Object.keys;
-  answer: string | undefined;
+  readonly questionType = QuestionType;
 
   form!: FormGroup;
+  answer: string | undefined;
+
+
   isSubmitted: boolean | undefined;
 
   constructor(
@@ -27,26 +32,24 @@ export class QuestionFormComponent implements OnInit {
     private location: Location) {
     this.getRandomQuestion();
 
-    if (this.question?.type === QuestionType.SINGLE_CHOICE) {
-      this.form = this.fb.group({
-        answer: ['', [Validators.required]]
-      });
-    } else if (this.question?.type === QuestionType.MULTIPLE_CHOICE) {
-      this.form = this.fb.group({
-        answer: ['', [Validators.required]]
-      });
+    // setup for multiple-choice questions
+    if (this.question?.type === QuestionType.MULTIPLE_CHOICE) {
+      for (let key of Object.keys(this.question?.answers)) {
+        this.listOfAnswers.push({key: key, answer: this.question?.answers[key], checked: false})
+      }
     }
+
+    this.form = this.fb.group({
+      answer: ['', [Validators.required]]
+    });
   }
 
-  ngOnInit(): void {
-    // TODO document why this method 'ngOnInit' is empty
-
+  get selectedOptions() {
+    return this.listOfAnswers.filter(opt => opt.checked === true).map(opt => opt.key)
   }
 
   getRandomQuestion() {
-    // this.question = this.trainingContentService.getRandomQuestion();
     this.question = this.trainingContentService.getRandomMultipleChoiceQuestion();
-    console.log(this.question);
   }
 
   back() {
@@ -58,30 +61,29 @@ export class QuestionFormComponent implements OnInit {
     if (!this.form?.valid) {
       return false;
     } else {
-      let value = this.form.get(this.formKey)?.value;
-      console.log("selecting", value, JSON.stringify(value));
-
-      if (this.checkAnswer(JSON.stringify(value))) {
-        // glow green
-        if (this.question?.type === QuestionType.SINGLE_CHOICE) {
-
-        } else if (this.question?.type === QuestionType.MULTIPLE_CHOICE) {
-
-        }
-      } else {
-        // glow red
-      }
+      this.checkAnswer();
     }
     return true;
   }
 
-  checkAnswer(ans: string[] | string) {
+  checkAnswer() {
     if (this.question?.type === QuestionType.SINGLE_CHOICE) {
-      return ans === this.question.answer;
+      let value = this.form.get(this.formKey)?.value;
+      if (value.toUpperCase() == this.question.answer?.toUpperCase()) {
+        alert("correct. " + this.question.explanation);
+      } else {
+        alert("wrong answer");
+        console.log("answer", this.question.answer);
+      }
     } else if (this.question?.type === QuestionType.MULTIPLE_CHOICE) {
-      return (ans as string[])?.join(',') === this.question.answer;
-    } else {
-      throw new Error("answer type error");
+      console.log("selecting", this.selectedOptions);
+      if (this.selectedOptions.join(',').toUpperCase() === this.question.answer?.toUpperCase()) {
+        alert("correct. " + this.question.explanation);
+        console.log("correct", this.question.answer);
+      } else {
+        alert("wrong answer");
+        console.log("answer", this.question.answer);
+      }
     }
   }
 

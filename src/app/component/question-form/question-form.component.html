@@ -9,11 +9,18 @@
     </div>
     <form class="col-6" [formGroup]="form" (ngSubmit)="onSubmit()">
       <div style="white-space: pre-wrap;">
-        <ng-container *ngFor="let key of objectKeys(question?.answers) | questionAnswerNotEmpty : question?.answers">
+        <ng-container *ngFor="let item of listOfAnswers | answerNotBlank : listOfAnswers">
           <div class=" custom-control custom-radio mb-5 d-flex flex-row">
-            <input [id]="'ans'+key" type="radio" class=" custom-control-input" formControlName="answer"
-                   [value]="key" name="answer">
-            <label class=" form-control" [htmlFor]="'ans'+key">{{question?.answers[key]}}</label>
+            <div class="fs-3 me-4">{{item.key}}</div>
+
+            <input *ngIf="question?.type === questionType.SINGLE_CHOICE; else elseBlock"
+                   [id]="'ans'+item.key" type="radio" class="custom-control-input" formControlName="answer"
+                   [value]="item.key" name="answer">
+            <ng-template #elseBlock>
+              <input [id]="'ans'+item.key" type="checkbox" class="custom-control-input" formControlName="answer"
+                     [value]="item.key" name="answer" [checked]="false" [(ngModel)]="item.checked">
+            </ng-template>
+            <label class="form-control" [htmlFor]="'ans'+item.key">{{item.answer}}</label>
           </div>
         </ng-container>
       </div>

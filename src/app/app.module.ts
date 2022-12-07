@@ -11,6 +11,7 @@ import {QuestionFormComponent} from './component/question-form/question-form.com
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {QuestionAnswerNotEmptyPipe} from './pipe/question-answer/question-answer-not-empty.pipe';
 import {QuestionDisplayComponent} from './component/question-display/question-display.component';
+import {AnswerNotBlankPipe} from './pipe/answer/answer-not-blank.pipe';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {QuestionDisplayComponent} from './component/question-display/question-di
     GenericFilterPipe,
     QuestionFormComponent,
     QuestionAnswerNotEmptyPipe,
-    QuestionDisplayComponent
+    QuestionDisplayComponent,
+    AnswerNotBlankPipe
   ],
   imports: [
     BrowserModule,
