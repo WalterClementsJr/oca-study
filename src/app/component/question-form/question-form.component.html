@@ -1,29 +1,32 @@
 <div class="p-4">
-  <button class="btn btn-primary" (click)="next()">Next random question</button>
+  <div class="d-flex">
+    <button class="btn btn-warning me-4" (click)="back()">Back</button>
+    <button class="btn btn-primary" (click)="next()">Next random question</button>
+  </div>
 
   <h2>{{question?.trainingContent}}</h2>
 
   <div class="mt-4 row">
-    <div class="fs-5 col-6 code-block">
+    <div class="card fs-5 col-6 code-block">
       {{question?.question}}
     </div>
 
     <form class="col-6 code-block" [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div>
+      <div class="card p-2">
         <ng-container *ngIf="answerIsCorrect == undefined || answerIsCorrect == null; else elseif1">
           Choose answer
         </ng-container>
 
         <ng-template #elseif1>
           <ng-container *ngIf="answerIsCorrect; else elseif2">
-            <div class="fs-3 text-black bg-success">Correct</div>
+            <div class="card card-text fs-3 text-black bg-success">Correct</div>
             <div class="fs-5">{{this.question?.explanation}}</div>
           </ng-container>
         </ng-template>
 
         <ng-template #elseif2>
           <ng-container *ngIf="!answerIsCorrect">
-            <div class="fs-3 text-black bg-warning">Wrong</div>
+            <div class="card card-text fs-3 text-black bg-warning">Wrong</div>
           </ng-container>
         </ng-template>
       </div>
@@ -31,16 +34,16 @@
       <div>
         <ng-container *ngFor="let item of listOfAnswers | answerNotBlank : listOfAnswers">
           <div class=" custom-control custom-radio mb-5 d-flex flex-row">
-            <div class="fs-3 me-4">{{item.key}}</div>
+            <div class="col-1 fs-3 me-4">{{item.key}}</div>
 
-            <div *ngIf="question?.type === questionType.SINGLE_CHOICE; then thenBlock else elseBlock"></div>
+            <div *ngIf="question?.type === questionType.SINGLE_CHOICE; then radio else checkBox"></div>
 
-            <ng-template #thenBlock>
+            <ng-template #radio>
               <input [id]="'ans'+item.key" type="radio" class="custom-control-input"
                      formControlName="answer" [value]="item.key" name="answer">
             </ng-template>
 
-            <ng-template #elseBlock>
+            <ng-template #checkBox>
               <input [id]="'ans'+item.key" type="checkbox" class="custom-control-input" formControlName="answer"
                      [value]="item.key" name="answer" [checked]="false" [(ngModel)]="item.checked">
             </ng-template>
@@ -52,4 +55,3 @@
     </form>
   </div>
 </div>
-<button class="btn btn-warning" (click)="back()">Back</button>

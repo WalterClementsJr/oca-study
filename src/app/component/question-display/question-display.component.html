@@ -1,7 +1,7 @@
 <div class="row fs-5" style=" white-space: pre-wrap;">
   <div class="col-6">
     <h1>{{question?.id}}</h1>
-    <div class="">{{question?.question}}</div>
+    <div class="fs-5 code-block">{{question?.question}}</div>
   </div>
 
   <div class="col-6 d-flex flex-column">
@@ -23,7 +23,7 @@
 
 <div class="collapse" id="ans{{question?.id}}">
   <div>Answer: <h2>{{question?.answer}}</h2></div>
-  <div class="card card-body">
+  <div class="card card-text code-block">
     {{question?.explanation}}
   </div>
 </div>
