@@ -6,7 +6,6 @@ import {AppComponent} from './app.component';
 import {DashboardComponent} from './component/dashboard/dashboard.component';
 import {TrainingContentComponent} from './component/training-content/training-content.component';
 import {TrainingContentService} from "./service/TrainingContentService";
-import {QuestionService} from "./service/QuestionService";
 import {GenericFilterPipe} from './pipe/generic-filter.pipe';
 import {QuestionFormComponent} from './component/question-form/question-form.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -30,7 +29,7 @@ import {QuestionDisplayComponent} from './component/question-display/question-di
     ReactiveFormsModule,
     AppRoutingModule,
   ],
-  providers: [TrainingContentService, QuestionService],
+  providers: [TrainingContentService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
