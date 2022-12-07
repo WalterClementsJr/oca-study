@@ -1,0 +1,10 @@
+<h2 xmlns="http://www.w3.org/1999/html">{{trainingContent?.name}}</h2>
+<button class="btn btn-warning" (click)="back()">Back</button>
+
+<div class="p-4">
+  <div class="mt-4" *ngFor="let question of trainingContent?.questions">
+    <app-question-display [question]="question"></app-question-display>
+    <hr>
+  </div>
+</div>
+

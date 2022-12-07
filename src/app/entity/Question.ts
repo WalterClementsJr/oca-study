@@ -12,7 +12,4 @@ export class Question {
   answer: string | undefined;
   answers: any | undefined;
   explanation: string | undefined;
-
-  constructor() {
-  }
 }
