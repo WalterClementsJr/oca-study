@@ -1,0 +1,14 @@
+<div class="p-4">
+  <button class="btn btn-primary" (click)="next()">Next random question</button>
+
+  <h2>{{question?.trainingContent}}</h2>
+
+  <div class="mt-4 row">
+    <div class="fs-5 col-6 code-block">
+      {{question?.question}}
+    </div>
+
+    <app-question-form [question]="question"></app-question-form>
+
+  </div>
+</div>

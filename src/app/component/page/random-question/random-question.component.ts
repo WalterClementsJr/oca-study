@@ -1,27 +1,24 @@
-import {Component, Input} from '@angular/core';
-import {TrainingContentService} from "../../service/TrainingContentService";
+import { Component } from '@angular/core';
+import {Question, QuestionType} from "../../../entity/Question";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {TrainingContentService} from "../../../service/TrainingContentService";
 import {ActivatedRoute} from "@angular/router";
 import {Location} from "@angular/common";
-import {Question, QuestionType} from "../../entity/Question";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
-  selector: 'app-question-form',
-  templateUrl: './question-form.component.html',
-  styleUrls: ['./question-form.component.css']
+  selector: 'app-random-question',
+  templateUrl: './random-question.component.html',
+  styleUrls: ['./random-question.component.css']
 })
-export class QuestionFormComponent {
+export class RandomQuestionComponent {
   readonly formKey = 'answer';
 
-  @Input('question')
   question: Question | undefined;
-
   listOfAnswers: any[] = [];
 
   answerIsCorrect: boolean | undefined;
 
   objectKeys = Object.keys;
-
   readonly questionType = QuestionType;
 
   form!: FormGroup;
@@ -94,4 +91,5 @@ export class QuestionFormComponent {
     this.getRandomQuestion();
     this.setup();
   }
+
 }

@@ -1,5 +1,9 @@
 <h3>Oracle</h3>
 <div class="row">
+
+  <!--  list out materials in 2 cols-->
+
+  <!--  training materials-->
   <div class="col-4 d-flex flex-column">
     <a *ngFor="let content of trainingContents | genericFilter: filterTrainingContentExam"
        [routerLink]="['/content', content.name]" class="col-1-4">
@@ -8,6 +12,8 @@
       </div>
     </a>
   </div>
+
+  <!--  test materials-->
   <div class="col-4 d-flex flex-column">
     <a *ngFor="let content of trainingContents | genericFilter: filterTrainingContentLesson"
        [routerLink]="['/content', content.name]" class="col-1-4">

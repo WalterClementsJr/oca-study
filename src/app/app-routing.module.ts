@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {DashboardComponent} from "./component/dashboard/dashboard.component";
-import {TrainingContentComponent} from "./component/training-content/training-content.component";
+import {TrainingContentComponent} from "./component/page/training-content/training-content.component";
 import {QuestionFormComponent} from "./component/question-form/question-form.component";
 
 
