@@ -38,6 +38,7 @@ export class QuestionFormComponent {
 
   private setup() {
     this.answerIsCorrect = undefined;
+    this.listOfAnswers = [];
     for (let key of Object.keys(this.question?.answers)) {
       this.listOfAnswers.push({key: key, answer: this.question?.answers[key], checked: false})
     }
