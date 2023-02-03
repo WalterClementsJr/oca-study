@@ -27,24 +27,30 @@
       </div>
 
       <div class="list-group list-group-flush ">
-        <ng-container *ngFor="let item of listOfAnswers | answerNotBlank : listOfAnswers">
+        <ng-container *ngFor="let answer of listOfAnswers | answerNotBlank : listOfAnswers"
+                      class="{{answer.isCorrect}}">
           <div class="list-group-item d-flex justify-content-start custom-control custom-radio">
-            <div class="col-1 fs-3 me-4">{{item.key}}</div>
+            <div class="col-1 fs-3 me-4">{{answer.key}}</div>
 
             <div *ngIf="question?.type === questionType.SINGLE_CHOICE; then radio else checkBox"></div>
 
             <!-- single answer question-->
             <ng-template #radio>
-              <input [id]="'ans'+item.key" type="radio" class="custom-control-input"
-                     formControlName="answer" [value]="item.key" name="answer">
+              <input [id]="'ans'+answer.key" type="radio" class="custom-control-input"
+                     formControlName="answer" [value]="answer.key" name="answer">
             </ng-template>
 
             <!-- multiple answer-->
             <ng-template #checkBox>
-              <input [id]="'ans'+item.key" type="checkbox" class="custom-control-input" formControlName="answer"
-                     [value]="item.key" name="answer" [checked]="false" [(ngModel)]="item.checked">
+              <input [id]="'ans'+answer.key"
+                     [value]="answer.key" name="answer"
+                     [checked]="false"
+                     [(ngModel)]="answer.checked"
+                     type="checkbox" class="custom-control-input" formControlName="answer">
             </ng-template>
-            <label class="form-control" [htmlFor]="'ans'+item.key">{{item.answer}}</label>
+
+<!--            <label class="form-control" [htmlFor]="'ans'+answer.key">{{answer.answer}}</label>-->
+            <label class="form-control" [htmlFor]="'ans'+answer.key">{{answer.answer}}</label>
           </div>
         </ng-container>
       </div>

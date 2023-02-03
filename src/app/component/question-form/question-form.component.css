@@ -1,0 +1,12 @@
+.normal {
+}
+
+.wrong-answer {
+  color: palevioletred;
+  background-color: red;
+}
+
+.right-answer {
+  color: limegreen;
+  background-color: green;
+}
