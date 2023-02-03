@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {TrainingContentService} from "../../service/TrainingContentService";
 import {ActivatedRoute} from "@angular/router";
 import {Location} from "@angular/common";
@@ -10,20 +10,13 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
   templateUrl: './question-form.component.html',
   styleUrls: ['./question-form.component.css']
 })
-export class QuestionFormComponent {
+export class QuestionFormComponent implements OnInit {
   readonly formKey = 'answer';
-
-  @Input('question')
-  question: Question | undefined;
-
+  @Input('question') question: Question | undefined;
   listOfAnswers: any[] = [];
-
   answerIsCorrect: boolean | undefined;
-
   objectKeys = Object.keys;
-
   readonly questionType = QuestionType;
-
   form!: FormGroup;
   answer: string | undefined;
 
@@ -31,14 +24,19 @@ export class QuestionFormComponent {
     public fb: FormBuilder,
     private trainingContentService: TrainingContentService,
     private route: ActivatedRoute,
-    private location: Location) {
-    this.getRandomQuestion();
+    private location: Location
+  ) {
+    this.setup();
+  }
+
+  ngOnInit(): void {
     this.setup();
   }
 
   private setup() {
     this.answerIsCorrect = undefined;
     this.listOfAnswers = [];
+
     for (let key of Object.keys(this.question?.answers)) {
       this.listOfAnswers.push({key: key, answer: this.question?.answers[key], checked: false})
     }
@@ -50,11 +48,6 @@ export class QuestionFormComponent {
 
   get selectedOptions() {
     return this.listOfAnswers.filter(opt => opt.checked === true).map(opt => opt.key)
-  }
-
-  getRandomQuestion() {
-    this.question = this.trainingContentService.getRandomQuestion();
-    console.log(this.question);
   }
 
   back() {
@@ -81,7 +74,7 @@ export class QuestionFormComponent {
         console.log("answer", this.question.answer);
       }
     } else if (this.question?.type === QuestionType.MULTIPLE_CHOICE) {
-      // checkboxes
+      // checkboxes with multiple correct answers
       if (this.selectedOptions.join(',').toUpperCase() === this.question.answer?.toUpperCase()) {
         this.answerIsCorrect = true;
       } else {
@@ -89,10 +82,5 @@ export class QuestionFormComponent {
         console.log("answer", this.question.answer);
       }
     }
-  }
-
-  next() {
-    this.getRandomQuestion();
-    this.setup();
   }
 }

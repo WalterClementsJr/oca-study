@@ -11,20 +11,24 @@ import {QuestionFormComponent} from './component/question-form/question-form.com
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {QuestionAnswerNotEmptyPipe} from './pipe/question-answer/question-answer-not-empty.pipe';
 import {AnswerNotBlankPipe} from './pipe/answer/answer-not-blank.pipe';
-import { MessageModalComponent } from './component/message-modal/message-modal.component';
-import { RandomQuestionComponent } from './component/pages/random-question/random-question.component';
+import {MessageModalComponent} from './component/message-modal/message-modal.component';
+import {RandomQuestionComponent} from './component/pages/random-question/random-question.component';
+import {QuizComponent} from "./component/quiz/quiz.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     TrainingContentComponent,
-    GenericFilterPipe,
+    RandomQuestionComponent,
+
+    QuizComponent,
     QuestionFormComponent,
+    MessageModalComponent,
+
+    GenericFilterPipe,
     QuestionAnswerNotEmptyPipe,
     AnswerNotBlankPipe,
-    MessageModalComponent,
-    RandomQuestionComponent,
   ],
   imports: [
     BrowserModule,

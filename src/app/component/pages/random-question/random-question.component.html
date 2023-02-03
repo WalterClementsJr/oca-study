@@ -1,14 +1,15 @@
 <div class="p-4">
-  <button class="btn btn-primary" (click)="next()">Next random question</button>
+  <div class="d-flex mb-5">
+    <button class="btn btn-warning me-4" (click)="back()">Back</button>
+    <button class="btn btn-primary" (click)="next()">Next random question</button>
+  </div>
 
-  <h2>{{question?.trainingContent}}</h2>
+  <h2>{{_questionComponent?.question?.trainingContent}}</h2>
 
   <div class="mt-4 row">
-    <div class="fs-5 col-6 code-block">
-      {{question?.question}}
-    </div>
-
-    <app-question-form [question]="question"></app-question-form>
-
+    <app-question-form #questionFormComponent [question]="question"></app-question-form>
   </div>
+
+  <button class="btn btn-primary" (click)="checkAnswer()">Submit</button>
+
 </div>

@@ -1,10 +1,4 @@
 <div class="p-4">
-  <div class="d-flex mb-5">
-    <button class="btn btn-warning me-4" (click)="back()">Back</button>
-    <button class="btn btn-primary" (click)="next()">Next random question</button>
-  </div>
-
-  <h2>{{question?.trainingContent}}</h2>
 
   <div class="mt-4 card row d-flex flex-row">
     <div class="fs-5 col-6 code-block">
@@ -12,6 +6,7 @@
     </div>
 
     <form class="col-6 code-block" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <!-- answer status/explanation-->
       <div class="p-2">
         <ng-container *ngIf="answerIsCorrect == undefined || answerIsCorrect == null; else elseif1">
           Choose answer
@@ -38,11 +33,13 @@
 
             <div *ngIf="question?.type === questionType.SINGLE_CHOICE; then radio else checkBox"></div>
 
+            <!-- single answer question-->
             <ng-template #radio>
               <input [id]="'ans'+item.key" type="radio" class="custom-control-input"
                      formControlName="answer" [value]="item.key" name="answer">
             </ng-template>
 
+            <!-- multiple answer-->
             <ng-template #checkBox>
               <input [id]="'ans'+item.key" type="checkbox" class="custom-control-input" formControlName="answer"
                      [value]="item.key" name="answer" [checked]="false" [(ngModel)]="item.checked">
@@ -51,10 +48,6 @@
           </div>
         </ng-container>
       </div>
-
-      <button class="btn btn-primary" type="submit">Submit</button>
     </form>
   </div>
 </div>
-
-<button class="btn btn-warning" (click)="back()">Back</button>
