@@ -7,7 +7,7 @@
   <h2>{{_questionComponent?.question?.trainingContent}}</h2>
 
   <div class="mt-4 row">
-    <app-question-form #questionFormComponent [question]="question"></app-question-form>
+    <app-question-form #questionComponent [question]="question"></app-question-form>
   </div>
 
   <button class="btn btn-primary" (click)="checkAnswer()">Submit</button>

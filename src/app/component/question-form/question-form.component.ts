@@ -26,7 +26,6 @@ export class QuestionFormComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location
   ) {
-    this.setup();
   }
 
   ngOnInit(): void {
@@ -71,6 +70,8 @@ export class QuestionFormComponent implements OnInit {
         this.answerIsCorrect = true;
       } else {
         this.answerIsCorrect = false;
+
+        // TODO: remove this in prod
         console.log("answer", this.question.answer);
       }
     } else if (this.question?.type === QuestionType.MULTIPLE_CHOICE) {

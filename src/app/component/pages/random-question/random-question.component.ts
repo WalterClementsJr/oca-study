@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {Question} from "../../../entity/Question";
 import {TrainingContentService} from "../../../service/TrainingContentService";
 import {ActivatedRoute} from "@angular/router";
@@ -14,18 +14,14 @@ import {QuestionFormComponent} from "../../question-form/question-form.component
 })
 export class RandomQuestionComponent {
 
-  @ViewChild("questionFormComponent") _questionComponent: QuestionFormComponent | undefined;
+  @ViewChild("questionComponent") _questionComponent: QuestionFormComponent | undefined;
   question: Question | undefined;
 
   // readonly formKey = 'answer';
-
   // listOfAnswers: any[] = [];
-
   // answerIsCorrect: boolean | undefined;
-
   // objectKeys = Object.keys;
   // readonly questionType = QuestionType;
-
   // form!: FormGroup;
   // answer: string | undefined;
 
@@ -34,6 +30,8 @@ export class RandomQuestionComponent {
     private route: ActivatedRoute,
     private location: Location
   ) {
+    console.log('constructor');
+
     this.getRandomQuestion();
     this.setup();
   }
