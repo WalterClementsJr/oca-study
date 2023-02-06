@@ -3,13 +3,18 @@
 
 <button class="btn btn-warning" (click)="back()">Back</button>
 
-<div class="p-4">
-  <div class="mt-4" *ngFor="let question of trainingContent?.questions">
+<div class="d-flex flex-row">
+  <div class="col-2">
+    <app-pallet [trainingContent]="trainingContent"></app-pallet>
+  </div>
 
-    <h2>Question {{question?.id}}</h2>
+  <div class="col-10 p-4">
 
-    <app-question-form #questions [question]="question"></app-question-form>
-    <hr>
+    <div class="mt-4" *ngFor="let question of trainingContent?.questions">
+      <h2>Question {{question?.id}}</h2>
+
+      <app-question-form #questions [question]="question"></app-question-form>
+      <hr>
+    </div>
   </div>
 </div>
-

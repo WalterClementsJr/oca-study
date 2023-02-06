@@ -36,6 +36,11 @@ files.forEach((fileData) => {
       }));
 
       fs.writeFileSync(fileLocation, JSON.stringify(json));
+      data = data.replaceAll(/com.udayankhattry.oca/g, "com.github.oca");
+      data = data.replaceAll(/com\.udayan/g, "com.github");
+
+      // console.log(data);
+      fs.writeFileSync(fileLocation, data);
     } else {
       console.log(err);
     }

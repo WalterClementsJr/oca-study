@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Question, QuestionType} from "../../entity/Question";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
@@ -37,19 +37,15 @@ export class QuestionFormComponent implements OnInit, OnChanges {
     this.answerIsCorrect = undefined;
     this.listOfAnswers = [];
 
+    // update track new properties of the new question
     for (let key of Object.keys(this.question?.answers)) {
       this.listOfAnswers.push({key: key, answer: this.question?.answers[key], checked: false})
     }
-
     this.isMultipleQuestion = this.question?.type === QuestionType.MULTIPLE_CHOICE;
 
     this.form = this.fb.group({
       answer: ['', [Validators.required]]
     });
-    // this.form.valueChanges.subscribe(data => this.form.patchValue(data, {
-    // onlySelf: true,
-    // emitEvent: false,
-    // }))
   }
 
   /**
@@ -63,26 +59,17 @@ export class QuestionFormComponent implements OnInit, OnChanges {
         .map(opt => opt.key)
   }
 
-  onSubmit() {
-    if (!this.form?.valid) {
+  onSubmit(showResult?: boolean) {
+    if (!this.form?.valid && !showResult) {
       return false;
     } else {
-      this.checkAnswer(false);
+      this.checkAnswer(showResult);
     }
     return true;
   }
 
   checkAnswer(showResult?: boolean) {
-    console.log("answer", this.question?.answer);
-
-    if (!this.isMultipleQuestion) {
-      // check radio
-      let selected = this.form.get(this.formKey)?.value;
-      this.answerIsCorrect = this.checkCorrectAnswer(selected);
-    } else {
-      // checkboxes with multiple correct answers
-      this.answerIsCorrect = this.checkCorrectAnswer(this.selectedOptions.join(','));
-    }
+    this.answerIsCorrect = this.checkCorrectAnswer(this.selectedOptions.join(','));
 
     if (showResult) {
       this.getColorClass();
@@ -90,48 +77,68 @@ export class QuestionFormComponent implements OnInit, OnChanges {
   }
 
   checkCorrectAnswer(answer: string) {
+    console.log(this.question?.answer);
     return answer.toUpperCase() === this.question?.answer?.toUpperCase();
   }
 
-  showResult() {
-    // this.getColorClass();
-  }
-
   getColorClass() {
-    console.log("printing css");
+    const wrongAnswer = "text-danger text-decoration-line-through";
+    const notSelectedAnswer = "text-muted";
+    const rightAnswer = "text-success fw-bold";
+    const rightAnswerNotSelected = "text-success text-decoration-underline";
 
+    // haven't selected shit
     if (this.selectedOptions.length === 0) {
       console.log("answer undefined");
 
-      let l = this.listOfAnswers.map(ans => ans.isCorrect = 'wrong-answer');
-      console.log(l);
-      this.changeDetector.detectChanges();
+      this.listOfAnswers.map(ans => {
+        ans.style = notSelectedAnswer;
 
+        if (this.checkCorrectAnswer(ans.key)) {
+          ans.style = rightAnswerNotSelected;
+        }
+      });
+      this.changeDetector.detectChanges();
       return;
     }
 
     if (!this.isMultipleQuestion) {
       this.listOfAnswers.map(i => {
-        if (this.checkCorrectAnswer(i)) {
-          i.isCorrect = 'right-answer';
+        console.log("i", i);
+
+        if (this.checkCorrectAnswer(i.key)) {
+          i.style = rightAnswer;
+        } else if (this.selectedOptions.includes(i.key)) {
+          i.style = wrongAnswer;
         } else {
-          i.isCorrect = 'wrong-answer';
+          i.style = notSelectedAnswer;
         }
       });
     } else {
       const correctAnswers = this.question?.answer?.split(',')!;
-      const selected = this.selectedOptions.map((a: any) => a.key);
+      const selected = this.selectedOptions;
 
       this.listOfAnswers.map(ans => {
-        // check if ans is selected & is in the correct answer list
-        if (selected?.some((r: any) => correctAnswers.indexOf(r) >= 0)) {
-          ans.isCorrect = 'right-answer';
+        if (correctAnswers.includes(ans.key)) {
+          // ans is correct
+          ans.style = rightAnswerNotSelected;
+
+          // ans is selected => correct
+          if (selected.includes(ans.key)) {
+            ans.style = rightAnswer;
+          }
         } else {
-          ans.isCorrect = 'wrong-answer';
+          // ans is wrong
+          ans.style = wrongAnswer;
+
+          // but is not selected
+          if (!selected.includes(ans.key)) {
+            ans.style = notSelectedAnswer;
+          }
         }
       });
     }
-    console.log(this.listOfAnswers);
+    // rerun ngIf
     this.changeDetector.detectChanges();
   }
 }

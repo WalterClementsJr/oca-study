@@ -40,7 +40,7 @@ export class RandomQuestionComponent implements OnInit {
 
   checkAnswer() {
     // this._questionComponent?.formElement.nativeElement.submit();
-    this._questionComponent?.onSubmit();
+    this._questionComponent?.onSubmit(true);
     // this._questionComponent?.checkAnswer(true);
     // this._questionComponent?.showResult();
   }

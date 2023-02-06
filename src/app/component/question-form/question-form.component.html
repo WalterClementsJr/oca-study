@@ -16,15 +16,9 @@
         </ng-container>
 
         <ng-template #elseif1>
-          <ng-container *ngIf="answerIsCorrect; else elseif2">
+          <ng-container *ngIf="answerIsCorrect;">
             <div class="card card-text fs-3 text-black bg-success">Correct answer</div>
             <div class="fs-5">{{this.question?.explanation}}</div>
-          </ng-container>
-        </ng-template>
-
-        <ng-template #elseif2>
-          <ng-container *ngIf="!answerIsCorrect">
-            <div class="card card-text fs-3 text-black bg-warning">Wrong answer</div>
           </ng-container>
         </ng-template>
       </div>
@@ -56,8 +50,8 @@
             </ng-template>
 
             <!-- <label class="form-control" [htmlFor]="'ans'+answer.key">{{answer.answer}}</label>-->
-            <label class="form-control"
-                   [ngClass]="answer?.isCorrect"
+            <label class="form-control fs-6"
+                   [ngClass]="answer?.style"
                    [htmlFor]="question?.id+'ans'+answer?.key">
               {{answer?.answer}}
             </label>

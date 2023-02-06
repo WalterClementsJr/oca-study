@@ -7,4 +7,12 @@ import {Component} from '@angular/core';
 })
 export class AppComponent {
   title = 'Java Quiz';
+
+  goToTop(event: any) {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
 }
