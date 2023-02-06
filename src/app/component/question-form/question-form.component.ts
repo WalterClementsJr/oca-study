@@ -12,8 +12,6 @@ export class QuestionFormComponent implements OnInit, OnChanges {
   readonly questionType = QuestionType;
   objectKeys = Object.keys;
 
-  @ViewChild('formElement') formElement: any;
-
   @Input('question') question: Question | undefined;
   listOfAnswers: any[] = [];
   answerIsCorrect: boolean | undefined;

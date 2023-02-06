@@ -1,14 +1,13 @@
 <div class="p-4">
-
-  <div class="mt-4 card row d-flex flex-row">
-    <div class="fs-5 col-6 code-block">
+  <div class="mt-1 card row d-flex flex-row">
+    <!-- display question-->
+    <div class="fs-6 col-6 code-block overflow-scroll" style="max-height: 60vh">
       {{question?.question}}
     </div>
 
     <form class="col-6 code-block"
           [formGroup]="form"
-          (ngSubmit)="onSubmit()"
-          #formElement>
+          (ngSubmit)="onSubmit()">
 
       <!-- answer status/explanation-->
       <div class="p-2">
