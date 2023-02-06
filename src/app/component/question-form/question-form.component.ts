@@ -1,7 +1,4 @@
-import {Component} from '@angular/core';
-import {TrainingContentService} from "../../service/TrainingContentService";
-import {ActivatedRoute} from "@angular/router";
-import {Location} from "@angular/common";
+import {ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Question, QuestionType} from "../../entity/Question";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
@@ -10,85 +7,138 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
   templateUrl: './question-form.component.html',
   styleUrls: ['./question-form.component.css']
 })
-export class QuestionFormComponent {
+export class QuestionFormComponent implements OnInit, OnChanges {
   readonly formKey = 'answer';
-
-  question: Question | undefined;
-  listOfAnswers: any[] = [];
-
-  answerIsCorrect: boolean | undefined;
-
   readonly questionType = QuestionType;
+  objectKeys = Object.keys;
 
+  @Input('question') question: Question | undefined;
+  listOfAnswers: any[] = [];
+  answerIsCorrect: boolean | undefined;
   form!: FormGroup;
   answer: string | undefined;
+  isMultipleQuestion: boolean | false | undefined;
 
   constructor(
-    public fb: FormBuilder,
-    private trainingContentService: TrainingContentService,
-    private route: ActivatedRoute,
-    private location: Location) {
-    this.getRandomQuestion();
+    private changeDetector: ChangeDetectorRef,
+    public fb: FormBuilder
+  ) {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.setup();
+  }
+
+  ngOnInit(): void {
     this.setup();
   }
 
   private setup() {
     this.answerIsCorrect = undefined;
     this.listOfAnswers = [];
+
+    // update track new properties of the new question
     for (let key of Object.keys(this.question?.answers)) {
       this.listOfAnswers.push({key: key, answer: this.question?.answers[key], checked: false})
     }
+    this.isMultipleQuestion = this.question?.type === QuestionType.MULTIPLE_CHOICE;
 
     this.form = this.fb.group({
       answer: ['', [Validators.required]]
     });
   }
 
-  get selectedOptions() {
-    return this.listOfAnswers.filter(opt => opt.checked === true).map(opt => opt.key)
+  /**
+   * get checked boxes/radio button
+   */
+  private get selectedOptions() {
+    return !this.isMultipleQuestion
+      ? [...this.form.get(this.formKey)?.value]
+      : this.listOfAnswers
+        .filter(opt => opt.checked === true)
+        .map(opt => opt.key)
   }
 
-  getRandomQuestion() {
-    this.question = this.trainingContentService.getRandomQuestion();
-    console.log(this.question);
-  }
-
-  back() {
-    this.location.back();
-  }
-
-  onSubmit() {
-    if (!this.form?.valid) {
+  onSubmit(showResult?: boolean) {
+    if (!this.form?.valid && !showResult) {
       return false;
     } else {
-      this.checkAnswer();
+      this.checkAnswer(showResult);
     }
     return true;
   }
 
-  checkAnswer() {
-    if (this.question?.type === QuestionType.SINGLE_CHOICE) {
-      // check radio
-      let value = this.form.get(this.formKey)?.value;
-      if (value.toUpperCase() == this.question.answer?.toUpperCase()) {
-        this.answerIsCorrect = true;
-      } else {
-        this.answerIsCorrect = false;
-        console.log("answer", this.question.answer);
-      }
-    } else if (this.question?.type === QuestionType.MULTIPLE_CHOICE) {
-      // checkboxes
-      if (this.selectedOptions.join(',').toUpperCase() === this.question.answer?.toUpperCase()) {
-        this.answerIsCorrect = true;
-      } else {
-        this.answerIsCorrect = false;
-        console.log("answer", this.question.answer);
-      }
+  checkAnswer(showResult?: boolean) {
+    this.answerIsCorrect = this.checkCorrectAnswer(this.selectedOptions.join(','));
+
+    if (showResult) {
+      this.getColorClass();
     }
   }
 
-  next() {
-    this.getRandomQuestion();
-    this.setup();
+  checkCorrectAnswer(answer: string) {
+    console.log(this.question?.answer);
+    return answer.toUpperCase() === this.question?.answer?.toUpperCase();
+  }
+
+  getColorClass() {
+    const wrongAnswer = "text-danger text-decoration-line-through";
+    const notSelectedAnswer = "text-muted";
+    const rightAnswer = "text-success fw-bold";
+    const rightAnswerNotSelected = "text-success text-decoration-underline";
+
+    // haven't selected shit
+    if (this.selectedOptions.length === 0) {
+      console.log("answer undefined");
+
+      this.listOfAnswers.map(ans => {
+        ans.style = notSelectedAnswer;
+
+        if (this.checkCorrectAnswer(ans.key)) {
+          ans.style = rightAnswerNotSelected;
+        }
+      });
+      this.changeDetector.detectChanges();
+      return;
+    }
+
+    if (!this.isMultipleQuestion) {
+      this.listOfAnswers.map(i => {
+        console.log("i", i);
+
+        if (this.checkCorrectAnswer(i.key)) {
+          i.style = rightAnswer;
+        } else if (this.selectedOptions.includes(i.key)) {
+          i.style = wrongAnswer;
+        } else {
+          i.style = notSelectedAnswer;
+        }
+      });
+    } else {
+      const correctAnswers = this.question?.answer?.split(',')!;
+      const selected = this.selectedOptions;
+
+      this.listOfAnswers.map(ans => {
+        if (correctAnswers.includes(ans.key)) {
+          // ans is correct
+          ans.style = rightAnswerNotSelected;
+
+          // ans is selected => correct
+          if (selected.includes(ans.key)) {
+            ans.style = rightAnswer;
+          }
+        } else {
+          // ans is wrong
+          ans.style = wrongAnswer;
+
+          // but is not selected
+          if (!selected.includes(ans.key)) {
+            ans.style = notSelectedAnswer;
+          }
+        }
+      });
+    }
+    // rerun ngIf
+    this.changeDetector.detectChanges();
   }
 }

@@ -1,8 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {TrainingContent} from "../../entity/TrainingContent";
-import {TrainingContentService} from "../../service/TrainingContentService";
+import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {TrainingContent} from "../../../entity/TrainingContent";
+import {TrainingContentService} from "../../../service/TrainingContentService";
 import {ActivatedRoute} from "@angular/router";
 import {Location} from '@angular/common';
+import {QuestionFormComponent} from "../../question-form/question-form.component";
+import {PalletComponent} from "../../pallet/pallet.component";
 
 @Component({
   selector: 'app-training-content',
@@ -11,19 +13,23 @@ import {Location} from '@angular/common';
 })
 export class TrainingContentComponent implements OnInit {
   trainingContent: TrainingContent | undefined;
-  objectKeys = Object.keys;
+  @ViewChildren('questions') _questionComponents!: QueryList<QuestionFormComponent>;
+
+  @ViewChildren('pallet') _palletComponent!: PalletComponent;
+  correctAnswerCount: number | undefined;
 
   constructor(
     private trainingContentService: TrainingContentService,
     private route: ActivatedRoute,
     private location: Location) {
-  }
-
-  ngOnInit(): void {
     this.route.paramMap
       .subscribe(paramMap => {
         this.trainingContent = this.trainingContentService.findByName(paramMap.get('name'));
       });
+  }
+
+  ngOnInit(): void {
+
   }
 
   back() {

@@ -1,0 +1,20 @@
+<!--display all questions-->
+<h2 xmlns="http://www.w3.org/1999/html">{{trainingContent?.name}}</h2>
+
+<button class="btn btn-warning" (click)="back()">Back</button>
+
+<div class="d-flex flex-row">
+  <div class="col-2">
+    <app-pallet [trainingContent]="trainingContent"></app-pallet>
+  </div>
+
+  <div class="col-10 p-4">
+
+    <div class="mt-4" *ngFor="let question of trainingContent?.questions">
+      <h2>Question {{question?.id}}</h2>
+
+      <app-question-form #questions [question]="question"></app-question-form>
+      <hr>
+    </div>
+  </div>
+</div>

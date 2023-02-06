@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {TrainingContentService} from "../../service/TrainingContentService";
-import {TrainingContent} from "../../entity/TrainingContent";
+import {TrainingContentService} from "../../../service/TrainingContentService";
+import {TrainingContent} from "../../../entity/TrainingContent";
 
 @Component({
   selector: 'app-dashboard',
