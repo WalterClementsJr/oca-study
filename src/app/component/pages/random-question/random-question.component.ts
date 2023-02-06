@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {Question} from "../../../entity/Question";
 import {TrainingContentService} from "../../../service/TrainingContentService";
 import {ActivatedRoute} from "@angular/router";
@@ -10,7 +10,7 @@ import {QuestionFormComponent} from "../../question-form/question-form.component
   templateUrl: './random-question.component.html',
   styleUrls: ['./random-question.component.css']
 })
-export class RandomQuestionComponent {
+export class RandomQuestionComponent implements OnInit {
   @ViewChild("questionComponent") _questionComponent: QuestionFormComponent | undefined;
   question: Question | undefined;
 
@@ -23,6 +23,13 @@ export class RandomQuestionComponent {
     this.getRandomQuestion();
   }
 
+  ngOnInit(): void {
+  }
+
+  ngAfterContentChecked(): void {
+    this.changeDetectorRef.detectChanges();
+  }
+
   getRandomQuestion() {
     this.question = this.trainingContentService.getRandomQuestion();
   }
@@ -32,9 +39,15 @@ export class RandomQuestionComponent {
   }
 
   checkAnswer() {
-    this._questionComponent?.checkAnswer(true);
+    // this._questionComponent?.formElement.nativeElement.submit();
+    this._questionComponent?.onSubmit();
+    // this._questionComponent?.checkAnswer(true);
+    // this._questionComponent?.showResult();
   }
 
+  /**
+   * get a new random question and refresh header title
+   */
   next() {
     this.getRandomQuestion();
     this.changeDetectorRef.detectChanges();

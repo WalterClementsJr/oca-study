@@ -1,7 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {TrainingContentService} from "../../service/TrainingContentService";
-import {ActivatedRoute} from "@angular/router";
-import {Location} from "@angular/common";
+import {ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {Question, QuestionType} from "../../entity/Question";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
@@ -15,17 +12,18 @@ export class QuestionFormComponent implements OnInit, OnChanges {
   readonly questionType = QuestionType;
   objectKeys = Object.keys;
 
+  @ViewChild('formElement') formElement: any;
+
   @Input('question') question: Question | undefined;
   listOfAnswers: any[] = [];
   answerIsCorrect: boolean | undefined;
   form!: FormGroup;
   answer: string | undefined;
+  isMultipleQuestion: boolean | false | undefined;
 
   constructor(
-    public fb: FormBuilder,
-    private trainingContentService: TrainingContentService,
-    private route: ActivatedRoute,
-    private location: Location
+    private changeDetector: ChangeDetectorRef,
+    public fb: FormBuilder
   ) {
   }
 
@@ -45,22 +43,26 @@ export class QuestionFormComponent implements OnInit, OnChanges {
       this.listOfAnswers.push({key: key, answer: this.question?.answers[key], checked: false})
     }
 
+    this.isMultipleQuestion = this.question?.type === QuestionType.MULTIPLE_CHOICE;
+
     this.form = this.fb.group({
       answer: ['', [Validators.required]]
     });
+    // this.form.valueChanges.subscribe(data => this.form.patchValue(data, {
+    // onlySelf: true,
+    // emitEvent: false,
+    // }))
   }
 
   /**
-   * get selected answer(s)
+   * get checked boxes/radio button
    */
-  get selectedOptions() {
-    return this.listOfAnswers
-      .filter(opt => opt.checked === true)
-      .map(opt => opt.key)
-  }
-
-  back() {
-    this.location.back();
+  private get selectedOptions() {
+    return !this.isMultipleQuestion
+      ? [...this.form.get(this.formKey)?.value]
+      : this.listOfAnswers
+        .filter(opt => opt.checked === true)
+        .map(opt => opt.key)
   }
 
   onSubmit() {
@@ -75,10 +77,10 @@ export class QuestionFormComponent implements OnInit, OnChanges {
   checkAnswer(showResult?: boolean) {
     console.log("answer", this.question?.answer);
 
-    if (this.question?.type === QuestionType.SINGLE_CHOICE) {
+    if (!this.isMultipleQuestion) {
       // check radio
-      let value = this.form.get(this.formKey)?.value;
-      this.answerIsCorrect = this.checkCorrectAnswer(value);
+      let selected = this.form.get(this.formKey)?.value;
+      this.answerIsCorrect = this.checkCorrectAnswer(selected);
     } else {
       // checkboxes with multiple correct answers
       this.answerIsCorrect = this.checkCorrectAnswer(this.selectedOptions.join(','));
@@ -94,57 +96,44 @@ export class QuestionFormComponent implements OnInit, OnChanges {
   }
 
   showResult() {
-    // if (this.question?.type === QuestionType.SINGLE_CHOICE) {
-    //   // check radio
-    //   let value = this.form.get(this.formKey)?.value;
-    //   if (this.checkCorrectAnswer(value)) {
-    //     this.answerIsCorrect = true;
-    //   } else {
-    //     this.answerIsCorrect = false;
-    //
-    //     // TODO: remove this in prod
-    //     console.log("answer", this.question.answer);
-    //   }
-    // } else if (this.question?.type === QuestionType.MULTIPLE_CHOICE) {
-    //   // checkboxes with multiple correct answers
-    //   if (this.checkCorrectAnswer(this.selectedOptions.join(','))) {
-    //     this.answerIsCorrect = true;
-    //   } else {
-    //     this.answerIsCorrect = false;
-    //     console.log("answer", this.question.answer);
-    //   }
-    // }
+    // this.getColorClass();
   }
 
   getColorClass() {
     console.log("printing css");
 
-    if (this.form.get(this.formKey) === undefined && this.selectedOptions.length === 0) {
+    if (this.selectedOptions.length === 0) {
       console.log("answer undefined");
 
-      let l = this.listOfAnswers.map(ans => ({...ans, isCorrect: 'normal'}));
+      let l = this.listOfAnswers.map(ans => ans.isCorrect = 'wrong-answer');
       console.log(l);
-      return l;
+      this.changeDetector.detectChanges();
+
+      return;
     }
 
-    if (this.question?.type === QuestionType.SINGLE_CHOICE) {
-      return this.listOfAnswers.map(i => ({...i, isCorrect: 'normal'}));
+    if (!this.isMultipleQuestion) {
+      this.listOfAnswers.map(i => {
+        if (this.checkCorrectAnswer(i)) {
+          i.isCorrect = 'right-answer';
+        } else {
+          i.isCorrect = 'wrong-answer';
+        }
+      });
     } else {
       const correctAnswers = this.question?.answer?.split(',')!;
-      const selected = this.selectedOptions.map(a => a.key);
+      const selected = this.selectedOptions.map((a: any) => a.key);
 
-      return this.listOfAnswers.map(ans => {
-        console.log(ans);
-
+      this.listOfAnswers.map(ans => {
         // check if ans is selected & is in the correct answer list
-        if (selected?.some(r => correctAnswers.indexOf(r) >= 0)) {
+        if (selected?.some((r: any) => correctAnswers.indexOf(r) >= 0)) {
           ans.isCorrect = 'right-answer';
         } else {
           ans.isCorrect = 'wrong-answer';
         }
       });
     }
+    console.log(this.listOfAnswers);
+    this.changeDetector.detectChanges();
   }
-
-
 }

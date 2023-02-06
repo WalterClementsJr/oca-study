@@ -5,7 +5,11 @@
       {{question?.question}}
     </div>
 
-    <form class="col-6 code-block" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form class="col-6 code-block"
+          [formGroup]="form"
+          (ngSubmit)="onSubmit()"
+          #formElement>
+
       <!-- answer status/explanation-->
       <div class="p-2">
         <ng-container *ngIf="answerIsCorrect == undefined || answerIsCorrect == null; else elseif1">
@@ -27,32 +31,39 @@
       </div>
 
       <div class="list-group list-group-flush ">
-        <ng-container *ngFor="let answer of listOfAnswers | answerNotBlank : listOfAnswers"
-                      class="{{answer.isCorrect}}">
+        <div *ngFor="let answer of listOfAnswers | answerNotBlank : listOfAnswers">
           <div class="list-group-item d-flex justify-content-start custom-control custom-radio">
-            <div class="col-1 fs-3 me-4">{{answer.key}}</div>
+            <div class="col-1 fs-3 me-4">{{answer?.key}}</div>
 
             <div *ngIf="question?.type === questionType.SINGLE_CHOICE; then radio else checkBox"></div>
 
             <!-- single answer question-->
             <ng-template #radio>
-              <input [id]="'ans'+answer.key" type="radio" class="custom-control-input"
-                     formControlName="answer" [value]="answer.key" name="answer">
+              <input [id]="question?.id+'ans'+answer?.key"
+                     [value]="answer?.key"
+                     type="radio" class="custom-control-input"
+                     formControlName="answer"
+                     name="answer">
             </ng-template>
 
             <!-- multiple answer-->
             <ng-template #checkBox>
-              <input [id]="'ans'+answer.key"
-                     [value]="answer.key" name="answer"
+              <input [id]="question?.id+'ans'+answer.key"
+                     [value]="answer?.key" name="answer"
                      [checked]="false"
                      [(ngModel)]="answer.checked"
-                     type="checkbox" class="custom-control-input" formControlName="answer">
+                     type="checkbox" class="custom-control-input"
+                     formControlName="answer">
             </ng-template>
 
-<!--            <label class="form-control" [htmlFor]="'ans'+answer.key">{{answer.answer}}</label>-->
-            <label class="form-control" [htmlFor]="'ans'+answer.key">{{answer.answer}}</label>
+            <!-- <label class="form-control" [htmlFor]="'ans'+answer.key">{{answer.answer}}</label>-->
+            <label class="form-control"
+                   [ngClass]="answer?.isCorrect"
+                   [htmlFor]="question?.id+'ans'+answer?.key">
+              {{answer?.answer}}
+            </label>
           </div>
-        </ng-container>
+        </div>
       </div>
     </form>
   </div>
