@@ -1,4 +1,4 @@
-<div class="p-4">
+<div class="p-4" [attr.href]="'#quest'+question?.id">
   <div class="mt-1 card row d-flex flex-row">
     <!-- display question-->
     <div class="fs-6 col-6 code-block overflow-scroll" style="max-height: 60vh">
@@ -16,7 +16,7 @@
         </ng-container>
 
         <ng-template #elseif1>
-          <ng-container *ngIf="answerIsCorrect;">
+          <ng-container>
             <div class="card card-text fs-3 text-black bg-success">Correct answer</div>
             <div class="fs-5">{{this.question?.explanation}}</div>
           </ng-container>
