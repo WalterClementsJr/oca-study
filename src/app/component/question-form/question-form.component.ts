@@ -1,21 +1,30 @@
-import {ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges
+} from '@angular/core';
 import {Question, QuestionType} from "../../entity/Question";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-question-form',
   templateUrl: './question-form.component.html',
-  styleUrls: ['./question-form.component.css']
+  styleUrls: ['./question-form.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuestionFormComponent implements OnInit, OnChanges {
   readonly formKey = 'answer';
   readonly questionType = QuestionType;
   objectKeys = Object.keys;
 
+  form!: FormGroup;
   @Input('question') question: Question | undefined;
   listOfAnswers: any[] = [];
   answerIsCorrect: boolean | undefined;
-  form!: FormGroup;
   answer: string | undefined;
   isMultipleQuestion: boolean | false | undefined;
 
@@ -37,7 +46,7 @@ export class QuestionFormComponent implements OnInit, OnChanges {
     this.answerIsCorrect = undefined;
     this.listOfAnswers = [];
 
-    // update track new properties of the new question
+    // track new properties of the new question
     for (let key of Object.keys(this.question?.answers)) {
       this.listOfAnswers.push({key: key, answer: this.question?.answers[key], checked: false})
     }
@@ -46,6 +55,7 @@ export class QuestionFormComponent implements OnInit, OnChanges {
     this.form = this.fb.group({
       answer: ['', [Validators.required]]
     });
+    console.log("answer is ", this.question?.answer);
   }
 
   /**
@@ -57,6 +67,10 @@ export class QuestionFormComponent implements OnInit, OnChanges {
       : this.listOfAnswers
         .filter(opt => opt.checked === true)
         .map(opt => opt.key)
+  }
+
+  get isFormSelected(): boolean {
+    return this.selectedOptions.length === 0;
   }
 
   onSubmit(showResult?: boolean) {
@@ -74,14 +88,15 @@ export class QuestionFormComponent implements OnInit, OnChanges {
     if (showResult) {
       this.getColorClass();
     }
+    return this.answerIsCorrect;
   }
 
   checkCorrectAnswer(answer: string) {
-    console.log(this.question?.answer);
     return answer.toUpperCase() === this.question?.answer?.toUpperCase();
   }
 
   getColorClass() {
+    // css
     const wrongAnswer = "text-danger text-decoration-line-through";
     const notSelectedAnswer = "text-muted";
     const rightAnswer = "text-success fw-bold";
