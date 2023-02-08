@@ -2,6 +2,7 @@ import {ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges} f
 import {TrainingContent} from "../../entity/TrainingContent";
 import {TrainingContentComponent} from "../pages/training-content/training-content.component";
 import {Question} from "../../entity/Question";
+import {QuestionFormComponent} from "../question-form/question-form.component";
 
 @Component({
   selector: 'app-pallet',
@@ -12,7 +13,10 @@ export class PalletComponent implements OnInit, OnChanges {
   @Input() trainingContent: TrainingContent | undefined;
   @Input() parent!: TrainingContentComponent;
 
-  parentDoneLoad: boolean | undefined;
+  readonly STYLE_NOT_SELECTED = "bg-light";
+  readonly STYLE_SELECTED = "bg-success";
+  readonly STYLE_WRONG = "bg-danger";
+
   isViewingResult: boolean | undefined;
   progress: number | undefined;
 
@@ -35,9 +39,11 @@ export class PalletComponent implements OnInit, OnChanges {
   }
 
   change() {
-    this.parentDoneLoad = true;
-    console.log("--- changed. length is ", this.parent._questionComponents?.length);
     this.changeDetectorRef.detectChanges();
+  }
+
+  viewResult() {
+    this.isViewingResult = true;
   }
 
   submitTest() {
@@ -49,11 +55,21 @@ export class PalletComponent implements OnInit, OnChanges {
   }
 
   getProgress() {
-    // console.log("pallet getprogress");
-    // if (this.parentDoneLoad) {
-    //   return this.parent.getProgress();
-    // }
-    // console.log("not done loading");
-    return -1;
+    return this.parent.getProgress();
+  }
+
+  /**
+   * determine pallet buttons' colors when interacting with questions
+   * @param comp
+   */
+  checkComponent(comp: QuestionFormComponent) {
+    if (!this.isViewingResult) {
+      // if is taking test
+      return comp?.isFormSelected! ? this.STYLE_SELECTED : this.STYLE_NOT_SELECTED;
+    }
+    return comp?.isFormSelected
+      ? comp.answerIsCorrect
+        ? this.STYLE_SELECTED : this.STYLE_WRONG
+      : this.STYLE_NOT_SELECTED;
   }
 }

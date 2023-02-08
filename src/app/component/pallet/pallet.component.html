@@ -12,7 +12,7 @@
         <ng-container *ngFor="let comp of parent._questionComponents">
           <!--                      [ngClass]="comp.isFormSelected === true ? 'btn-light' : 'btn-red'">-->
           <!--          + comp?.style === undefined ? 'bg-dark' : 'bg-light'-->
-          <span [ngClass]="'btn badge bg-danger m-1' " (click)="jumpTo(comp?.question!)">
+          <span [ngClass]="'btn badge text-dark ' + checkComponent(comp)" (click)="jumpTo(comp?.question!)">
             {{comp?.question?.id}}
           </span>
         </ng-container>
@@ -26,7 +26,7 @@
           </span>
         </div>
 
-        <div class="progress-title">{{getProgress()}}</div>
+        <div class="fw-bold fs-5">{{getProgress()}}</div>
 
       </div>
     </div>

@@ -8,7 +8,8 @@ import {
   Input,
   OnInit,
   Output,
-  QueryList, ViewChild,
+  QueryList,
+  ViewChild,
   ViewChildren
 } from '@angular/core';
 import {TrainingContent} from "../../../entity/TrainingContent";
@@ -18,6 +19,7 @@ import {DOCUMENT, Location} from '@angular/common';
 import {QuestionFormComponent} from "../../question-form/question-form.component";
 import {PalletComponent} from "../../pallet/pallet.component";
 import {startWith} from "rxjs";
+import {roundToTwo} from "../../../utililty/utility";
 
 @Component({
   selector: 'app-training-content',
@@ -53,7 +55,6 @@ export class TrainingContentComponent implements OnInit, AfterViewInit, AfterCon
 
   ngAfterViewInit() {
     this._questionComponents?.changes.pipe(startWith([undefined])).subscribe(() => {
-      console.log("think everyone is done");
       this._palletComponent?.change();
     })
     this.changeDetector.detectChanges();
@@ -75,7 +76,12 @@ export class TrainingContentComponent implements OnInit, AfterViewInit, AfterCon
    * end test and show results
    */
   submit() {
+    this._questionComponents?.toArray().forEach((ele) => {
+      ele.checkAnswer(true);
+    });
     this.isViewingResult = true;
+    this._palletComponent?.viewResult();
+    // this._palletComponent?.change();
     this.changeDetector.detectChanges();
   }
 
@@ -89,12 +95,24 @@ export class TrainingContentComponent implements OnInit, AfterViewInit, AfterCon
     return count;
   }
 
+  get questionAnsweredCount(): number {
+    let count = 0;
+    this._questionComponents?.toArray().forEach((ele) => {
+      if (ele.isFormSelected) {
+        count++;
+      }
+    });
+    return count;
+  }
+
   getProgress() {
-    console.log("getting progress");
     if (this.isViewingResult) {
-      return `${this.correctAnswerCount}/${this.trainingContent?.questions.length}`;
+      const count = this.correctAnswerCount;
+      const percent = count * 100 / this.trainingContent?.questions?.length!;
+
+      return `${count}/${this.trainingContent?.questions.length} correct, ${roundToTwo(percent)}%`;
     } else {
-      return `${this.correctAnswerCount}/${this.trainingContent?.questions.length}`;
+      return `${this.questionAnsweredCount}/${this.trainingContent?.questions.length}`;
     }
   }
 

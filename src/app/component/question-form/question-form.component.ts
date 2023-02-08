@@ -76,7 +76,7 @@ export class QuestionFormComponent implements OnInit, OnChanges {
   }
 
   get isFormSelected(): boolean {
-    return this.selectedOptions.length === 0;
+    return this.selectedOptions.length > 0;
   }
 
   onSubmit(showResult?: boolean) {
@@ -93,7 +93,7 @@ export class QuestionFormComponent implements OnInit, OnChanges {
 
     if (showResult) {
       this.showResult = true;
-      this.getColorClass();
+      this.getAnswersStyle();
     }
     return this.answerIsCorrect;
   }
@@ -102,7 +102,7 @@ export class QuestionFormComponent implements OnInit, OnChanges {
     return answer.toUpperCase() === this.question?.answer?.toUpperCase();
   }
 
-  getColorClass() {
+  getAnswersStyle() {
     // css
     const wrongAnswer = "text-danger text-decoration-line-through";
     const notSelectedAnswer = "text-muted";
@@ -111,8 +111,6 @@ export class QuestionFormComponent implements OnInit, OnChanges {
 
     // haven't selected shit
     if (this.selectedOptions.length === 0) {
-      console.log("answer undefined");
-
       this.listOfAnswers.map(ans => {
         ans.style = notSelectedAnswer;
 
@@ -122,12 +120,9 @@ export class QuestionFormComponent implements OnInit, OnChanges {
       });
       this.changeDetector.detectChanges();
       return;
-    }
-
-    if (!this.isMultipleQuestion) {
+    } else if (!this.isMultipleQuestion) {
+      // single-answer question
       this.listOfAnswers.map(i => {
-        console.log("i", i);
-
         if (this.checkCorrectAnswer(i.key)) {
           i.style = rightAnswer;
         } else if (this.selectedOptions.includes(i.key)) {
@@ -137,6 +132,7 @@ export class QuestionFormComponent implements OnInit, OnChanges {
         }
       });
     } else {
+      // multiple-answer question
       const correctAnswers = this.question?.answer?.split(',')!;
       const selected = this.selectedOptions;
 
