@@ -1,4 +1,4 @@
-import { QuestionAnswerNotEmptyPipe } from './question-answer-not-empty.pipe';
+import {QuestionAnswerNotEmptyPipe} from './question-answer-not-empty.pipe';
 
 describe('QuestionAnswerNotEmptyPipe', () => {
   it('create an instance', () => {

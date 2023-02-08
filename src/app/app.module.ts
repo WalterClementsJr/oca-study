@@ -14,7 +14,8 @@ import {AnswerNotBlankPipe} from './pipe/answer/answer-not-blank.pipe';
 import {MessageModalComponent} from './component/message-modal/message-modal.component';
 import {RandomQuestionComponent} from './component/pages/random-question/random-question.component';
 import {QuizComponent} from "./component/quiz/quiz.component";
-import { PalletComponent } from './component/pallet/pallet.component';
+import {PalletComponent} from './component/pallet/pallet.component';
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { PalletComponent } from './component/pallet/pallet.component';
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
+    RouterModule,
   ],
   providers: [TrainingContentService],
   bootstrap: [AppComponent]
