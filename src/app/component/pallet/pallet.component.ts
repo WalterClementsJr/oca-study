@@ -12,11 +12,9 @@ export class PalletComponent implements OnInit, OnChanges {
   @Input() trainingContent: TrainingContent | undefined;
   @Input() parent!: TrainingContentComponent;
 
+  parentDoneLoad: boolean | undefined;
   isViewingResult: boolean | undefined;
-
   progress: number | undefined;
-
-  hasLoaded: boolean | undefined;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef
@@ -25,6 +23,7 @@ export class PalletComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.isViewingResult = this.parent.isViewingResult;
     this.changeDetectorRef.detectChanges()
   }
 
@@ -36,7 +35,8 @@ export class PalletComponent implements OnInit, OnChanges {
   }
 
   change() {
-    this.hasLoaded = true;
+    this.parentDoneLoad = true;
+    console.log("--- changed. length is ", this.parent._questionComponents?.length);
     this.changeDetectorRef.detectChanges();
   }
 
@@ -46,5 +46,14 @@ export class PalletComponent implements OnInit, OnChanges {
 
   jumpTo(question: Question) {
     this.parent.jumpTo(question!.id);
+  }
+
+  getProgress() {
+    // console.log("pallet getprogress");
+    // if (this.parentDoneLoad) {
+    //   return this.parent.getProgress();
+    // }
+    // console.log("not done loading");
+    return -1;
   }
 }
