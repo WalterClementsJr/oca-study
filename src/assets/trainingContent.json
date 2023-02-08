@@ -29,6 +29,10 @@
   },
   {
     "type": "lessons",
+    "name": "Dummy_Lessons"
+  },
+  {
+    "type": "lessons",
     "name": "Exception_String_StringBuilder"
   },
   {

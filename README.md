@@ -1,3 +1,7 @@
-# OCA STUDY
+# STUDY
 
-An app to facilitate learning OCA. 
+An app.
+
+
+## Deployment
+Run `build-deploy.cmd` to generate resources for GitHub pages

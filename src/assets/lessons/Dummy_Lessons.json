@@ -1,0 +1,128 @@
+[
+  {
+    "id": 1,
+    "trainingUnit": "OCA",
+    "trainingContent": "ArrayList and Lambda expression",
+    "question": "Consider below code: \n\n//Test.java\npackage com.github.oca;\n \nimport java.util.ArrayList;\nimport java.util.List;\n \nclass Student {\n    private String name;\n    private int age;\n    \n    Student(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n    \n    public String toString() {\n        return \"Student[\" + name + \", \" + age + \"]\";\n    }\n}\n \npublic class Test {\n    public static void main(String[] args) {\n        List<Student> students = new ArrayList<>();\n        students.add(new Student(\"James\", 25));\n        students.add(new Student(\"James\", 27));\n        students.add(new Student(\"James\", 25));\n        students.add(new Student(\"James\", 25));\n        \n        students.remove(new Student(\"James\", 25));\n        \n        for(Student stud : students) {\n            System.out.println(stud);\n        }\n    }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "D",
+    "answers": {
+      "A": "Student[James, 27]\nStudent[James, 25]\nStudent[James, 25]",
+      "B": "Student[James, 25]\nStudent[James, 27]\nStudent[James, 25]",
+      "C": "Student[James, 27]",
+      "D": "Student[James, 25]\nStudent[James, 27]\nStudent[James, 25]\nStudent[James, 25]",
+      "E": "",
+      "F": "",
+      "G": "",
+      "H": "",
+      "I": "",
+      "J": ""
+    },
+    "explanation": "Before you answer this, you must know that there are 5 different Student object created in the memory (4 at the time of adding to the list and 1 at the time of removing from the list). This means these 5 Student objects will be stored at different memory addresses.\n\n\n\nremove(Object) method removes the first occurrence of matching object and equals(Object) method decides whether 2 objects are equal or not. equals(Object) method defined in Object class uses == operator to check the equality and in this case as 5 Student objects are stored at different memory location, hence not equal.\n\n\n\nNothing is removed from the students list, all the 4 Student objects are printed in the insertion order."
+  },
+  {
+    "id": 2,
+    "trainingUnit": "OCA",
+    "trainingContent": "ArrayList and Lambda expression",
+    "question": "Consider below code: \n\n//Test.java\npackage com.github.oca;\n \nimport java.util.ArrayList;\nimport java.util.List;\n \nclass Student {\n    private String name;\n    private int age;\n    \n    Student(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n    \n    public String toString() {\n        return \"Student[\" + name + \", \" + age + \"]\";\n    }\n    \n    public boolean equals(Object obj) {\n        if(obj instanceof Student) {\n            Student stud = (Student)obj;\n            if(this.name.equals(stud.name) && this.age == stud.age) {\n                return true;\n            }\n        }\n        return false;\n    }\n}\n \npublic class Test {\n    public static void main(String[] args) {\n        List<Student> students = new ArrayList<>();\n        students.add(new Student(\"James\", 25));\n        students.add(new Student(\"James\", 27));\n        students.add(new Student(\"James\", 25));\n        students.add(new Student(\"James\", 25));\n        \n        students.remove(new Student(\"James\", 25));\n        \n        for(Student stud : students) {\n            System.out.println(stud);\n        }\n    }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "A",
+    "answers": {
+      "A": "Student[James, 27]\nStudent[James, 25]\nStudent[James, 25]",
+      "B": "Student[James, 25]\nStudent[James, 27]\nStudent[James, 25]",
+      "C": "Student[James, 27]",
+      "D": "Student[James, 25]\nStudent[James, 27]\nStudent[James, 25]\nStudent[James, 25]",
+      "E": "",
+      "F": "",
+      "G": "",
+      "H": "",
+      "I": "",
+      "J": ""
+    },
+    "explanation": "Before you answer this, you must know that there are 5 different Student object created in the memory (4 at the time of adding to the list and 1 at the time of removing from the list). This means these 5 Student objects will be stored at different memory addresses.\n\n\n\nremove(Object) method removes the first occurrence of matching object and equals(Object) method decides whether 2 objects are equal or not. equals(Object) method has been overridden by the Student class and equates the object based on their name and age.\n\n\n\n3 matching Student objects are found in the list and 1st list element is removed from the list. Remaining 3 list elements are printed in the insertion order."
+  },
+  {
+    "id": 3,
+    "trainingUnit": "OCA",
+    "trainingContent": "ArrayList and Lambda expression",
+    "question": "Consider below code: \n\n//Test.java\npackage com.github.oca;\n \nimport java.util.ArrayList;\nimport java.util.List;\n \nclass Student {\n    private String name;\n    private int age;\n    \n    Student(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n    \n    public String toString() {\n        return \"Student[\" + name + \", \" + age + \"]\";\n    }\n    \n    public boolean equals(Student obj) {\n        if(obj instanceof Student) {\n            Student stud = (Student)obj;\n            if(this.name.equals(stud.name) && this.age == stud.age) {\n                return true;\n            }\n        }\n        return false;\n    }\n}\n \npublic class Test {\n    public static void main(String[] args) {\n        List<Student> students = new ArrayList<>();\n        students.add(new Student(\"James\", 25));\n        students.add(new Student(\"James\", 27));\n        students.add(new Student(\"James\", 25));\n        students.add(new Student(\"James\", 25));\n        \n        students.remove(new Student(\"James\", 25));\n        \n        for(Student stud : students) {\n            System.out.println(stud);\n        }\n    }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "D",
+    "answers": {
+      "A": "Student[James, 27]\nStudent[James, 25]\nStudent[James, 25]",
+      "B": "Student[James, 25]\nStudent[James, 27]\nStudent[James, 25]",
+      "C": "Student[James, 27]",
+      "D": "Student[James, 25]\nStudent[James, 27]\nStudent[James, 25]\nStudent[James, 25]",
+      "E": "",
+      "F": "",
+      "G": "",
+      "H": "",
+      "I": "",
+      "J": ""
+    },
+    "explanation": "Before you answer this, you must know that there are 5 different Student object created in the memory (4 at the time of adding to the list and 1 at the time of removing from the list). This means these 5 Student objects will be stored at different memory addresses.\n\n\n\nremove(Object) method removes the first occurrence of matching object and equals(Object) method decides whether 2 objects are equal or not. equals(Object) method has NOT been overridden by the Student class. In fact, equals(Student) is overloaded. But overloaded version is not invoked while equating the Student objects.\n\n\n\nequals(Object) method defined in Object class is invoked and equals(Object) method defined in Object class uses == operator to check the equality and in this case as all the Student objects are stored at different memory location, hence not equal.\n\n\n\nNothing is removed from the students list, all the 4 Student objects are printed in the insertion order."
+  },
+  {
+    "id": 4,
+    "trainingUnit": "OCA",
+    "trainingContent": "ArrayList and Lambda expression",
+    "question": "Consider below code: \n\n//Test.java\npackage com.github.oca;\n \nimport java.util.ArrayList;\nimport java.util.List;\n \npublic class Test {\n    public static void main(String[] args) {\n        List<String> dryFruits = new ArrayList<>();\n        dryFruits.add(\"Walnut\");\n        dryFruits.add(\"Apricot\");\n        dryFruits.add(\"Almond\");\n        dryFruits.add(\"Date\");\n    \n        for(String dryFruit : dryFruits) {\n            if(dryFruit.startsWith(\"A\")) {\n                dryFruits.remove(dryFruit);\n            }\n        }\n        \n        System.out.println(dryFruits);\n    }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "C",
+    "answers": {
+      "A": "[Walnut, Apricot, Almond, Date]",
+      "B": "[Walnut, Date]",
+      "C": "An exception is thrown at runtime",
+      "D": "Compilation error",
+      "E": "",
+      "F": "",
+      "G": "",
+      "H": "",
+      "I": "",
+      "J": ""
+    },
+    "explanation": "ConcurrentModificationException exception may be thrown for following condition:\n\n1. Collection is being iterated using Iterator/ListIterator or by using for-each loop.\n\nAnd\n\n2. Execution of Iterator.next(), Iterator.remove(), ListIterator.previous(), ListIterator.set(E) & ListIterator.add(E) methods. These methods may throw java.util.ConcurrentModificationException in case Collection had been modified by means other than the iterator itself, such as Collection.add(E) or Collection.remove(Object) or List.remove(int) etc.\n\n\n\nPLEASE NOTE: for-each loop internally implements Iterator and invokes hasNext() and next() methods.\n\n\n\nFor the given code, 'dryFruits' list is being iterated using for-each loop (internally as an Iterator).\n\nhasNext() method of Iterator has following implementation:\n\npublic boolean hasNext() {\n    return cursor != size;\n}\nWhere cursor is the index of next element to return and initially it is 0.\n\n\n\n1st Iteration: cursor = 0, size = 4, hasNext() returns true. iterator.next() increments the cursor by 1 and returns \"Walnut\".\n\n2nd Iteration: cursor = 1, size = 4, hasNext() returns true. iterator.next() increments the cursor by 1 and returns \"Apricot\". As \"Apricot\" starts with \"A\", hence dryFruits.remove(dryFruit) removes \"Apricot\" from the list and hence reducing the list's size by 1, size becomes 3.\n\n3rd Iteration: cursor = 2, size = 3, hasNext() returns true. iterator.next() method throws java.util.ConcurrentModificationException.\n\n\n\nIf you want to successfully remove the items from ArrayList, while using Iterator or ListIterator, then use Iterator.remove() or ListIterator.remove() method and NOT List.remove(...) method. Using List.remove(...) method while iterating the list (using the Iterator/ListIterator or for-each) may throw java.util.ConcurrentModificationException."
+  },
+  {
+    "id": 5,
+    "trainingUnit": "OCA",
+    "trainingContent": "ArrayList and Lambda expression",
+    "question": "Consider below code: \n\n//Test.java\npackage com.github.oca;\n \nimport java.util.ArrayList;\nimport java.util.Iterator;\nimport java.util.List;\n \npublic class Test {\n    public static void main(String[] args) {\n        List<String> dryFruits = new ArrayList<>();\n        dryFruits.add(\"Walnut\");\n        dryFruits.add(\"Apricot\");\n        dryFruits.add(\"Almond\");\n        dryFruits.add(\"Date\");\n    \n        Iterator<String> iterator = dryFruits.iterator();\n        while(iterator.hasNext()) {\n            String dryFruit = iterator.next();\n            if(dryFruit.startsWith(\"A\")) {\n                dryFruits.remove(dryFruit);\n            }\n        }\n        \n        System.out.println(dryFruits);\n    }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "C",
+    "answers": {
+      "A": "[Walnut, Apricot, Almond, Date]",
+      "B": "[Walnut, Date]",
+      "C": "An exception is thrown at runtime",
+      "D": "Compilation error",
+      "E": "",
+      "F": "",
+      "G": "",
+      "H": "",
+      "I": "",
+      "J": ""
+    },
+    "explanation": "ConcurrentModificationException exception may be thrown for following condition:\n\n1. Collection is being iterated using Iterator/ListIterator or by using for-each loop.\n\nAnd\n\n2. Execution of Iterator.next(), Iterator.remove(), ListIterator.previous(), ListIterator.set(E) & ListIterator.add(E) methods. These methods may throw java.util.ConcurrentModificationException in case Collection had been modified by means other than the iterator itself, such as Collection.add(E) or Collection.remove(Object) or List.remove(int) etc.\n\n\n\nFor the given code, 'dryFruits' list is being iterated using the Iterator<String>.\n\nhasNext() method of Iterator has following implementation:\n\npublic boolean hasNext() {\n    return cursor != size;\n}\nWhere cursor is the index of next element to return and initially it is 0.\n\n\n\n1st Iteration: cursor = 0, size = 4, hasNext() returns true. iterator.next() increments the cursor by 1 and returns \"Walnut\".\n\n2nd Iteration: cursor = 1, size = 4, hasNext() returns true. iterator.next() increments the cursor by 1 and returns \"Apricot\". As \"Apricot\" starts with \"A\", hence dryFruits.remove(dryFruit) removes \"Apricot\" from the list and hence reducing the list's size by 1, size becomes 3.\n\n3rd Iteration: cursor = 2, size = 3, hasNext() returns true. iterator.next() method throws java.util.ConcurrentModificationException.\n\n\n\nIf you want to remove the items from ArrayList, while using Iterator or ListIterator, then use Iterator.remove() or ListIterator.remove() method and NOT List.remove(...) method. Using List.remove(...) method while iterating the list (using the Iterator/ListIterator or for-each) may throw java.util.ConcurrentModificationException."
+  },
+  {
+    "id": 6,
+    "trainingUnit": "OCA",
+    "trainingContent": "ArrayList and Lambda expression",
+    "question": "Consider below code: \n\n//Test.java\npackage com.github.oca;\n \nimport java.util.ArrayList;\nimport java.util.List;\nimport java.util.ListIterator;\n \npublic class Test {\n    public static void main(String[] args) {\n        List<String> dryFruits = new ArrayList<>();\n        dryFruits.add(\"Walnut\");\n        dryFruits.add(\"Apricot\");\n        dryFruits.add(\"Almond\");\n        dryFruits.add(\"Date\");\n    \n        ListIterator<String> iterator = dryFruits.listIterator();\n        while(iterator.hasNext()) {\n            if(iterator.next().startsWith(\"A\")) {\n                iterator.remove();\n            }\n        }\n        \n        System.out.println(dryFruits);\n    }\n}\nWhat will be the result of compiling and executing Test class?",
+    "type": "Single Choice",
+    "answer": "B",
+    "answers": {
+      "A": "[Walnut, Apricot, Almond, Date]",
+      "B": "[Walnut, Date]",
+      "C": "An exception is thrown at runtime",
+      "D": "Compilation error",
+      "E": "",
+      "F": "",
+      "G": "",
+      "H": "",
+      "I": "",
+      "J": ""
+    },
+    "explanation": "If you want to remove the items from ArrayList, while using Iterator or ListIterator, then use Iterator.remove() or ListIterator.remove() method and NOT List.remove() method.\n\nIn this case ListIterator.remove() method is used. startsWith(\"A\") returns true for \"Apricot\" and \"Almond\" so these elements are removed from the list. In the output, [Walnut, Date] is displayed."
+  }
+]

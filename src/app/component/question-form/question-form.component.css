@@ -1,0 +1,14 @@
+.normal {
+}
+
+.wrong-answer {
+  color: grey;
+}
+
+.wrong-selected-answer {
+  text-decoration: line-through;
+}
+
+.right-answer {
+  font-weight: bold;
+}
