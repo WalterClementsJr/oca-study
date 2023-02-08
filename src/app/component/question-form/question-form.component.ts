@@ -28,6 +28,8 @@ export class QuestionFormComponent implements OnInit, OnChanges {
   answer: string | undefined;
   isMultipleQuestion: boolean | false | undefined;
 
+  showResult: boolean = false;
+
   constructor(
     private changeDetector: ChangeDetectorRef,
     public fb: FormBuilder
@@ -42,7 +44,11 @@ export class QuestionFormComponent implements OnInit, OnChanges {
     this.setup();
   }
 
+  /**
+   *  reset properties
+   */
   private setup() {
+    this.showResult = false;
     this.answerIsCorrect = undefined;
     this.listOfAnswers = [];
 
@@ -86,6 +92,7 @@ export class QuestionFormComponent implements OnInit, OnChanges {
     this.answerIsCorrect = this.checkCorrectAnswer(this.selectedOptions.join(','));
 
     if (showResult) {
+      this.showResult = true;
       this.getColorClass();
     }
     return this.answerIsCorrect;

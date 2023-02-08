@@ -11,13 +11,20 @@
 
       <!-- answer status/explanation-->
       <div class="p-2">
-        <ng-container *ngIf="answerIsCorrect == undefined || answerIsCorrect == null; else elseif1">
+        <ng-container *ngIf="!showResult; else elseif1">
           Choose answer
         </ng-container>
 
         <ng-template #elseif1>
-          <ng-container>
-            <div class="card card-text fs-3 text-black bg-success">Correct answer</div>
+          <ng-container *ngIf="answerIsCorrect === true; else elseif2">
+            <div class="card card-text fs-3 text-bg-success">Correct</div>
+            <div class="fs-5">{{this.question?.explanation}}</div>
+          </ng-container>
+        </ng-template>
+
+        <ng-template #elseif2>
+          <ng-container *ngIf="!answerIsCorrect">
+            <div class="card card-text fs-3 text-bg-danger">Wrong</div>
             <div class="fs-5">{{this.question?.explanation}}</div>
           </ng-container>
         </ng-template>
