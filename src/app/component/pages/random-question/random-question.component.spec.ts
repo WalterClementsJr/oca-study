@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RandomQuestionComponent } from './random-question.component';
+import {RandomQuestionComponent} from './random-question.component';
 
 describe('RandomQuestionComponent', () => {
   let component: RandomQuestionComponent;
@@ -8,9 +8,9 @@ describe('RandomQuestionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RandomQuestionComponent ]
+      declarations: [RandomQuestionComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(RandomQuestionComponent);
     component = fixture.componentInstance;

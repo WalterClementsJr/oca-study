@@ -1,4 +1,4 @@
-import { GenericFilterPipe } from './generic-filter.pipe';
+import {GenericFilterPipe} from './generic-filter.pipe';
 
 describe('GenericFilterPipe', () => {
   it('create an instance', () => {

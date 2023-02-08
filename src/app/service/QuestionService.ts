@@ -6,7 +6,8 @@ import {Injectable} from "@angular/core";
 export class QuestionService {
   private questions: Question[] = [];
 
-  constructor() { }
+  constructor() {
+  }
 
   getAllQuestionsOfContent(content: string) {
 
