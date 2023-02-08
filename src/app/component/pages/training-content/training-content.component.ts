@@ -52,14 +52,14 @@ export class TrainingContentComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.changeDetector.detectChanges();
-  }
-
-  ngAfterContentInit() {
     this._questionComponents.changes.subscribe(() => {
       this._palletComponent.change();
       this.changeDetector.detectChanges();
     })
+  }
+
+  ngAfterContentInit() {
+    this.changeDetector.detectChanges();
   }
 
   ngOnInit(): void {

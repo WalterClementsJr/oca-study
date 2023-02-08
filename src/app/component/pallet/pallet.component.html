@@ -9,12 +9,11 @@
     </div>
     <div class="">
       <div class="grid">
-        <ng-container *ngFor="let comp of parent._questionComponents"
-                      class="'btn-red'">
+        <ng-container *ngFor="let comp of parent._questionComponents">
           <!--                      [ngClass]="comp.isFormSelected === true ? 'btn-light' : 'btn-red'">-->
-          <button class="btn btn-light " (click)="jumpTo(comp?.question!)">
+          <span class="btn badge bg-secondary" (click)="jumpTo(comp?.question!)">
             {{comp?.question?.id}}
-          </button>
+          </span>
         </ng-container>
       </div>
 
