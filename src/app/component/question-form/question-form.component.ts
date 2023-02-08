@@ -1,23 +1,34 @@
-import {ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges
+} from '@angular/core';
 import {Question, QuestionType} from "../../entity/Question";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-question-form',
   templateUrl: './question-form.component.html',
-  styleUrls: ['./question-form.component.css']
+  styleUrls: ['./question-form.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuestionFormComponent implements OnInit, OnChanges {
   readonly formKey = 'answer';
   readonly questionType = QuestionType;
   objectKeys = Object.keys;
 
+  form!: FormGroup;
   @Input('question') question: Question | undefined;
   listOfAnswers: any[] = [];
   answerIsCorrect: boolean | undefined;
-  form!: FormGroup;
   answer: string | undefined;
   isMultipleQuestion: boolean | false | undefined;
+
+  showResult: boolean = false;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -33,11 +44,15 @@ export class QuestionFormComponent implements OnInit, OnChanges {
     this.setup();
   }
 
+  /**
+   *  reset properties
+   */
   private setup() {
+    this.showResult = false;
     this.answerIsCorrect = undefined;
     this.listOfAnswers = [];
 
-    // update track new properties of the new question
+    // track new properties of the new question
     for (let key of Object.keys(this.question?.answers)) {
       this.listOfAnswers.push({key: key, answer: this.question?.answers[key], checked: false})
     }
@@ -46,6 +61,7 @@ export class QuestionFormComponent implements OnInit, OnChanges {
     this.form = this.fb.group({
       answer: ['', [Validators.required]]
     });
+    console.log("answer is ", this.question?.answer);
   }
 
   /**
@@ -57,6 +73,10 @@ export class QuestionFormComponent implements OnInit, OnChanges {
       : this.listOfAnswers
         .filter(opt => opt.checked === true)
         .map(opt => opt.key)
+  }
+
+  get isFormSelected(): boolean {
+    return this.selectedOptions.length > 0;
   }
 
   onSubmit(showResult?: boolean) {
@@ -72,16 +92,18 @@ export class QuestionFormComponent implements OnInit, OnChanges {
     this.answerIsCorrect = this.checkCorrectAnswer(this.selectedOptions.join(','));
 
     if (showResult) {
-      this.getColorClass();
+      this.showResult = true;
+      this.getAnswersStyle();
     }
+    return this.answerIsCorrect;
   }
 
   checkCorrectAnswer(answer: string) {
-    console.log(this.question?.answer);
     return answer.toUpperCase() === this.question?.answer?.toUpperCase();
   }
 
-  getColorClass() {
+  getAnswersStyle() {
+    // css
     const wrongAnswer = "text-danger text-decoration-line-through";
     const notSelectedAnswer = "text-muted";
     const rightAnswer = "text-success fw-bold";
@@ -89,8 +111,6 @@ export class QuestionFormComponent implements OnInit, OnChanges {
 
     // haven't selected shit
     if (this.selectedOptions.length === 0) {
-      console.log("answer undefined");
-
       this.listOfAnswers.map(ans => {
         ans.style = notSelectedAnswer;
 
@@ -100,12 +120,9 @@ export class QuestionFormComponent implements OnInit, OnChanges {
       });
       this.changeDetector.detectChanges();
       return;
-    }
-
-    if (!this.isMultipleQuestion) {
+    } else if (!this.isMultipleQuestion) {
+      // single-answer question
       this.listOfAnswers.map(i => {
-        console.log("i", i);
-
         if (this.checkCorrectAnswer(i.key)) {
           i.style = rightAnswer;
         } else if (this.selectedOptions.includes(i.key)) {
@@ -115,6 +132,7 @@ export class QuestionFormComponent implements OnInit, OnChanges {
         }
       });
     } else {
+      // multiple-answer question
       const correctAnswers = this.question?.answer?.split(',')!;
       const selected = this.selectedOptions;
 
