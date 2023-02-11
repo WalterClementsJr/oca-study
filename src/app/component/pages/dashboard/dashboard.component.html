@@ -5,8 +5,8 @@
     <div class="list-group list-group-flush">
       <a class="list-group-item d-flex justify-content-start align-items-center"
          *ngFor="let content of trainingContents | genericFilter: filterTrainingContentExam"
-         [routerLink]="['/content', content.name]">
-        <span class="badge bg-primary badge-pill me-2">{{content.questions.length}}</span>
+         [routerLink]="['/content', content?.name]">
+        <span class="badge bg-primary badge-pill me-2">{{content?.questions?.length}}</span>
         {{content.name}}
       </a>
     </div>
