@@ -1,11 +1,9 @@
 <div class="p-4" [attr.href]="'#quest'+question?.id">
   <div class="mt-1 card row d-flex flex-row">
     <!-- display question-->
-    <div class="fs-6 col-6 code-block overflow-scroll" style="max-height: 60vh">
-      {{question?.question}}
-    </div>
+    <div class="fs-6 col-6 code-block overflow-scroll" style="max-height: 60vh">{{question?.question}}</div>
 
-    <form class="col-6 code-block"
+    <form class="col-6"
           [formGroup]="form"
           (ngSubmit)="onSubmit()">
 
@@ -18,14 +16,14 @@
         <ng-template #elseif1>
           <ng-container *ngIf="answerIsCorrect === true; else elseif2">
             <div class="card card-text fs-3 text-bg-success">Correct</div>
-            <div class="fs-5">{{this.question?.explanation}}</div>
+            <div class="fs-5 code-block">{{this.question?.explanation}}</div>
           </ng-container>
         </ng-template>
 
         <ng-template #elseif2>
           <ng-container *ngIf="!answerIsCorrect">
             <div class="card card-text fs-3 text-bg-danger">Wrong</div>
-            <div class="fs-5">{{this.question?.explanation}}</div>
+            <div class="fs-5 code-block">{{this.question?.explanation}}</div>
           </ng-container>
         </ng-template>
       </div>
@@ -56,10 +54,9 @@
                      formControlName="answer">
             </ng-template>
 
-            <label class="form-control fs-6"
+            <label class="form-control fs-6 code-block"
                    [ngClass]="answer?.style"
-                   [htmlFor]="question?.id+'ans'+answer?.key">
-              {{answer?.answer}}
+                   [htmlFor]="question?.id+'ans'+answer?.key">{{answer?.answer}}
             </label>
           </div>
         </div>

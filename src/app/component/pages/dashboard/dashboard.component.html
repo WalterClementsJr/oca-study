@@ -1,26 +1,50 @@
 <div class="row">
 
   <!--  training materials-->
-  <div class="col-5 d-flex flex-column">
-    <div class="list-group list-group-flush">
-      <a class="list-group-item d-flex justify-content-start align-items-center"
-         *ngFor="let content of trainingContents | genericFilter: filterTrainingContentExam"
-         [routerLink]="['/content', content.name]">
-        <span class="badge bg-primary badge-pill me-2">{{content.questions.length}}</span>
+  <div class="col-5 d-flex flex-column"
+       *ngFor="let content of trainingContents | genericFilter: filterTrainingContentExam">
+    <div class="list-group list-group-flush d-flex flex-row justify-content-between">
+      <a class="list-group-item d-flex flex-lg-fill justify-content-start align-items-center"
+         [routerLink]="['/content', content?.name]">
+        <span class="badge bg-primary badge-pill me-2">{{content?.questions?.length}}</span>
         {{content.name}}
       </a>
+
+      <div class="dropdown d-flex justify-content-end">
+        <a class="btn fw-bold" href="#" role="button" [id]="'dropdown'+content.name"
+           data-bs-toggle="dropdown" aria-expanded="false">
+          &vellip;
+        </a>
+
+        <ul class="dropdown-menu" [attr.aria-labelledby]="'dropdown'+content.name">
+          <li><a class="dropdown-item" href="#">Test</a></li>
+          <li><a class="dropdown-item" href="#">Study</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 
-  <!--  test materials-->
-  <div class="col-5 d-flex flex-column">
-    <div class="list-group list-group-flush">
-      <a class="list-group-item list-group-item-action d-flex justify-content-start align-items-center"
-         *ngFor="let content of trainingContents | genericFilter: filterTrainingContentLesson"
-         [routerLink]="['/content', content.name]">
-        <span class="badge bg-primary badge-pill me-2">{{content.questions.length}}</span>
+  <!--  training materials-->
+  <div class="col-5 d-flex flex-column"
+       *ngFor="let content of trainingContents | genericFilter: filterTrainingContentLesson">
+    <div class="list-group list-group-flush d-flex flex-row justify-content-between">
+      <a class="list-group-item d-flex flex-lg-fill justify-content-start align-items-center"
+         [routerLink]="['/content', content?.name]">
+        <span class="badge bg-primary badge-pill me-2">{{content?.questions?.length}}</span>
         {{content.name}}
       </a>
+
+      <div class="dropdown d-flex justify-content-end">
+        <a class="btn fw-bold" href="#" role="button" [id]="'dropdown'+content.name"
+           data-bs-toggle="dropdown" aria-expanded="false">
+          &vellip;
+        </a>
+
+        <ul class="dropdown-menu" [attr.aria-labelledby]="'dropdown'+content.name">
+          <li><a class="dropdown-item" href="#">Test</a></li>
+          <li><a class="dropdown-item" href="#">Study</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
