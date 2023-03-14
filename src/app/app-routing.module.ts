@@ -5,8 +5,7 @@ import {TrainingContentComponent} from "./component/pages/training-content/train
 import {RandomQuestionComponent} from "./component/pages/random-question/random-question.component";
 
 const routes: Routes = [
-  {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
-  {path: 'dashboard', component: DashboardComponent},
+  {path: '', component: DashboardComponent, pathMatch: 'full'},
   {path: 'content/:name', component: TrainingContentComponent},
   {path: 'study', component: RandomQuestionComponent},
 ];
