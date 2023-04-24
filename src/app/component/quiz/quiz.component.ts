@@ -29,8 +29,4 @@ export class QuizComponent implements OnInit {
   back() {
     this.location.back();
   }
-
-  print(object: any) {
-    console.log(object);
-  }
 }
