@@ -9,13 +9,14 @@ export class TrainingContentService {
   private httpClient: HttpClient;
 
   constructor(http: HttpClient) {
+    console.log('service init');
     this.httpClient = http;
 
     const initTrainingContent = (names: { type: string; name: string }[]) => {
       // loop through file names to get training contents
       names.forEach((fileData: { type: string; name: string }) => {
         this.httpClient
-          .get(`assets/${fileData.type}/${fileData.name}.json`, {responseType: 'json'})
+          .get(`/assets/${fileData.type}/${fileData.name}.json`, {responseType: 'json'})
           .subscribe((data: any) => {
             // training content metadata
             let content = new TrainingContent(fileData.name, fileData.type);

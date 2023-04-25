@@ -16,6 +16,7 @@ import {RandomQuestionComponent} from './component/pages/random-question/random-
 import {QuizComponent} from "./component/quiz/quiz.component";
 import {PalletComponent} from './component/pallet/pallet.component';
 import {RouterModule} from "@angular/router";
+import { CodeBlockComponent } from './component/code-block/code-block.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import {RouterModule} from "@angular/router";
     QuestionAnswerNotEmptyPipe,
     AnswerNotBlankPipe,
     PalletComponent,
+    CodeBlockComponent,
   ],
   imports: [
     BrowserModule,

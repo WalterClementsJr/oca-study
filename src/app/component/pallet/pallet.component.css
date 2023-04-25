@@ -1,4 +1,12 @@
+/*#question-palette-panel {*/
+/*  width: 30;*/
+/*}*/
+
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.current-topic-label {
+  overflow-wrap: anywhere;
 }

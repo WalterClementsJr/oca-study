@@ -61,7 +61,6 @@ export class QuestionFormComponent implements OnInit, OnChanges {
     this.form = this.fb.group({
       answer: ['', [Validators.required]]
     });
-    console.log("answer is ", this.question?.answer);
   }
 
   /**
